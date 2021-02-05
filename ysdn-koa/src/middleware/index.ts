@@ -1,19 +1,21 @@
-import Application, { Middleware } from 'koa';
+import Application, {
+    DefaultContext,
+    DefaultState,
+    Middleware,
+    ParameterizedContext,
+} from 'koa';
 import useRoute from './routers';
-import userRoute from './routers/user';
 import * as tools from './tools';
 
-export interface MiddlewareObject {
-    [route: string]: Middleware;
-}
-
-function* middleware(resource: Array<MiddlewareObject>) {
-    for (const MiddlewareObjects of resource) {
-        yield* [...Object.values(MiddlewareObjects)];
-    }
-}
+//TODO: HOF | 装饰器 通过高阶函数(或装饰器)包裹路由处理函数,尽量使得传入参数只有Context并且返回值应当为Context.body的值
+//TODO: 根据接口自动生成简单测试代码
+//TODO: 自动生成新接口脚本
 
 export default function (app: Application) {
-    [...middleware([tools])].forEach(f => app.use(f));
-    app.use(useRoute().routes());
+    [...Object.values(tools)].forEach(
+        tool => (console.log(tool), app.use(tool))
+    );
+    const Router = useRoute();
+    app.use(Router.routes());//this method will show all the routes!
+    app.use(Router.allowedMethods());
 }
