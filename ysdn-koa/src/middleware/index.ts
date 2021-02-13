@@ -12,10 +12,8 @@ import * as tools from './tools';
 //TODO: 自动生成新接口脚本
 
 export default function (app: Application) {
-    [...Object.values(tools)].forEach(
-        tool => (console.log(tool), app.use(tool))
-    );
+    [...Object.values(tools)].forEach(tool => app.use(tool));
     const Router = useRoute();
-    app.use(Router.routes());//this method will show all the routes!
-    app.use(Router.allowedMethods());
+    app.use(Router.routes()); //this method will show all the routes!
+    // app.use(Router.allowedMethods());
 }

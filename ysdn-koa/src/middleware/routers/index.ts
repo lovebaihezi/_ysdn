@@ -1,52 +1,52 @@
-import Application from 'koa';
 import * as Router from 'koa-router';
-import { method, Route, routeNext } from '../../@types/Routes';
+import { method, routeNext } from '../../@types/Routes';
 import userRoute from './user';
+import blogRouter from './blog';
+import staticRouter from './static';
+import cors from './cors';
+import $404 from './404';
+
+const routes = () => [userRoute, blogRouter];
 
 const transfer: (
-    source: Array<() => Generator<[string, method, routeNext], void, unknown>>
+    source: Array<
+        () => () => Generator<
+            [string | RegExp, method, routeNext],
+            void,
+            unknown
+        >
+    >
 ) => Generator<
-    [string, string, method, routeNext],
+    [string, string | RegExp, method, routeNext],
     void,
     void
 > = function* transfer(source) {
     for (const host of source) {
-        for (const method of host()) {
+        for (const method of host()()) {
             yield [host.name, ...method];
         }
     }
 };
 
-export default function x() {
+export default function () {
     const router = new Router();
-    router.get('/', async (ctx, next) => {
-        ctx.response.status = 200;
-        ctx.body = 'get';
+    router.get('/', staticRouter);
+    router.options(/.*/, async (ctx, next) => {
+        ctx.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+        });
+        ctx.status = 200;
+        ctx.body = { msg: 'yes' };
         await next();
     });
-    router.post('/', async (ctx, next) => {
-        ctx.response.status = 200;
-        ctx.body = 'post';
-        await next();
-    });
-    // router.get('/:whatever', async (ctx, next) => {
-    //     ctx.response.status = 404;
-    //     ctx.body = '404 Not Found';
-    //     await next();
-    // });
-    // router.post('/:whatever', async (ctx, next) => {
-    //     ctx.response.status = 404;
-    //     ctx.body = '404 Not Found';
-    //     await next();
-    // });
-    for (const [hostname, name, method, solve] of transfer([userRoute])) {
+    router.post(/.*/g, $404);
+    router.post(/.*/g, cors);
+    for (const [hostname, route, method, solve] of transfer(routes())) {
         console.log(
-            `/${hostname.replace(/Route/gi, '')}/${name.replace(/\$/, ':')}`
+            `${method} : /${hostname.replace(/Router/gi, '')}/${route}`
         );
-        router[method](
-            `/${hostname.replace(/Route/gi, '')}/${name.replace(/\$/, ':')}`,
-            solve
-        );
+        router[method](`/${hostname.replace(/Router/gi, '')}/${route}`, solve);
     }
     return router;
 }

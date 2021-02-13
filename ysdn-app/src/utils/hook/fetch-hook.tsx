@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 enum netResponse {
     fulfilled,
@@ -17,9 +17,9 @@ export interface basicNetResponse extends Object {
 }
 
 //only for json and string
-export default function useJsonFetch<T extends basicNetResponse = basicNetResponse>(
-    state: T
-): [T, Function] {
+export default function useJsonFetch<
+    T extends basicNetResponse = basicNetResponse
+>(state: T): [T, Function] {
     const [Response, setResponse] = useState<T>({
         ...state,
         netResponse: netResponse.startFetching,
@@ -64,20 +64,29 @@ export default function useJsonFetch<T extends basicNetResponse = basicNetRespon
     ];
 }
 
-export function useEveryFetch(url: string) {
-    const [response, setResponse] = useState<Promise<Response>>(
-        new Promise(() => {})
-    );
-    const [error, setError] = useState<string>('');
+const useEveryFetch: () => [
+    Response | undefined,
+    string | undefined,
+    (url: string, options: RequestInit) => Promise<void>,
+    (e: Error) => void
+] = () => {
+    const [response, setResponse] = useState<Response>();
+    const [error, setError] = useState<string>();
     return [
-        [response, error],
-        async (options: RequestInit) => {
+        response,
+        error,
+        async (url, options) => {
             try {
-                const res = fetch(url, options);
+                const res = await fetch(url, options);
                 setResponse(res);
             } catch (e) {
                 setError(e);
             }
         },
+        (e: Error) => {
+            setError(e.message);
+        },
     ];
-}
+};
+
+export { useEveryFetch };

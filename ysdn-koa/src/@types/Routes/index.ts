@@ -14,14 +14,16 @@ export enum method {
  * async function *(ctx,next) {yield async (ctx) => {solve(ctx)} ;yield await next();}
  */
 
-export interface routeNext extends CallableFunction {
-    (ctx: Context, next: Next): Promise<{ msg: string }>;
+export interface routeHandler extends CallableFunction {
+    (ctx: Context): Promise<{ msg: string }>;
 }
 
-const x = async function* () {};
+export interface routeNext extends CallableFunction {
+    (ctx: Context, next: Next): void;
+}
 
 export interface Route extends CallableFunction {
-    (): [method: method, next: routeNext];
+    (): [method: method, next: routeHandler];
 }
 
 export interface Router {

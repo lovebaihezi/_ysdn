@@ -1,6 +1,5 @@
 import App from './app';
 
 const StartServer = App();
-const hostname = 'localhost';
-const port = 5050;
-StartServer(hostname, port);
+const port = Number.parseInt(process.env.PORT ?? '8000') ?? 8000;
+StartServer(port);

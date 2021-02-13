@@ -1,18 +1,25 @@
 import { makeStyles } from '@material-ui/core';
 const loginFormStyles = makeStyles({
+    basicStyle: {},
     Input: {},
     Submit: {},
     form: {
         width: '100%',
         'min-width': 320,
         'max-width': 640,
+        margin: '0 auto',
     },
-    box: {},
+    box: {
+        width: '100%',
+        'min-width': 320,
+        'max-width': 640,
+        margin: '0 auto',
+    },
 });
 
 export const accountInput = {
     type: 'text',
-    required: true,
+    // required: true,
     name: 'account',
     key: 'account-component',
     placeholder: 'please input your account',
@@ -21,7 +28,7 @@ export const accountInput = {
 
 export const passwordInput = {
     type: 'password',
-    required: true,
+    // required: true,
     name: 'password',
     key: 'password-component',
     placeholder: 'please input your password',
