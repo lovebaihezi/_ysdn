@@ -10,7 +10,9 @@ const parser = parse({ extendTypes: { json: ['application/json'] } });
 const f: Middleware<
     ParameterizedContext<DefaultState, DefaultContext>
 > = async (ctx, next) => {
-    console.log(ctx.url, ctx.request.body);
+    if (ctx.method === 'post') {
+        console.log(ctx?.request?.body);
+    }
     await next();
 };
 export { parser, f };

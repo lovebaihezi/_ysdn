@@ -1,2 +1,3 @@
 import formTake from './form-take';
-export { formTake };
+import formCheck from './form-check';
+export { formTake,formCheck };

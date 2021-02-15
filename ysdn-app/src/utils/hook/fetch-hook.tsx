@@ -66,12 +66,12 @@ export default function useJsonFetch<
 
 const useEveryFetch: () => [
     Response | undefined,
-    string | undefined,
+    Error | undefined,
     (url: string, options: RequestInit) => Promise<void>,
     (e: Error) => void
 ] = () => {
     const [response, setResponse] = useState<Response>();
-    const [error, setError] = useState<string>();
+    const [error, setError] = useState<Error>();
     return [
         response,
         error,
@@ -84,7 +84,7 @@ const useEveryFetch: () => [
             }
         },
         (e: Error) => {
-            setError(e.message);
+            setError(e);
         },
     ];
 };
