@@ -1,6 +1,16 @@
 import React from 'react';
 import utils from '../utils';
 import * as tools from '../tools';
+import { user } from '../interface';
+import {
+    Box,
+    BoxProps,
+    TextFieldProps,
+    TextField,
+    Tooltip,
+    TooltipProps,
+} from '@material-ui/core';
+import axios from 'axios';
 
 export interface formFc<
     formArgument = {},
@@ -125,7 +135,8 @@ export const Form: formFc<
     { msg: { msg: string } },
     {},
     {},
-    { error: Error }
+    { error: Error },
+    { res: user }
 > = ({
     FormElement,
     InitialElement,
@@ -135,55 +146,87 @@ export const Form: formFc<
     ErrorElement,
     FullfilElement,
 }) => {
-    const [res, err, Fetch, Catch] = utils.useEveryFetch();
+    const [err, setError] = React.useState<Error>();
     const [Json, setJson] = React.useState<unknown>();
     const [Render, setRender] = React.useState<JSX.Element>(<InitialElement />);
     const [clicked, setClick] = React.useState<boolean>(false);
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (!clicked) {
-            setClick(true);
-            setRender(<WaitingElement />);
-            const rules = {};
-            setRender(
-                <WarningElement msg={tools.formCheck(e.currentTarget, rules)} />
+        // if (!clicked) {
+        // setClick(true);
+        setRender(<WaitingElement />);
+        const rules = {};
+        setRender(
+            <WarningElement msg={tools.formCheck(e.currentTarget, rules)} />
+        );
+        const formData: string = JSON.stringify(
+            tools.formTake(e.currentTarget)
+        );
+        console.log(formData);
+        try {
+            setJson(
+                // (
+                //     await axios({
+                //         url: 'http://localhost:8000/user/login',
+                //         method: 'post',
+                //         data: JSON.parse(formData),
+                //         headers: new Headers({
+                //             'Content-Type': 'application/json',
+                //         }),
+                //     })
+                // )?.data
+                await (
+                    await fetch('http://localhost:8000/user/login', {
+                        body: formData,
+                        method: 'post',
+                        headers: new Headers({
+                            'Content-Type': 'application/json',
+                        }),
+                    })
+                )?.json()
             );
-            const formData = tools.formTake(e.currentTarget);
-            try {
-                await Fetch('http://localhost:8000/user/login', {
-                    method: 'post',
-                    body: JSON.stringify(formData),
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                });
-                setRender(<ParsingElement />);
-                setJson(await res?.json());
-                setRender(<FullfilElement />);
-            } catch (e) {
-                Catch(e);
-                setClick(true);
-            }
-        }
-    }
-    React.useEffect(() => {
-        if (!res) {
+        } catch (e) {
+            setError(e);
             setClick(false);
         }
-        return () => {};
-    }, [res]);
+        // }
+    }
     React.useEffect(() => {
         if (err) {
             setRender(<ErrorElement error={err} />);
-        } else if (res?.status === 200) {
-            setRender(<FullfilElement />);
-        } else if (res?.status === 404) {
-            setClick(true);
-            setRender(<ErrorElement error={new Error('404 Not Found!')} />);
+        } else if (!Json) {
+            setClick(false);
+        } else {
+            if ((Json as user)?.Account) {
+                setRender(<FullfilElement res={Json as user} />);
+            } else {
+                setRender(
+                    <ErrorElement
+                        error={new Error('server error,please try again')}
+                    />
+                );
+                setClick(false);
+            }
         }
-        return () => {};
-    }, [err, res, Json, ErrorElement, FullfilElement]);
+    }, [Json, err, FullfilElement, ErrorElement]);
     return (
         <FormElement hooks={handleSubmit} State={Render} clickState={clicked} />
     );
 };
+
+type formProps = React.DetailedHTMLProps<
+    React.FormHTMLAttributes<HTMLFormElement>,
+    HTMLFormElement
+> & {};
+
+const setForm: React.FC<{
+    Render: JSX.Element;
+    formProp: formProps;
+}> = ({ Render, formProp, children }) => (
+    <form {...formProp}>
+        {Render}
+        {children}
+    </form>
+);
+
+export default setForm;

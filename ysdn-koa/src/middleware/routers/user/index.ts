@@ -7,6 +7,7 @@ const login: Route = () => [
     method.post,
     async ctx => {
         const account: Account = ctx.request.body;
+        ctx.body = { Account: account };
         if (account?.username && account?.password) {
             return { msg: 'login success' };
         }

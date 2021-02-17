@@ -4,10 +4,10 @@ const loginFormStyles = makeStyles((theme: Theme) =>
         basicStyle: {},
         Input: {
             margin: theme.spacing(1),
-            width: 320,
+            width: 304,
         },
         Submit: {
-            width: 320,
+            width: 304,
             height: 40,
             margin: '0 auto',
         },
@@ -22,22 +22,24 @@ const loginFormStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export const accountInput = {
+export const usernameInput = {
     type: 'text',
-    required: true,
-    name: 'account',
+    // required: true,
+    name: 'username',
     key: 'account-component',
     placeholder: 'please input your account',
-    autoComplete: 'username',
+    // autoComplete: 'username',
+    id: 'username-test',
 };
 
 export const passwordInput = {
     type: 'password',
-    required: true,
+    // required: true,
     name: 'password',
     key: 'password-component',
     placeholder: 'please input your password',
-    autoComplete: 'current-password',
+    // autoComplete: 'current-password',
+    id: 'password-test',
 };
 
 export const form = {
@@ -48,7 +50,7 @@ export const form = {
 export const box = {};
 
 export const loginForm = {
-    inputElements: [accountInput, passwordInput],
+    inputElements: [usernameInput, passwordInput],
     createInputStyles: loginFormStyles,
     form,
     box,

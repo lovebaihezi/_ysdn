@@ -12,8 +12,8 @@ const findMyPasswordNextComponentStyles = makeStyles((theme: Theme) =>
             margin: '0 auto',
         },
         form: {
-            width: 320,
-            height: 640,
+            width: 'max-content',
+            // height: 640,
             margin: '0 auto',
         },
         box: {

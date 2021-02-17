@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 
 enum netResponse {
@@ -89,4 +90,19 @@ const useEveryFetch: () => [
     ];
 };
 
-export { useEveryFetch };
+const useJSONFetch = () => {
+    const [res, setRes] = useState<AxiosResponse>();
+    const [err, setError] = useState<Error>();
+    return [
+        res,
+        err,
+        async (options: AxiosRequestConfig) => {
+            setRes(await axios(options));
+        },
+        (e: Error) => {
+            setError(e);
+        },
+    ];
+};
+
+export { useEveryFetch, useJSONFetch };

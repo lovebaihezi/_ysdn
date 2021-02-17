@@ -6,8 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AddIcon from '@material-ui/icons/Add';
+import HomeIcon from '@material-ui/icons/Home';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -22,36 +21,33 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const ButtonAppBar: React.FC<any> = () => {
+const ButtonAppBar: React.FC<{ Render: Array<JSX.Element> }> = (
+    { Render } = {
+        Render: [
+            <Button color="inherit" key="login-button" component={Link} to="/login">
+                Login
+            </Button>,
+        ],
+    }
+) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <AppBar position="sticky">
+            <AppBar position="static">
                 <Toolbar>
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
                         color="inherit"
-                        aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        className={classes.title}
+                        aria-label="menu"
                         component={Link}
                         to="/">
+                        <HomeIcon style={{ fontSize: 30 }} />
+                    </IconButton>
+                    <Typography variant="h3" className={classes.title}>
                         YST
                     </Typography>
-                    <Button color="inherit" component={Link} to="/login">
-                        Login
-                    </Button>
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/updateArticle"
-                        startIcon={<AddIcon />}>
-                        update
-                    </Button>
+                    {Render}
                 </Toolbar>
             </AppBar>
         </div>
