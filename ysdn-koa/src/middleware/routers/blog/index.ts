@@ -1,9 +1,32 @@
+import { Schema } from 'mongoose';
+import { account, article, auth, user } from '../../../@types/interface';
 import { method, Route } from '../../../@types/Routes';
 import useRoute from '../../../router-container';
+import mongoService from '../../../service/mongo-service';
 
 const uploadArticle: Route = () => [
-    method.put,
-    async ctx => ({ msg: 'uploadArticle' }),
+    method.post,
+    async ctx => {
+        const {
+            userID,
+            article,
+        }: {
+            userID: Schema.Types.ObjectId;
+            article: { title: string; content: string };
+        } = ctx.request?.body;
+        if (userID && article && article.title) {
+            const now = new Date();
+            ctx.body = await mongoService.insertArticle(userID, {
+                ...article,
+                authors: [userID],
+                uploadTime: now,
+                updateTimes: [now],
+                comments: [],
+            });
+            return { msg: 'access granted' };
+        }
+        return { msg: 'access denied' };
+    },
 ];
 
 const deleteArticle: Route = () => [

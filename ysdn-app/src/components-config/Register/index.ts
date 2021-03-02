@@ -4,12 +4,13 @@ const registerFormStyles = makeStyles((theme: Theme) =>
         basicStyle: {},
         Input: {
             margin: theme.spacing(1),
-            width: 320,
+            width: 304,
+            height: 40,
         },
         Submit: {
-            width: 320,
+            width: 304,
             height: 40,
-            margin: '0 auto',
+            margin: theme.spacing(1),
         },
         form: {
             width: 320,
@@ -18,6 +19,9 @@ const registerFormStyles = makeStyles((theme: Theme) =>
         },
         box: {
             margin: theme.spacing(1),
+            height: 60,
+            display: 'flex',
+            justifyContent: 'center',
         },
     })
 );
@@ -25,10 +29,31 @@ const registerFormStyles = makeStyles((theme: Theme) =>
 export const accountInput = {
     type: 'text',
     required: true,
-    name: 'account',
+    name: 'username',
     key: 'account-component',
     placeholder: 'please input your account',
     // autoComplete: 'username',
+};
+
+export const nicknameInput = {
+    type: 'text',
+    name: 'nickname',
+    key: 'nickname-component',
+    placeholder: 'your nickname please',
+};
+
+export const emailInput = {
+    type: 'text',
+    name: 'email',
+    key: 'email-component',
+    placeholder: 'xxxxx@xxx.com',
+};
+
+export const telephoneInput = {
+    type: 'text',
+    name: 'telephone',
+    key: 'telephone-component',
+    placeholder: 'telephone',
 };
 
 export const passwordInput = {
@@ -57,7 +82,13 @@ export const form = {
 export const box = {};
 
 export const registerForm = {
-    inputElements: [accountInput, passwordInput, confirmPasswordInput],
+    inputElements: [
+        accountInput,
+        nicknameInput,
+        emailInput,
+        passwordInput,
+        confirmPasswordInput,
+    ],
     createInputStyles: registerFormStyles,
     form,
     box,

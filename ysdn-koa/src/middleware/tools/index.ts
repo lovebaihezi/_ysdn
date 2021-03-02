@@ -11,7 +11,7 @@ const f: Middleware<
     ParameterizedContext<DefaultState, DefaultContext>
 > = async (ctx, next) => {
     if (ctx.request.method === 'post') {
-        console.log(ctx?.request?.body);
+        console.trace(ctx?.request?.body);
     }
     await next();
 };

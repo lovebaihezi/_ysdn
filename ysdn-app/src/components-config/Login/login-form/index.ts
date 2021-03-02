@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-const findMyPasswordNextComponentStyles = makeStyles((theme: Theme) =>
+const loginFormStyles = makeStyles((theme: Theme) =>
     createStyles({
         basicStyle: {},
         Input: {
@@ -26,22 +26,25 @@ const findMyPasswordNextComponentStyles = makeStyles((theme: Theme) =>
     })
 );
 
+export const usernameInput = {
+    type: 'text',
+    required: true,
+    name: 'username',
+    key: 'account-component',
+    placeholder: 'please input your account',
+    // autoComplete: 'username',
+    id: 'username-test',
+};
+
 export const passwordInput = {
     type: 'password',
     required: true,
     name: 'password',
     key: 'password-component',
-    placeholder: 'please input your new password',
-    // autoComplete: 'new-password',
-};
-
-export const confirmPasswordInput = {
-    type: 'password',
-    required: true,
-    name: 'confirmPassword',
-    key: 'password-component',
-    placeholder: 'please confirm your password',
-    // autoComplete: 'new-password',
+    placeholder: 'please input your password',
+    // autoComplete: 'current-password',
+    id: 'password-test',
+    pattern: '\\w{8}',
 };
 
 export const form = {
@@ -51,9 +54,9 @@ export const form = {
 
 export const box = {};
 
-export const findMyPasswordNextComponent = {
-    inputElements: [passwordInput, confirmPasswordInput],
-    createInputStyles: findMyPasswordNextComponentStyles,
+export const loginForm = {
+    inputElements: [usernameInput, passwordInput],
+    createInputStyles: loginFormStyles,
     form,
     box,
 };

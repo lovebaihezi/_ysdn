@@ -1,21 +1,17 @@
 import React from 'react';
 
-import {
-    Switch,
-    BrowserRouter,
-    Route,
-    Link,
-    HashRouter,
-} from 'react-router-dom';
+import { Switch, BrowserRouter, Route, Link } from 'react-router-dom';
 
 import Index, * as Pages from './pages/index';
 
 import './App.css';
 import { Button, Container, CssBaseline, IconButton } from '@material-ui/core';
 import ButtonAppBar from './components/menu';
-import { user } from './interface';
+import { account, user } from './interface';
 import AddIcon from '@material-ui/icons/Add';
 import { LoginState } from './auth';
+import BlogManage from './pages/blog';
+import { Schema } from 'mongoose';
 
 const alreadyLogin = [
     <IconButton
@@ -26,52 +22,68 @@ const alreadyLogin = [
     <Button
         color="inherit"
         component={Link}
-        to="/upload"
+        to="/blogManage/upload-article"
         key="upload-button"
         startIcon={<AddIcon />}>
         upload
     </Button>,
 ];
 
+const initial = (
+    <Button color="inherit" key="login-button" component={Link} to="/login">
+        Login
+    </Button>
+);
+
+// TODO : rebuild Route Auth consider use a container or condition render
+
 function App() {
-    const [loginStatus, setLoginStatus] = React.useState<false | user>(false);
+    const [userInformation, setUserInformation] = React.useState<
+        false | (user & { _id: Schema.Types.ObjectId })
+    >(false);
     const [menuRender, setMenuRender] = React.useState<Array<JSX.Element>>([
-        <Button color="inherit" key="login-button" component={Link} to="/login">
-            Login
-        </Button>,
+        initial,
     ]);
-    function setState(res: user) {
-        setLoginStatus(res);
+    function setState(res: user & { _id: Schema.Types.ObjectId }) {
+        setUserInformation(res);
     }
     React.useEffect(() => {
-        // console.log(loginStatus);
-        if (loginStatus && loginStatus?.Account?.username) {
+        if (userInformation) {
+            sessionStorage.setItem('user', JSON.stringify(userInformation));
             setMenuRender(alreadyLogin);
-        } else {
-            setLoginStatus(false);
         }
-        return () => {};
-    }, [loginStatus]);
+    }, [userInformation]);
+    React.useEffect(() => {
+        const X = sessionStorage.getItem('user');
+        if (X) {
+            setUserInformation(JSON.parse(X));
+            setMenuRender(alreadyLogin);
+        }
+    }, []);
     return (
         <>
             <CssBaseline />
-            <LoginState.Provider value={loginStatus}>
-                <BrowserRouter basename="/" forceRefresh={false}>
+            <LoginState.Provider value={userInformation}>
+                <BrowserRouter basename="/">
                     <ButtonAppBar Render={menuRender} />
                     <Container maxWidth="md" className="container">
                         <Switch>
                             <Route exact path="/">
-                                <Index State={loginStatus} />
+                                <Index />
                             </Route>
                             <Route exact path="/login">
                                 <Pages.Login setState={setState} />
                             </Route>
                             <Route exact path="/register">
-                                <Pages.Register State={loginStatus} />
+                                <Pages.Register setState={setState} />
                             </Route>
                             <Route exact path="/find-password">
                                 <Pages.FDM />
                             </Route>
+                            <Route exact path="/blogManage/*">
+                                <BlogManage />
+                            </Route>
+                            <Route exact path="/user"></Route>
                             <Route path="/*">
                                 <Pages.Page404 />
                             </Route>

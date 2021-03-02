@@ -10,6 +10,9 @@ const routeContain: (handler: routeHandler) => Middleware = handler => async (
         const final = await handler(ctx);
         console.log(final);
     } catch (e) {
+        console.log('function : ', handler.name);
+        console.log(ctx.request?.body);
+        console.error(e);
         ctx.body = JSON.stringify({ msg: 'server error' });
     }
     await next();

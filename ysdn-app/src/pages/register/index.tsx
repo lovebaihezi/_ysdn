@@ -1,34 +1,57 @@
 import React from 'react';
-import { formFc } from '../../form';
 import utils from '../../utils';
 import * as tools from '../../tools';
-import { Box, TextField, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import {
+    Box,
+    TextField,
+    Button,
+    IconButton,
+    Snackbar,
+} from '@material-ui/core';
+import { Link, Redirect } from 'react-router-dom';
 import { registerForm } from '../../components-config/Register';
 import ForwardIcon from '@material-ui/icons/Forward';
+import CloseIcon from '@material-ui/icons/Close';
+import { useLoginState } from '../../auth';
+import { user } from '../../interface';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { Schema } from 'mongoose';
 
 const RegisterForm: React.FC<{
     hooks: (e: React.FormEvent<HTMLFormElement>) => void;
     clickState: boolean;
-    State: JSX.Element;
-}> = ({ hooks, clickState, State }) => {
+}> = ({ hooks, clickState, children }) => {
     const registerFormStyles = registerForm.createInputStyles();
     React.useEffect(() => {
         return () => {};
     }, []);
     return (
         <Box {...registerForm.box}>
-            {State}
+            {children}
+            <Box
+                style={{
+                    width: 320,
+                    margin: '0 auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                <AccountCircleIcon
+                    style={{ fontSize: 100, margin: '0 auto' }}
+                    color="primary"
+                />
+            </Box>
             <form
                 {...registerForm.form}
                 onSubmit={hooks}
                 className={registerFormStyles.form}>
                 {registerForm.inputElements.map(elementComponent => (
-                    <Box key={elementComponent.name}>
+                    <Box
+                        key={elementComponent.name}
+                        className={registerFormStyles.box}>
                         <TextField
                             {...elementComponent}
                             label={elementComponent.name}
-                            variant="outlined"
+                            variant="filled"
                             className={registerFormStyles.Input}
                         />
                     </Box>
@@ -49,86 +72,109 @@ const RegisterForm: React.FC<{
     );
 };
 
-export const Form: formFc<
-    {
-        hooks: (e: React.FormEvent<HTMLFormElement>) => void;
-        clickState: boolean;
-        State: JSX.Element;
-    },
-    {},
-    {},
-    {},
-    {},
-    {}
-> = ({
-    FormElement,
-    InitialElement,
-    WarningElement,
-    WaitingElement,
-    ParsingElement,
-    ErrorElement,
-    FullfilElement,
-}) => {
-    const [res, err, Fetch, Catch] = utils.useEveryFetch();
-    const [Json, setJson] = React.useState<unknown>();
-    const [Render, setRender] = React.useState<JSX.Element>(<InitialElement />);
-    const [clicked, setClick] = React.useState<boolean>(false);
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        if (!clicked) {
-            setClick(true);
-            setRender(<WaitingElement />);
-            const formData = tools.formTake(e.currentTarget);
-            try {
-                await Fetch('http://localhost:8000/user/register', {
-                    method: 'post',
-                    body: JSON.stringify(formData),
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                });
-                setRender(<ParsingElement />);
-                setJson(await res?.json());
-                setRender(<FullfilElement />);
-            } catch (e) {
-                Catch(e);
-                setClick(true);
-            }
-        }
+const MsgElement: React.FC<{ msg: string }> = ({ msg }) => {
+    const [Open, setOpen] = React.useState<boolean>(true);
+    function handleClose() {
+        setOpen(false);
     }
-    React.useEffect(() => {
-        if (!res) {
-            setClick(false);
-        }
-        return () => {};
-    }, [res]);
-    React.useEffect(() => {
-        if (err) {
-            setRender(<ErrorElement />);
-        } else if (res?.status === 200) {
-            setRender(<FullfilElement />);
-        } else if (res?.status === 404) {
-            setClick(true);
-            setRender(<ErrorElement />);
-        }
-        return () => {};
-    }, [err, res, Json, ErrorElement, FullfilElement]);
-    return (
-        <FormElement hooks={handleSubmit} State={Render} clickState={clicked} />
+    return msg ? (
+        <Snackbar
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+            open={Open}
+            autoHideDuration={2000}
+            onClose={handleClose}
+            message={msg}
+            action={
+                <>
+                    <Button color="primary" size="small" onClick={handleClose}>
+                        OK
+                    </Button>
+                    <IconButton
+                        size="small"
+                        aria-label="close"
+                        color="inherit"
+                        onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </>
+            }
+        />
+    ) : (
+        <></>
     );
 };
 
-const Register: React.FC<any> = () => (
-    <Form
-        {...{
-            FormElement: RegisterForm,
-            InitialElement: () => <></>,
-            WarningElement: () => <>{'msg'}</>,
-            WaitingElement: () => <code>waiting</code>,
-            ParsingElement: () => <code>parsing</code>,
-            ErrorElement: () => <code>error</code>,
-            FullfilElement: () => <code>fullfil</code>,
-        }}
-    />
-);
+const useHelpText = (helperText: Array<[string, string]>) => {
+    const [state, setState] = React.useState<Array<string>>(
+        helperText.map(X => X[0])
+    );
+    return [state, () => {}];
+};
+
+export const Register: React.FC<{
+    setState: (x: user & { _id: Schema.Types.ObjectId }) => void;
+}> = ({ setState }) => {
+    const state = useLoginState();
+    const [res, setRes] = React.useState<
+        user & { msg?: string } & { _id: Schema.Types.ObjectId }
+    >();
+    const [msg, setMessage] = React.useState<string>('');
+    const [clicked, setDisabled] = React.useState<boolean>(true);
+    function SetRes(res: user & { msg?: string } & { _id: Schema.Types.ObjectId }) {
+        setRes(res);
+    }
+    async function X(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!clicked) {
+            setDisabled(true);
+            try {
+                setRes(
+                    await (
+                        await fetch('http://localhost:8000/user/register', {
+                            method: 'post',
+                            body: JSON.stringify(
+                                tools.formTake(e.currentTarget)
+                            ),
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                    ).json()
+                );
+            } catch (e) {
+                setMessage((e as Error)?.message.toString() ?? e.toString());
+            }
+        } else {
+            setDisabled(false);
+        }
+    }
+    React.useEffect(() => {
+        if (!res || res?.msg || msg) {
+            setDisabled(false);
+            if (msg || res?.msg) {
+                setMessage(res?.msg ?? msg);
+            }
+        } else {
+            setDisabled(true);
+            if (res?.Account) {
+                setState(res);
+            }
+        }
+        return () => {};
+    }, [msg, res, setState]);
+    if (res && res?.Account) {
+        return <Redirect to="/" />;
+    }
+    return (
+        <>
+            <RegisterForm hooks={X} clickState={clicked}>
+                <MsgElement msg={msg} />
+            </RegisterForm>
+        </>
+    );
+};
+
 export default Register;

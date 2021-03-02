@@ -4,12 +4,13 @@ const findMyPasswordFormStyles = makeStyles((theme: Theme) =>
         basicStyle: {},
         Input: {
             margin: theme.spacing(1),
-            width: 320,
+            width: 304,
+            height: 40,
         },
         Submit: {
-            width: 320,
+            width: 304,
             height: 40,
-            margin: '0 auto',
+            margin: theme.spacing(1),
         },
         form: {
             width: 320,
@@ -18,6 +19,9 @@ const findMyPasswordFormStyles = makeStyles((theme: Theme) =>
         },
         box: {
             margin: theme.spacing(1),
+            height: 60,
+            display: 'flex',
+            justifyContent: 'center',
         },
     })
 );
