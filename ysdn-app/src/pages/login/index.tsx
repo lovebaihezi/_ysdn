@@ -14,10 +14,11 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AddIcon from '@material-ui/icons/Add';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CloseIcon from '@material-ui/icons/Close';
-import { auth, user } from '../../interface';
+import { user } from '../../interface';
 import { useLoginState } from '../../auth';
 import formTake from '../../tools/form-take';
 import { Schema } from 'mongoose';
+import { baseurl } from '../../services';
 
 const LoginForm: React.FC<{
     hooks: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -133,12 +134,12 @@ const MsgElement: React.FC<{ msg: string }> = ({ msg }) => {
     );
 };
 
-const useHelpText = (helperText: Array<[string, string]>) => {
-    const [state, setState] = React.useState<Array<string>>(
-        helperText.map(X => X[0])
-    );
-    return [state, () => {}];
-};
+// const useHelpText = (helperText: Array<[string, string]>) => {
+//     const [state, setState] = React.useState<Array<string>>(
+//         helperText.map(X => X[0])
+//     );
+//     return [state, () => {}];
+// };
 
 export const Login: React.FC<{
     setState: (x: user & { _id: Schema.Types.ObjectId }) => void;
@@ -149,11 +150,6 @@ export const Login: React.FC<{
     >();
     const [msg, setMessage] = React.useState<string>('');
     const [clicked, setDisabled] = React.useState<boolean>(true);
-    function SetRes(
-        res: user & { msg?: string } & { _id: Schema.Types.ObjectId }
-    ) {
-        setRes(res);
-    }
     async function X(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!clicked) {
@@ -161,7 +157,7 @@ export const Login: React.FC<{
             try {
                 setRes(
                     await (
-                        await fetch('http://localhost:8000/user/login', {
+                        await fetch(baseurl + '/user/login', {
                             method: 'post',
                             body: JSON.stringify(formTake(e.currentTarget)),
                             headers: {
@@ -190,6 +186,7 @@ export const Login: React.FC<{
             }
         }
         return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ res, setState]);
     if ((res && res?.Account) || state) {
         return <Redirect to="/" />;

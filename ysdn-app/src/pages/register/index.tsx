@@ -16,6 +16,7 @@ import { useLoginState } from '../../auth';
 import { user } from '../../interface';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Schema } from 'mongoose';
+import { baseurl } from '../../services';
 
 const RegisterForm: React.FC<{
     hooks: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -107,12 +108,12 @@ const MsgElement: React.FC<{ msg: string }> = ({ msg }) => {
     );
 };
 
-const useHelpText = (helperText: Array<[string, string]>) => {
-    const [state, setState] = React.useState<Array<string>>(
-        helperText.map(X => X[0])
-    );
-    return [state, () => {}];
-};
+// const useHelpText = (helperText: Array<[string, string]>) => {
+//     const [state, setState] = React.useState<Array<string>>(
+//         helperText.map(X => X[0])
+//     );
+//     return [state, () => {}];
+// };
 
 export const Register: React.FC<{
     setState: (x: user & { _id: Schema.Types.ObjectId }) => void;
@@ -123,9 +124,7 @@ export const Register: React.FC<{
     >();
     const [msg, setMessage] = React.useState<string>('');
     const [clicked, setDisabled] = React.useState<boolean>(true);
-    function SetRes(res: user & { msg?: string } & { _id: Schema.Types.ObjectId }) {
-        setRes(res);
-    }
+
     async function X(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!clicked) {
@@ -133,7 +132,7 @@ export const Register: React.FC<{
             try {
                 setRes(
                     await (
-                        await fetch('http://localhost:8000/user/register', {
+                        await fetch(baseurl + '/user/register', {
                             method: 'post',
                             body: JSON.stringify(
                                 tools.formTake(e.currentTarget)
@@ -164,8 +163,9 @@ export const Register: React.FC<{
             }
         }
         return () => {};
-    }, [msg, res, setState]);
-    if (res && res?.Account) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [res, setState]);
+    if (state || (res && res?.Account)) {
         return <Redirect to="/" />;
     }
     return (

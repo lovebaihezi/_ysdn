@@ -20,6 +20,7 @@ import { Redirect } from 'react-router-dom';
 import { Schema } from 'mongoose';
 import { user } from '../../../interface';
 import CloseIcon from '@material-ui/icons/Close';
+import { baseurl } from '../../../services';
 
 const MsgElement: React.FC<{ msg: string }> = ({ msg }) => {
     const [Open, setOpen] = React.useState<boolean>(true);
@@ -76,7 +77,7 @@ const MD = () => {
                 setRes(
                     await (
                         await fetch(
-                            'http://localhost:8000/blog/uploadArticle',
+                            baseurl + '/blog/uploadArticle',
                             {
                                 method: 'post',
                                 body: JSON.stringify({

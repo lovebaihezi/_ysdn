@@ -7,7 +7,7 @@ import Index, * as Pages from './pages/index';
 import './App.css';
 import { Button, Container, CssBaseline, IconButton } from '@material-ui/core';
 import ButtonAppBar from './components/menu';
-import { account, user } from './interface';
+import { user } from './interface';
 import AddIcon from '@material-ui/icons/Add';
 import { LoginState } from './auth';
 import BlogManage from './pages/blog';
@@ -18,7 +18,7 @@ const alreadyLogin = [
         edge="start"
         color="inherit"
         key="user-link"
-        aria-label="user"></IconButton>,
+        aria-label="user">{}</IconButton>,
     <Button
         color="inherit"
         component={Link}
@@ -34,8 +34,6 @@ const initial = (
         Login
     </Button>
 );
-
-// TODO : rebuild Route Auth consider use a container or condition render
 
 function App() {
     const [userInformation, setUserInformation] = React.useState<
@@ -54,9 +52,9 @@ function App() {
         }
     }, [userInformation]);
     React.useEffect(() => {
-        const X = sessionStorage.getItem('user');
-        if (X) {
-            setUserInformation(JSON.parse(X));
+        const user = sessionStorage.getItem('user');
+        if (user) {
+            setUserInformation(JSON.parse(user));
             setMenuRender(alreadyLogin);
         }
     }, []);

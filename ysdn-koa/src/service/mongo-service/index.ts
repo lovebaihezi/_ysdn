@@ -183,27 +183,5 @@ const mongoService = new (class {
         return await Article.findById(articleID).exec();
     }
 })();
-// (async () => {
-//     try {
-//         const user = await mongoService.getUser(
-//             await mongoService.getAuthId({
-//                 username: 'chai-bowen',
-//                 password: 'LqxcLqxcLqxc',
-//             })
-//         );
-//         const time = new Date();
-//         const article: article = {
-//             title: 'test 2',
-//             content: 'nothing important',
-//             authors: user?.Account?._id,
-//             uploadTime: time,
-//             updateTimes: [time],
-//         };
-//         if (user) await mongoService.insertArticle(user._id, article);
-//         console.log(await Article.find({}));
-//     } catch (e) {
-//         console.error(e);
-//     }
-// })();
 
 export default mongoService;
