@@ -1,4 +1,9 @@
 import * as Mongoose from 'mongoose';
+
+export interface objectId {
+    _id: Mongoose.Schema.Types.ObjectId;
+}
+
 export interface auth {
     username: string;
     password: string;

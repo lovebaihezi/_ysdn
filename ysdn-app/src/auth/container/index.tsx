@@ -1,14 +1,18 @@
 import * as React from 'react';
-import { useLoginState } from '../index';
+import { Route, RouteProps } from 'react-router-dom';
+import { objectId, user } from '../../interface';
+import { useAuth } from '../index';
 
-const RouteContainer: React.FC<{
-    Except: JSX.Element;
-}> = ({ children, Except }) => {
-    const user = useLoginState();
-    if (user) {
-        return <>{children}</>;
-    } else {
-        return Except;
-    }
-};
-export default RouteContainer;
+export default function AuthContainer<T = boolean>(
+    getAuth: () => T,
+    checkAuth: (A: T) => boolean = A => (A ? true : false)
+): React.FC<{ Except: JSX.Element } & RouteProps> {
+    return prop =>
+        checkAuth(getAuth()) ? (
+            <Route {...prop}>{prop.children}</Route>
+        ) : (
+            prop.Except
+        );
+}
+
+export const UserContainer = AuthContainer<false | (user & objectId)>(useAuth);
