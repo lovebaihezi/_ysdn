@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
-import { account, article, auth, user } from '../../../@types/interface';
-import { method, Route } from '../../../@types/Routes';
+import { account, article, auth, user } from '../../../type/interface';
+import { method, Route } from '../../../type/Routes';
 import useRoute from '../../../router-container';
 import mongoService from '../../../service/mongo-service';
 

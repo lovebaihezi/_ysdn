@@ -1,5 +1,5 @@
 import { Middleware } from 'koa';
-import { Route, method, routeNext, routeHandler } from '../@types/Routes';
+import { Route, method, routeNext, routeHandler } from '../type/Routes';
 
 const routeContain: (handler: routeHandler) => Middleware = handler => async (
     ctx,

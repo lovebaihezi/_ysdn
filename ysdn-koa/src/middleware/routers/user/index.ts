@@ -1,5 +1,5 @@
-import { method, Route, routeHandler, routeNext } from '../../../@types/Routes';
-import { account, auth } from '../../../@types/interface';
+import { method, Route, routeHandler, routeNext } from '../../../type/Routes';
+import { account, auth } from '../../../type/interface';
 import mongoService from '../../../service/mongo-service';
 
 import useRoute from '../../../router-container';

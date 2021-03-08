@@ -2,7 +2,7 @@ import * as Mongoose from 'mongoose';
 import * as fs from 'fs/promises';
 import { Document, Model, NativeError } from 'mongoose';
 import logger from '../../middleware/logger';
-import { account, article, auth, comment, user } from '../../@types/interface';
+import { account, article, auth, comment, user } from '../../type/interface';
 
 const { Schema, model } = Mongoose;
 

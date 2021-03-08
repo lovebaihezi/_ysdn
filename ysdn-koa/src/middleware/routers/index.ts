@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-import { method, routeNext } from '../../@types/Routes';
+import { method, routeNext } from '../../type/Routes';
 import userRoute from './user';
 import blogRouter from './blog';
 import staticRouter from './static';
