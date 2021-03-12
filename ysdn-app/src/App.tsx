@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { Switch, BrowserRouter } from 'react-router-dom';
+import { Switch, HashRouter } from 'react-router-dom';
 
 import './App.css';
 import 'antd/dist/antd.css';
 import { Auth as UserAuth, useAuth } from './auth';
 import { objectId, user } from './interface';
-import { Bar, Index, Login, NotFound } from './routes';
+import { Bar, Index, Login, NotFound } from './pages';
 import useAutoLogin from './tools/auto-login';
+import Layout, { Content, Footer } from 'antd/lib/layout/layout';
 
 // TODO : features : [AutoLogin,Login,Register,]
 /* 
@@ -27,14 +28,19 @@ function App() {
     return (
         <>
             <UserAuth.Provider value={user}>
-                <BrowserRouter basename="/">
-                    <Bar />
-                    <Switch>
-                        <Index />
-                        <NotFound />
-                        <Login setAuth={setAuth} />
-                    </Switch>
-                </BrowserRouter>
+                <HashRouter basename="/">
+                    <Layout>
+                        {Bar}
+                        <Content style={{ background: 'white' }}>
+                            <Switch>
+                                {Index}
+                                {Login({ setAuth })}
+                                {NotFound}
+                            </Switch>
+                        </Content>
+                        <Footer style={{ background: 'white' }}></Footer>
+                    </Layout>
+                </HashRouter>
             </UserAuth.Provider>
         </>
     );

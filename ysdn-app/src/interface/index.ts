@@ -37,3 +37,10 @@ export interface user {
     historyLike: Array<Mongoose.Schema.Types.ObjectId>;
     historyUpdates: Array<Mongoose.Schema.Types.ObjectId>;
 }
+
+export interface monographic {
+    title: string;
+    content: string;
+    like: number;
+    comment: Array<comment & objectId>;
+}

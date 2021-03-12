@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import useError from '../useError';
 
+
+//update useFetch
 export default function useFetch(): [
     Response | undefined,
     Error,
@@ -29,24 +31,36 @@ export default function useFetch(): [
     ];
 }
 
-export function useAjaxJson<T extends {} = {}>(
+export function useAjaxJson<T extends {} | [] = {}>(
     initialJson: Partial<T> = {}
 ): [
-    Partial<T>,
+    [Partial<T>, boolean],
     Error,
     (url: string, option: RequestInit) => Promise<void>,
     (e: string) => void
 ] {
     const [json, setJson] = useState<Partial<T>>(initialJson);
+    const [loading, setLoading] = useState<boolean>(true);
     const [Err, Catch] = useError();
     return [
-        json,
+        [json, loading],
         Err,
         useCallback(
             async (...rest) => {
+                setLoading(true);
                 try {
-                    setJson(await (await fetch(...rest))?.json().catch(Catch));
+                    const res = await fetch(...rest);
+                    if (res.status !== 200) {
+                        throw new Error(
+                            `FetchStatus : status : ${res.status},${res.statusText}`
+                        );
+                    } else {
+                        const final = await res?.json().catch(Catch);
+                        setJson(final);
+                        setLoading(false);
+                    }
                 } catch (error) {
+                    setLoading(false);
                     Catch(error);
                 }
             },

@@ -1,6 +1,4 @@
-import * as React from 'react';
 import useFetch, { useAjaxJson } from './index';
-import { render } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -51,9 +49,7 @@ test('useFetch ,initial state', async () => {
     >(() => useFetch());
     const [R, E, F, C] = result.current;
     expect(R).toBe(undefined);
-    expect(E).toStrictEqual(
-        new Error('just unexpected error or nothing happened...')
-    );
+    expect(E).toStrictEqual(new Error(''));
 });
 
 // *test success fetch
@@ -117,7 +113,7 @@ describe('use AjaxJson', () => {
                     }),
                 })
         );
-        const [R] = result.current;
+        const [[R]] = result.current;
         expect(R).toBeDefined();
         expect(R).toStrictEqual({ msg: 'access granted' });
     });

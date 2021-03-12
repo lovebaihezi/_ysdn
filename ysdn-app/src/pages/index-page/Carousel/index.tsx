@@ -1,6 +1,10 @@
 import { Carousel as Carousels } from 'antd';
+import { CSSProperties } from 'react';
 
-const contentStyle = {
+const contentStyle: CSSProperties & { textAlgin: string } = {
+    width: '100%',
+    maxWidth: 960,
+    minWidth: 320,
     height: 320,
     color: '#fff',
     lineHeight: '320px',
@@ -14,13 +18,17 @@ export default function Carousel() {
     return (
         <div
             style={{
-                width: '100%',
+                width: 'calc(100% - 100px)',
                 height: 320,
-                padding: '24px 0',
+                margin: '48px  50px',
                 display: 'flex',
                 justifyContent: 'center',
-            }}>
-            <Carousels style={{ maxWidth: 960, height: 320 }}>
+            }}
+        >
+            <Carousels
+                style={{ width: '50vw', minWidth: 320, maxWidth: '1280' }}
+                autoplay
+            >
                 <div>
                     <code style={contentStyle}>1</code>
                 </div>

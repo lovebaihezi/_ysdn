@@ -8,7 +8,7 @@ test('should send error', () => {
     );
     const [E, S] = result.current;
     expect(E).toStrictEqual(
-        new Error('just unexpected error or nothing happened...')
+        new Error('')
     );
     act(() => S('nothing important ,just test'));
     const [E2] = result.current;

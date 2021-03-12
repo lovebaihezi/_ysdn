@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { Form } from 'antd';
+import { Button, Form } from 'antd';
 import { objectId, user } from '../../interface';
 
 const LoginForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
@@ -10,6 +10,12 @@ const LoginForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
 
 const LoginPage: FC<{ setAuth: (X: user & objectId) => void }> = ({
     setAuth,
-}) => <LoginForm setAuth={setAuth} />;
+}) => (
+    <>
+        <LoginForm setAuth={setAuth} />
+        <Button>Register</Button>
+        <Button>find my password</Button>
+    </>
+);
 
 export default LoginPage;
