@@ -1,5 +1,4 @@
-import { CallEnd } from '@material-ui/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useError from '../useError';
 
 export default function useFetch(): [
@@ -13,31 +12,46 @@ export default function useFetch(): [
     return [
         response,
         error,
-        async (url, option) => {
-            try {
-                getResponse(await fetch(url, option));
-            } catch (e) {
-                setError(e.toString());
-            }
-        },
+        useCallback(
+            async (url: RequestInfo, option: RequestInit) => {
+                try {
+                    const timeLimit = setTimeout(() => {
+                        clearTimeout(timeLimit);
+                    }, 5000);
+                    getResponse(await fetch(url, option));
+                } catch (e) {
+                    setError(e.toString());
+                }
+            },
+            [setError]
+        ),
         e => setError(e),
     ];
 }
 
-export function useAjaxJson<T extends {} = {}>(initialJson: Partial<T> = {}) {
-    const [res, Err, Fetch, Catch] = useFetch();
+export function useAjaxJson<T extends {} = {}>(
+    initialJson: Partial<T> = {}
+): [
+    Partial<T>,
+    Error,
+    (url: string, option: RequestInit) => Promise<void>,
+    (e: string) => void
+] {
     const [json, setJson] = useState<Partial<T>>(initialJson);
-    useEffect(() => {
-        if (res) {
-            res.json().then(setJson).catch(Catch);
-        }
-    }, [Catch, res]);
+    const [Err, Catch] = useError();
     return [
         json,
         Err,
-        async (url: string, option: RequestInit) => {
-            await Fetch(url, option);
-        },
+        useCallback(
+            async (...rest) => {
+                try {
+                    setJson(await (await fetch(...rest))?.json().catch(Catch));
+                } catch (error) {
+                    Catch(error);
+                }
+            },
+            [Catch]
+        ),
         Catch,
     ];
 }

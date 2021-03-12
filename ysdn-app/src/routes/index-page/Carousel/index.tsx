@@ -1,9 +1,9 @@
 import { Carousel as Carousels } from 'antd';
 
 const contentStyle = {
-    height: '160px',
+    height: 320,
     color: '#fff',
-    lineHeight: '160px',
+    lineHeight: '320px',
     textAlgin: 'center',
     display: 'flex',
     justifyContent: 'center',
@@ -12,24 +12,25 @@ const contentStyle = {
 
 export default function Carousel() {
     return (
-        // <Container maxWidth="md" style={{ padding: '24px' }}>
-        <Carousels>
-            <div>
-                <h3 style={contentStyle}>
-                    <code style={{ textAlign: 'center' }}>1</code>
-                </h3>
-            </div>
-            <div>
-                <h3 style={contentStyle}>
-                    <code style={{ textAlign: 'center' }}>2</code>
-                </h3>
-            </div>
-            <div>
-                <h3 style={contentStyle}>
-                    <code style={{ textAlign: 'center' }}>3</code>
-                </h3>
-            </div>
-        </Carousels>
-        // </Container>
+        <div
+            style={{
+                width: '100%',
+                height: 320,
+                padding: '24px 0',
+                display: 'flex',
+                justifyContent: 'center',
+            }}>
+            <Carousels style={{ maxWidth: 960, height: 320 }}>
+                <div>
+                    <code style={contentStyle}>1</code>
+                </div>
+                <div>
+                    <code style={contentStyle}>2</code>
+                </div>
+                <div>
+                    <code style={contentStyle}>3</code>
+                </div>
+            </Carousels>
+        </div>
     );
 }

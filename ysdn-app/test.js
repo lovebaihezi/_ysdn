@@ -1,9 +1,15 @@
+const countdown = (time, ...rest) => new Promise((access, denied) => {
+    const tricker = setTimeout(
+        rest => {
+            clearTimeout(tricker);
+            access.apply(access, rest);
+        },
+        time,
+        rest
+    );
+});
 
-const axios = require('axios');
 (async () => {
-    try {
-        await axios({ url: 'localhost:8000/user/login', method: 'post' });
-    } catch (e) {
-        console.log(e);
-    }
-})();
+    console.log(new Date())
+    countdown(500, 1, 2, 3).then(console.log)
+})()

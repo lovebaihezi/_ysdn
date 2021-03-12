@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { Switch, BrowserRouter } from 'react-router-dom';
 
 import './App.css';
 import 'antd/dist/antd.css';
-// import './index.css';
 import { Auth as UserAuth, useAuth } from './auth';
 import { objectId, user } from './interface';
-import { Index, NotFound } from './routes';
+import { Bar, Index, Login, NotFound } from './routes';
 import useAutoLogin from './tools/auto-login';
 
 // TODO : features : [AutoLogin,Login,Register,]
@@ -19,21 +18,21 @@ import useAutoLogin from './tools/auto-login';
 //TODO : change to AntDesign ,remove material-ui
 
 function App() {
-    const [user, setAuth] = React.useState<false | (user & objectId)>(
-        useAuth()
-    );
+    const [user, setAuth] = useState<false | (user & objectId)>(useAuth());
     const [state, autoLogin] = useAutoLogin(localStorage.getItem('authID'));
-    function SetAuth(user: user & objectId) {
-        setAuth(user);
-    }
-    React.useEffect(() => {}, []);
+    const SetAuth = useCallback((user: user & objectId) => setAuth(user), [
+        setAuth,
+    ]);
+    useEffect(() => {}, []);
     return (
         <>
             <UserAuth.Provider value={user}>
                 <BrowserRouter basename="/">
+                    <Bar />
                     <Switch>
-                        {Index}
-                        {NotFound}
+                        <Index />
+                        <NotFound />
+                        <Login setAuth={setAuth} />
                     </Switch>
                 </BrowserRouter>
             </UserAuth.Provider>
