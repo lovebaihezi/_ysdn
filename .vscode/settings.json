@@ -3,6 +3,12 @@
         "Appstore",
         "Submenu",
         "antd",
-        "hoverable"
+        "bodyparser",
+        "ctitle",
+        "draftjs",
+        "hoverable",
+        "mockjs",
+        "rsuite",
+        "ysdn"
     ]
 }

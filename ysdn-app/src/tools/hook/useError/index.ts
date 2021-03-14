@@ -1,10 +1,15 @@
 import { useState, useCallback } from 'react';
 
 //simple test passed
-export default function useError(
-    initial: string = ''
-): [Error, (e: string) => void] {
-    const initialState = new Error(initial);
-    const [error, setError] = useState<Error>(initialState);
-    return [error, useCallback((e: string) => setError(new Error(e)), [])];
+export default function useError(): [
+    Error | undefined,
+    (e: string | undefined) => void
+] {
+    const [error, setError] = useState<Error>();
+    return [
+        error,
+        useCallback(e => {
+            if (e !== undefined) setError(new Error(e));
+        }, []),
+    ];
 }

@@ -11,7 +11,7 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-const LoginForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
+const RegisterForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
     setAuth,
 }) => {
     // const [[res, fetching], F, C] = useAjaxJson();
@@ -42,6 +42,19 @@ const LoginForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
                 <Input.Password />
             </Form.Item>
 
+            <Form.Item
+                label="confirm-password"
+                name="confirm-password"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your confirm-password!',
+                    },
+                ]}
+            >
+                <Input.Password />
+            </Form.Item>
+
             <Form.Item {...tailLayout} name="remember" valuePropName="checked">
                 <Checkbox>Remember me</Checkbox>
             </Form.Item>
@@ -55,24 +68,13 @@ const LoginForm: FC<{ setAuth: (X: user & objectId) => void }> = ({
     );
 };
 
-const LoginPage: FC<{ setAuth: (X: user & objectId) => void }> = ({
+const RegisterPage: FC<{ setAuth: (X: user & objectId) => void }> = ({
     setAuth,
 }) => (
     <>
-        <LoginForm setAuth={setAuth} />
+        <RegisterForm setAuth={setAuth} />
         <Divider />
-        <Row>
-            <Col>
-                <div>
-                    <Button>Register</Button>
-                </div>
-                <Divider />
-                <div>
-                    <Button>find my password</Button>
-                </div>
-            </Col>
-        </Row>
     </>
 );
 
-export default LoginPage;
+export default RegisterPage;

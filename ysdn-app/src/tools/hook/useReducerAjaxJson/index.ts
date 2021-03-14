@@ -1,6 +1,4 @@
-import { useReducer, useCallback } from 'react';
-
-// TODO : finish this!
+// TODO : finish this! Or maybe next time
 export default function useReducerAjaxJson() {
     
 }

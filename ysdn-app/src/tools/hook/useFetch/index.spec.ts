@@ -104,15 +104,14 @@ describe('use AjaxJson', () => {
     test('should get { msg : access granted }', async () => {
         const { result } = renderHook(() => useAjaxJson<{ msg: string }>());
         const [, , F] = result.current;
-        await act(
-            async () =>
-                await F('/', {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                })
-        );
+        await act(async () => {
+            await F('/', {
+                method: 'post',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                }),
+            });
+        });
         const [[R]] = result.current;
         expect(R).toBeDefined();
         expect(R).toStrictEqual({ msg: 'access granted' });

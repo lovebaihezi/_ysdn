@@ -1,8 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import useError from '../useError';
-
-type access = (value: any) => Promise<void>;
-type denied = (reason: any) => Promise<void>;
 
 // test passed
 export const PromiseTimeout = <restProp extends Array<any> = []>(
@@ -27,7 +24,7 @@ export const PromiseTimeout = <restProp extends Array<any> = []>(
 // TODO :  redesign it !!!
 export default function useTimeout(): [
     boolean,
-    Error,
+    Error | undefined,
     (time: number) => Promise<void>
 ] {
     const [timeout, SetTimeout] = useState<boolean>(false);
