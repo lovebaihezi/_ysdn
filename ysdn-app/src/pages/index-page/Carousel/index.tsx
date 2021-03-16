@@ -5,9 +5,9 @@ const contentStyle: CSSProperties & { textAlgin: string } = {
     width: '100%',
     maxWidth: 960,
     minWidth: 320,
-    height: 320,
+    height: '50vh',
     color: '#fff',
-    lineHeight: '320px',
+    lineHeight: '50vh',
     textAlgin: 'center',
     display: 'flex',
     justifyContent: 'center',
@@ -19,7 +19,7 @@ export default function Carousel() {
         <div
             style={{
                 width: 'calc(100% - 100px)',
-                height: 320,
+                height: '50vh',
                 margin: '48px  50px',
                 display: 'flex',
                 justifyContent: 'center',
