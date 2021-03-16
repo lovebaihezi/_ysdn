@@ -1,0 +1,9 @@
+.autoImg {
+    background-image: url('https://i.pinimg.com/originals/8a/01/df/8a01df9729fa6b2913d97cb911b5afd3.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}

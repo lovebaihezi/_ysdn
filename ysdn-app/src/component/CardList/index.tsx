@@ -1,14 +1,10 @@
-import { Card, Col, Row, Skeleton, Image, Result, Divider } from 'antd';
+import { Card, Col, Divider, Row, Skeleton, Image, Result } from 'antd';
 import { FC, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-import { baseurl } from '../../../../auth';
-import { useAjaxJson } from '../../../../tools/hook/useFetch';
-// import {
-//     LoadingOutlined,
-//     RedoOutlined,
-//     CheckOutlined,
-// } from '@ant-design/icons';
+import { baseurl } from '../../auth';
+import { useAjaxJson } from '../../tools/hook/useFetch';
 import { CSSProperties } from 'react';
+
+const CardStyle: CSSProperties = {};
 
 const imageUrl = 'picture/data-analyze.png';
 
@@ -18,9 +14,9 @@ const RankCardStyle: CSSProperties = {
     overflow: 'hidden',
 };
 
-type videoType = {
+type ArticleType = {
     title: string;
-    briefIntro: string;
+    content: string;
     image: string;
     author: string;
     like: string;
@@ -29,7 +25,7 @@ type videoType = {
 };
 
 const CardList: FC<{ url: string }> = ({ url }) => {
-    const [[Rank, loading], E, F, C, A] = useAjaxJson<Array<videoType>>([]);
+    const [[Rank, loading], E, F, C, A] = useAjaxJson<Array<ArticleType>>([]);
     useEffect(() => {
         F(baseurl + url, { method: 'post' }).catch(C);
         return () => A();
@@ -45,22 +41,22 @@ const CardList: FC<{ url: string }> = ({ url }) => {
             ) : E ? (
                 <Result />
             ) : (
-                Rank.map(video => (
+                Rank.map(article => (
                     <Card
                         bordered={false}
                         actions={[<code>{}</code>]}
-                        key={video?.title}
+                        key={article?.title}
                         hoverable={true}
                         style={{ margin: 4 }}
                     >
                         <Row wrap={false}>
                             {imageUrl ? (
                                 <Col span={4} style={RankCardStyle}>
-                                    <Image width="100%" src={video?.image} />
+                                    <Image width="100%" src={article?.image} />
                                 </Col>
                             ) : null}
                             <Col span={20} style={RankCardStyle}>
-                                <h4>{video?.title}</h4>
+                                <h4>{article?.title}</h4>
                             </Col>
                         </Row>
                     </Card>
@@ -69,25 +65,3 @@ const CardList: FC<{ url: string }> = ({ url }) => {
         </Card>
     );
 };
-
-const VideosGrid: FC = () => {
-    return (
-        <Row>
-            <Col span={20} offset={2} style={{ padding: 45 }}>
-                <Divider orientation="left">
-                    <h2>{'Videos'}</h2>
-                </Divider>
-                <Row>
-                    <Col span={16} style={{ padding: '5px' }}>
-                        <CardList url={'/videos/recommend'} />
-                    </Col>
-                    <Col span={8} style={{ padding: '5px' }}>
-                        <CardList url={'/videos/rank'} />
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-    );
-};
-
-export default VideosGrid;

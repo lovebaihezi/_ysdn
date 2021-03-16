@@ -1,4 +1,17 @@
+<<<<<<< HEAD
 import { Card, CardProps, Col, Divider, Row, Skeleton, Image } from 'antd';
+=======
+import {
+    Card,
+    CardProps,
+    Col,
+    Divider,
+    Row,
+    Skeleton,
+    Image,
+    Result,
+} from 'antd';
+>>>>>>> a7221aff0866d504abae87ff024f6e323247e629
 import { FC, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { baseurl } from '../../../../auth';
@@ -13,6 +26,7 @@ import { CSSProperties } from 'react';
 
 const CardStyle: CSSProperties = {};
 
+<<<<<<< HEAD
 // const quickSort = (array: Array<number>): Array<number> => {
 //     if (array.length <= 1) {
 //         return array;
@@ -77,10 +91,70 @@ const CardContent: FC<{ i: number } & CardProps> = props => {
                 )}
             </Card>
         </Link>
+=======
+const imageUrl = 'picture/data-analyze.png';
+
+const RankCardStyle: CSSProperties = {
+    height: 98,
+    padding: 5,
+    overflow: 'hidden',
+};
+
+type ArticleType = {
+    title: string;
+    content: string;
+    image: string;
+    author: string;
+    like: string;
+    comment: string;
+    mark: string;
+};
+
+const CardList: FC<{ url: string }> = ({ url }) => {
+    const [[Rank, loading], E, F, C, A] = useAjaxJson<Array<ArticleType>>([]);
+    useEffect(() => {
+        F(baseurl + url, { method: 'post' }).catch(C);
+        return () => A();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    return (
+        <Card
+            style={{ padding: 0 }}
+            title={url.slice(url.lastIndexOf('/') + 1)}
+        >
+            {loading ? (
+                <Skeleton active />
+            ) : E ? (
+                <Result />
+            ) : (
+                Rank.map(v => (
+                    <Card
+                        bordered={false}
+                        actions={[<code>{}</code>]}
+                        key={v?.title}
+                        hoverable={true}
+                        style={{ margin: 4 }}
+                    >
+                        <Row wrap={false}>
+                            {imageUrl ? (
+                                <Col span={4} style={RankCardStyle}>
+                                    <Image width="100%" src={v?.image} />
+                                </Col>
+                            ) : null}
+                            <Col span={20} style={RankCardStyle}>
+                                <h4>{v?.title}</h4>
+                            </Col>
+                        </Row>
+                    </Card>
+                ))
+            )}
+        </Card>
+>>>>>>> a7221aff0866d504abae87ff024f6e323247e629
     );
 };
 
 const ArticlesGrid: FC = () => {
+<<<<<<< HEAD
     const [[Rank, loading], E, F, C, A] = useAjaxJson<
         Array<{
             title: string;
@@ -141,6 +215,24 @@ const ArticlesGrid: FC = () => {
                 </Col>
             </Row>
         </>
+=======
+    return (
+        <Row>
+            <Col span={20} offset={2} style={{ padding: 45 }}>
+                <Divider orientation="left">
+                    <h2>{'Articles'}</h2>
+                </Divider>
+                <Row wrap={false}>
+                    <Col span={16} style={{ padding: '5px' }}>
+                        <CardList url={'/articles/recommend'} />
+                    </Col>
+                    <Col span={8} style={{ padding: '5px' }}>
+                        <CardList url={'/articles/rank'} />
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
+>>>>>>> a7221aff0866d504abae87ff024f6e323247e629
     );
 };
 

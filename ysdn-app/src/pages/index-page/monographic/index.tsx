@@ -20,10 +20,14 @@ import {
 } from '@ant-design/icons';
 import { FC } from 'react';
 const CardStyle: CSSProperties = {
+<<<<<<< HEAD
     width: 'calc(33.33vw - 36px)',
     minWidth: 320,
     height: 375,
     margin: '0 6px',
+=======
+    height: '100%',
+>>>>>>> a7221aff0866d504abae87ff024f6e323247e629
     cursor: 'pointer',
     overflow: 'hidden',
 };
@@ -95,6 +99,7 @@ export default function Monographic() {
         return () => A();
     }, [A, GetCounts]);
     return (
+<<<<<<< HEAD
         <div style={{ overflow: 'hidden', padding: '50px' }}>
             <Divider orientation="left">
                 <h2>{Monographic.name}</h2>
@@ -148,5 +153,57 @@ export default function Monographic() {
                       ))}
             </Row>
         </div>
+=======
+        <Row style={{ padding: 45 }}>
+            <Col span={20} offset={2} style={{ overflow: 'hidden' }}>
+                <Divider orientation="left">
+                    <h2>{Monographic.name}</h2>
+                </Divider>
+                <Row
+                    style={{
+                        height: 275,
+                        padding: '6px 0',
+                    }}
+                    wrap={false}
+                >
+                    {loading ? (
+                        <Col key="loading Skeleton">
+                            <Skeleton active />
+                        </Col>
+                    ) : E ? (
+                        <Col key="Error">
+                            <Result
+                                status="error"
+                                title={E?.message ?? 'Error'}
+                                subTitle="Sorry, web connect error"
+                                extra={
+                                    <>
+                                        <code>{E?.message}</code>
+                                        <Button
+                                            onClick={() => {
+                                                GetCounts();
+                                            }}
+                                        >
+                                            Reload
+                                        </Button>
+                                    </>
+                                }
+                            />
+                        </Col>
+                    ) : (
+                        renderContent.map((_, i) => (
+                            <Col key={i} span={6} style={{ padding: '0 6px' }}>
+                                <CardContent
+                                    // key={i}
+                                    title={_ ?? 'loading'}
+                                    i={i}
+                                />
+                            </Col>
+                        ))
+                    )}
+                </Row>
+            </Col>
+        </Row>
+>>>>>>> a7221aff0866d504abae87ff024f6e323247e629
     );
 }

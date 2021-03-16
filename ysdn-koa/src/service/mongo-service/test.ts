@@ -1,1 +1,0 @@
-import mongoService from './index';
