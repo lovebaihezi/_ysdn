@@ -1,23 +1,7 @@
-import {
-    Card,
-    CardProps,
-    Col,
-    Divider,
-    Row,
-    Skeleton,
-    Image,
-    Result,
-} from 'antd';
-import { FC, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { baseurl } from '../../../../auth';
-import { article } from '../../../../interface';
-import { useAjaxJson } from '../../../../tools/hook/useFetch';
-import {
-    LoadingOutlined,
-    RedoOutlined,
-    CheckOutlined,
-} from '@ant-design/icons';
+import { Card, Col, Divider, Row, Skeleton, Image, Result } from 'antd';
+import { FC, useEffect } from 'react';
+import { baseurl } from '../../auth';
+import { useAjaxJson } from '../../tools/hook/useFetch';
 import { CSSProperties } from 'react';
 
 const CardStyle: CSSProperties = {};
@@ -57,22 +41,22 @@ const CardList: FC<{ url: string }> = ({ url }) => {
             ) : E ? (
                 <Result />
             ) : (
-                Rank.map(v => (
+                Rank.map(article => (
                     <Card
                         bordered={false}
                         actions={[<code>{}</code>]}
-                        key={v?.title}
+                        key={article?.title}
                         hoverable={true}
                         style={{ margin: 4 }}
                     >
                         <Row wrap={false}>
                             {imageUrl ? (
                                 <Col span={4} style={RankCardStyle}>
-                                    <Image width="100%" src={v?.image} />
+                                    <Image width="100%" src={article?.image} />
                                 </Col>
                             ) : null}
                             <Col span={20} style={RankCardStyle}>
-                                <h4>{v?.title}</h4>
+                                <h4>{article?.title}</h4>
                             </Col>
                         </Row>
                     </Card>
@@ -81,25 +65,3 @@ const CardList: FC<{ url: string }> = ({ url }) => {
         </Card>
     );
 };
-
-const ArticlesGrid: FC = () => {
-    return (
-        <Row>
-            <Col span={20} offset={2} style={{ padding: 45 }}>
-                <Divider orientation="left">
-                    <h2>{'Articles'}</h2>
-                </Divider>
-                <Row wrap={false}>
-                    <Col span={16} style={{ padding: '5px' }}>
-                        <CardList url={'/articles/recommend'} />
-                    </Col>
-                    <Col span={8} style={{ padding: '5px' }}>
-                        <CardList url={'/articles/rank'} />
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-    );
-};
-
-export default ArticlesGrid;

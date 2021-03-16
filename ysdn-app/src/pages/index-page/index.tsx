@@ -1,5 +1,6 @@
 import Carousel from './Carousel';
 import Monographic from './monographic';
+import VideosGrid from './recommend/videos';
 import ArticlesGrid from './recommend/articles';
 
 export default function Index() {
@@ -8,6 +9,7 @@ export default function Index() {
             <Carousel />
             <Monographic />
             <ArticlesGrid />
+            <VideosGrid />
         </>
     );
 }
