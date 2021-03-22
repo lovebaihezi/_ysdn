@@ -1,39 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import useError from '../useError';
 
-//update useFetch
-export default function useFetch(): [
-    Response | undefined,
-    Error | undefined,
-    (url: string, option: RequestInit) => Promise<void>,
-    (e: string) => void
-] {
-    const [response, getResponse] = useState<Response>();
-    const [error, setError] = useError();
-    return [
-        response,
-        error,
-        useCallback(
-            async (url: RequestInfo, option: RequestInit) => {
-                try {
-                    const timeLimit = setTimeout(() => {
-                        clearTimeout(timeLimit);
-                    }, 5000);
-                    getResponse(await fetch(url, option));
-                } catch (e) {
-                    setError(e.toString());
-                }
-            },
-            [setError]
-        ),
-        e => setError(e),
-    ];
-}
-// TODO : need test : should canceled when unmount. (includes components which use this hook!)
-// TODO : Or maybe you should redesign it ,but I dislike write url and option when i want to use it
-// ! but i definitely dislike send paramter when i call useXXXX,
-// ! but it seems that i have to write this hook in this way or maybe useRef to solve this
-// ! maybe useRef could help me
+// this hook will be deprecated
 export function useAjaxJson<T extends {} | [] = {}>(
     initialJson: Partial<T> = {}
 ): [
@@ -56,9 +24,7 @@ export function useAjaxJson<T extends {} | [] = {}>(
             try {
                 const res = await fetch(url, { signal, ...option });
                 if (res.status !== 200) {
-                    throw new Error(
-                        `FetchStatus : status : ${res.status},${res.statusText}`
-                    );
+                    throw new Error(`FetchStatus : status : ${res.status},${res.statusText}`);
                 } else {
                     const final = await res?.json().catch(Catch);
                     setJson(final);
@@ -94,3 +60,41 @@ export function useAjaxJson<T extends {} | [] = {}>(
         }, []),
     ];
 }
+
+export type FetchJson<T> = [
+    [Partial<T> | undefined, boolean, Error | undefined],
+    () => Promise<void>,
+    (e: any) => void
+];
+export type useFetchProps = { url: string; option: RequestInit };
+
+export type useFetchJsonType = <T>({ url, option }: useFetchProps) => FetchJson<T>;
+
+export const useFetchJson: useFetchJsonType = <T>({ url, option }: { url: string; option: RequestInit }) => {
+    const [res, setRes] = useState<Partial<T>>();
+    const [loading, setLoading] = useState<boolean>(false);
+    const AbortRef = useRef<AbortController>(new AbortController());
+    const [error, setError] = useState<Error>();
+    const Catch = useCallback(
+        (e: any) => {
+            setLoading(false);
+            setError(new Error(e));
+        },
+        [setLoading, setError]
+    );
+    const Fetch = useCallback(async () => {
+        AbortRef.current = new AbortController();
+        const { signal } = AbortRef.current;
+        setLoading(true);
+        const fetchResult = await fetch(url, { ...option, signal }).catch(Catch);
+        fetchResult &&
+            fetchResult?.status === 404 &&
+            Catch(new Error(`get information from ${url} failed, which is 404 ${fetchResult?.statusText}`));
+        fetchResult && fetchResult?.status !== 404 && setRes((await fetchResult.json().catch(Catch)) ?? null);
+        setLoading(false);
+    }, [Catch, option, url]);
+    useEffect(() => {
+        return () => AbortRef.current.abort();
+    }, []);
+    return [[res, loading, error], Fetch, Catch];
+};

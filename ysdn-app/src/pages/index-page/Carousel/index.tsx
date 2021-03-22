@@ -1,47 +1,6 @@
 import { Carousel as Carousels, Col, Row } from 'antd';
 import './Carousel.css';
 
-<<<<<<< HEAD
-const contentStyle: CSSProperties & { textAlgin: string } = {
-    width: '100%',
-    maxWidth: 960,
-    minWidth: 320,
-    height: '50vh',
-    color: '#fff',
-    lineHeight: '50vh',
-    textAlgin: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    background: '#364d79',
-};
-
-export default function Carousel() {
-    return (
-        <div
-            style={{
-                width: 'calc(100% - 100px)',
-                height: '50vh',
-                margin: '48px  50px',
-                display: 'flex',
-                justifyContent: 'center',
-            }}
-        >
-            <Carousels
-                style={{ width: '50vw', minWidth: 320, maxWidth: '1280' }}
-                autoplay
-            >
-                <div>
-                    <code style={contentStyle}>1</code>
-                </div>
-                <div>
-                    <code style={contentStyle}>2</code>
-                </div>
-                <div>
-                    <code style={contentStyle}>3</code>
-                </div>
-            </Carousels>
-        </div>
-=======
 const imgUrls = [
     'https://i.pinimg.com/originals/8a/01/df/8a01df9729fa6b2913d97cb911b5afd3.jpg',
     'https://sun9-47.userapi.com/impf/c855528/v855528715/15b01a/EDnGkTad4YM.jpg?size=1440x2160&quality=96&sign=a9c4b53d8309f98bbb6a5b7596fa2b18&type=album',
@@ -73,6 +32,5 @@ export default function Carousel() {
                 </Row>
             ))}
         </Carousels>
->>>>>>> a7221aff0866d504abae87ff024f6e323247e629
     );
 }

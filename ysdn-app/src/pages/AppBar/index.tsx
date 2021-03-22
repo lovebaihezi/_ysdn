@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Menu } from 'antd';
 import { useAuth } from '../../auth';
 import { Link } from 'react-router-dom';
-import Logo from '../../component/Logo';
+import Logo from '../../FC/Logo';
 
-const LoginButton: React.FC<any> = () => <Link to="/login">login</Link>;
+const LoginButton: React.FC<any> = () => <Link to='/login'>login</Link>;
 const UserIconButton: React.FC<any> = () => <>User</>;
 
 const leftSideStyle = {};
@@ -13,9 +13,9 @@ const rightSideStyle = {};
 export default function HeadBar() {
     const user = useAuth();
     return (
-        <Menu selectedKeys={[]} mode="horizontal">
+        <Menu selectedKeys={[]} mode='horizontal'>
             <Menu.Item>
-                <Link to="/">
+                <Link to='/'>
                     <strong>
                         <Logo />
                         YST

@@ -7,27 +7,25 @@ import IndexPage from './index-page';
 import LoginPage from './login';
 import RegisterPage from './register';
 const Routes: Array<JSX.Element> = [
-    <Route exact path="/">
+    <Route exact path='/'>
         <IndexPage />
     </Route>,
 ];
 Routes.push(
-    <Route exact to="/*">
+    <Route exact to='/*'>
         <NotFoundPage />
     </Route>
 );
 export default Routes;
 
 export const Index = (
-    // <Switch>
-    <Route exact path="/">
+    <Route exact path='/'>
         <IndexPage />
     </Route>
-    // </Switch>
 );
 
 export const NotFound = (
-    <Route exact to="/*">
+    <Route exact to='/*'>
         <NotFoundPage />
     </Route>
 );
@@ -38,35 +36,22 @@ export const Bar = (
     </Header>
 );
 
-export const Login = ({
-    setAuth,
-}: {
-    setAuth: (X: user & objectId) => void;
-}) => (
-    <Route key="/login" exact path="/login">
+export const Login = ({ setAuth }: { setAuth: (X: user & objectId) => void }) => (
+    <Route key='/login' exact path='/login'>
         <LoginPage setAuth={setAuth} />
     </Route>
 );
 
-export const Register = ({
-    setAuth,
-}: {
-    setAuth: (X: user & objectId) => void;
-}) => (
-    <Route key="/register" exact path="/register">
+export const Register = ({ setAuth }: { setAuth: (X: user & objectId) => void }) => (
+    <Route key='/register' exact path='/register'>
         <RegisterPage setAuth={setAuth} />
     </Route>
 );
 
-type returnRouteArray = ({
-    setAuth,
-}: {
-    setAuth: (X: user & objectId) => void;
-}) => Array<JSX.Element>;
+export const User = () => {};
+
+type returnRouteArray = ({ setAuth }: { setAuth: (X: user & objectId) => void }) => Array<JSX.Element>;
 
 // const combineRoute : (X : Array<JSX.Element> | (() => JSX.Element>)) => <P>(...args : P) => Array<JSX.Element> = () => () => [];
 
-export const UserServer: returnRouteArray = ({ setAuth }) => [
-    Login({ setAuth }),
-    Register({ setAuth }),
-];
+export const UserServer: returnRouteArray = ({ setAuth }) => [Login({ setAuth }), Register({ setAuth })];

@@ -1,1 +1,3 @@
-import { FC } from 'react';
+export default function Recommend() {
+    return <></>;
+}

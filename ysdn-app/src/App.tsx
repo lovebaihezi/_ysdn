@@ -10,7 +10,11 @@ import { Bar, Index, UserServer, NotFound } from './pages';
 import useAutoLogin from './tools/auto-login';
 import Layout, { Content, Footer } from 'antd/lib/layout/layout';
 
-// TODO : features : [AutoLogin,Login,Register,]
+// TODO : [AutoLogin,Login,Register]
+
+// TODO : [Each USER And My Self,TAGS,Videos Page,Articles Page,Q.As Page]
+
+// TODO : DRY your Code to accept all changes
 
 function App() {
     const [user, setAuth] = useState<false | (user & objectId)>(useAuth());
