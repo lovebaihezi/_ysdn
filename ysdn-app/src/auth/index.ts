@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { objectId, user } from '../interface';
-export const Auth = React.createContext<false | (user & objectId)>(
-    ((P: user & objectId): false | (user & objectId) => (P ? P : false))(
+import { AjaxJson } from '../interface';
+export const Auth = React.createContext<false | AjaxJson.user>(
+    ((P: AjaxJson.user): false | AjaxJson.user => (P ? P : false))(
         JSON.parse(
             ((P: string) => (P && P !== 'undefined' ? P : '{}'))(
-                sessionStorage.getItem('user') ?? ''
-            ) ?? '{}'
-        )
-    )
+                sessionStorage.getItem('AjaxJson.user') ?? '',
+            ) ?? '{}',
+        ),
+    ),
 );
-export const useAuth = () => React.useContext<false | (user & objectId)>(Auth);
+export const useAuth = () => React.useContext<false | AjaxJson.user>(Auth);
 
-export const baseurl = 'http://localhost:12345';
+export const baseurl = 'http://localhost:5050';

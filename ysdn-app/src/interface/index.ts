@@ -1,2 +1,4 @@
-export * as dateBase from './database';
-export * as AjaxJson from './AjaxJson';
+import dateBase from './database';
+import AjaxJson from './AjaxJson';
+
+export type { dateBase, AjaxJson };
