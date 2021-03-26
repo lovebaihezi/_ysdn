@@ -1,3 +1,4 @@
+import React from 'react';
 import Carousel from './Carousel';
 import Monographic from './monographic';
 import VideosGrid from './recommend/videos';

@@ -1,19 +1,19 @@
 import { Header } from 'antd/lib/layout/layout';
 import { Route, Switch } from 'react-router-dom';
-import { JsxEmit } from 'typescript';
 import { AjaxJson } from '../interface';
 import AppBar from './AppBar';
 import NotFoundPage from './forbidden/404';
 import IndexPage from './index-page';
 import LoginPage from './login';
 import RegisterPage from './register';
+import React from 'react';
 const Routes: Array<JSX.Element> = [
     <Route exact path="/">
         <IndexPage />
     </Route>,
 ];
 Routes.push(
-    <Route exact to="/*">
+    <Route exact path="/*">
         <NotFoundPage />
     </Route>,
 );
@@ -26,7 +26,7 @@ export const Index = (
 );
 
 export const NotFound = (
-    <Route exact to="/*">
+    <Route exact path="/*">
         <NotFoundPage />
     </Route>
 );

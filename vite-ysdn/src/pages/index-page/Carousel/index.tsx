@@ -1,3 +1,4 @@
+import React from 'react';
 import { Carousel as Carousels, Col, Row } from 'antd';
 import './Carousel.css';
 

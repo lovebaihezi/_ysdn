@@ -1,3 +1,4 @@
+import React from 'react';
 import { Col, Row } from 'antd';
 import { FC } from 'react';
 import { baseurl } from '../../../../auth';

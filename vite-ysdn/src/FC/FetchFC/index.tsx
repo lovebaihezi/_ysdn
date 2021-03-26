@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button, Result, Skeleton } from 'antd';
 import { FC, useEffect } from 'react';
 import { useFetchJson } from '../../tools/hook/useFetch';

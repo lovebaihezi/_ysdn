@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import React from 'react';
 import { Row, Col, Image } from 'antd';
 import { AjaxJson } from '../../interface';
 import { useRouteMatch } from 'react-router';
