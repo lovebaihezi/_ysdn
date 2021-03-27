@@ -1,63 +1,47 @@
-import { FC } from 'react';
+import { FC, lazy, Suspense, useEffect } from 'react';
 import React from 'react';
-import { Row, Col, Image } from 'antd';
+import { Row, Col, Image, Skeleton, Spin, Result } from 'antd';
 import { AjaxJson } from '../../interface';
-import { Route, useRouteMatch, Switch } from 'react-router';
+import { Redirect, Route, Switch, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-const UserInformation: FC<{ user: AjaxJson.user }> = ({ user }) => {
-    return (
-        <Row>
-            <Col span={20} offset={2}>
-                <Row>
-                    <Col span={24}>
-                        <Image
-                            height={200}
-                            src={user.informationBackImageUrl ?? ''}
-                        />
-                    </Col>
-                    <Col span={24}>
-                        <Row>
-                            <Col span={2}>
-                                <Link to={`/${user.Account.auth}/articles`}>
-                                    Articles
-                                </Link>
-                            </Col>
-                            <Col span={2}>
-                                <Link to={`/${user.Account.auth}/videos`}>
-                                    Videos
-                                </Link>
-                            </Col>
-                            <Col span={2}>
-                                <Link to={`/${user.Account.auth}/QA`}>
-                                    Q.A.
-                                </Link>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Switch>
-                                    <Route
-                                        exact
-                                        path={`/${user.Account.auth}/articles`}
-                                    ></Route>
-                                    <Route
-                                        exact
-                                        path={`/${user.Account.auth}/videos`}
-                                    ></Route>
-                                    <Route
-                                        exact
-                                        path={`/${user.Account.auth}/QA`}
-                                    ></Route>
-                                </Switch>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-    );
-};
+import { useAuth } from '../../auth';
+import { useFetchJson } from '../../tools/hook/useFetch';
+
+const UserInformation = lazy(() => import('./Info'));
 
 export default function User() {
-    const para = useRouteMatch();
+    const { username } = useParams<{ username: string }>();
+    const [[user, l, e], f, c] = useFetchJson<AjaxJson.user>({
+        url: '/user/' + username,
+        option: { method: 'POST' },
+    });
+    useEffect(() => {
+        f();
+    }, []);
+    const I = useAuth();
+    if (I && I.Account && I.Account.auth === username) {
+        return <Redirect to="/I" />;
+    } else {
+        return (
+            <Row>
+                <Col span={24}>
+                    {l ? (
+                        <Row>
+                            <Col offset={12}>
+                                <Spin size="large" />
+                            </Col>
+                        </Row>
+                    ) : e ? (
+                        <Result title={e.name} subTitle={e.message} />
+                    ) : (
+                        user && (
+                            <Suspense fallback={<Skeleton />}>
+                                <UserInformation user={user} />
+                            </Suspense>
+                        )
+                    )}
+                </Col>
+            </Row>
+        );
+    }
 }

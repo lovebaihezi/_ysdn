@@ -211,6 +211,14 @@ router.post('/video/rank', async (ctx) => {
     ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
 });
 
+router.post('/tags/all', async (ctx) => {
+    ctx.body = new Array(8).fill({}).map<AjaxJson.tag>((v) => ({
+        name: mock.Random.name(),
+        createTime: new Date(),
+        clickTimes: mock.Random.integer(1, 500),
+    }));
+});
+
 App.use(router.routes());
 
 App.listen(5050, console.log.bind(console, 'mock start'));

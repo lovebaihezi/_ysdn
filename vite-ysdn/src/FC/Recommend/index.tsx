@@ -75,10 +75,19 @@ function CardAction<T extends Partial<AjaxJson.production>>(prop: T) {
     });
     return (
         <Row wrap={false}>
-            <Col span={10}>
-                {tags !== undefined
-                    ? tags.map((v) => <CardTag name={v.name} />)
-                    : <MinusCircleFilled />}
+            <Col span={9} offset={1}>
+                {tags !== undefined ? (
+                    tags.map((v) => (
+                        <Col
+                            key={v.name}
+                            span={24 / tags.length > 4 ? 4 : 24 / tags.length}
+                        >
+                            <CardTag name={v.name} />
+                        </Col>
+                    ))
+                ) : (
+                    <MinusCircleFilled />
+                )}
             </Col>
             <Col span={10} offset={4}>
                 <Row wrap={false}>

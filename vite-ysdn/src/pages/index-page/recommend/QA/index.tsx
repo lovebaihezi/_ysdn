@@ -7,6 +7,7 @@ import { AjaxJson } from '../../../../interface';
 import { CSSProperties } from 'react';
 import { FetchFC, renderFetchResult } from '../../../../FC/FetchFC';
 import CardAction from '../../../../FC/Recommend';
+import UserLink from '../../../../FC/userLink';
 
 const imageUrl = 'picture/data-analyze.png';
 
@@ -19,11 +20,14 @@ const QACard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
     <>
         {fetchResult.map((v) => (
             <Card
-                key={v?.id}
+                key={v.id}
                 hoverable={true}
                 style={{ margin: '10px 0' }}
                 bordered={false}
                 bodyStyle={{ padding: 6 }}
+                onClick={() => {
+                    location.href = `/QA/${v.id}`;
+                }}
             >
                 <Row wrap={false}>
                     {imageUrl ? (
@@ -40,7 +44,7 @@ const QACard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                         >
                             <Card.Meta
                                 style={{ height: 100 }}
-                                avatar={<Avatar src={v.authors[0].avatarUrl} />}
+                                avatar={<UserLink v={v.authors[0]} />}
                                 title={
                                     <code>
                                         {v.authors[0].Account.nickname}{' '}
@@ -61,6 +65,10 @@ const RankCard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
     <>
         {fetchResult.map((v) => (
             <Card
+                key={v.id}
+                onClick={() => {
+                    location.href = `/QA/${v.id}`;
+                }}
                 hoverable={true}
                 style={{ margin: '10px 0' }}
                 bordered={false}
@@ -81,7 +89,7 @@ const RankCard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                         >
                             <Card.Meta
                                 style={{ height: 100 }}
-                                avatar={<Avatar src={v.authors[0].avatarUrl} />}
+                                avatar={<UserLink v={v.authors[0]} />}
                                 title={
                                     <code>
                                         {v.question.author.Account.nickname}{' '}

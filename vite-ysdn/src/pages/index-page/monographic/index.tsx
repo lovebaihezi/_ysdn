@@ -19,20 +19,15 @@ const f = (v: AjaxJson.monographic) => {
         v?.marked !== undefined &&
         v?.commentsAmount !== undefined;
     if (result) {
-        const { read, title, commentsAmount, liked, marked } = v;
         return (
             <Card
-                key={v.title}
-                // style={{ minHeight: 300 }}
+                key={v.id}
                 hoverable={true}
+                onClick={() => {
+                    location.href = `/mongraphic/${v.id}`;
+                }}
                 actions={[
-                    CardAction<ActionType>({
-                        read,
-                        title,
-                        commentsAmount,
-                        liked,
-                        marked,
-                    }),
+                    CardAction<ActionType>(v),
                 ]}
             >
                 <Image
@@ -46,43 +41,38 @@ const f = (v: AjaxJson.monographic) => {
     }
 };
 
-// TODO : add styles
 const CardContent: renderFetchResult<AjaxJson.monographic[]> = ({
     fetchResult,
 }) => {
     return (
         <Row wrap={false}>
-            {fetchResult.map((v) =>
-                v ? (
-                    <Col
-                        key={v?.title}
-                        xs={{ span: 20, offset: 2 }}
-                        sm={{ span: 10, offset: 2 }}
-                        lg={{ span: 8, offset: 0 }}
-                        xl={{ span: 6 }}
-                        style={{ padding: 10 }}
-                    >
-                        {f(v)}
-                    </Col>
-                ) : null,
-            )}
+            {fetchResult.map((v) => (
+                <Col
+                    key={v.id}
+                    xs={{ span: 20, offset: 2 }}
+                    sm={{ span: 10, offset: 2 }}
+                    lg={{ span: 8, offset: 0 }}
+                    xl={{ span: 6 }}
+                    style={{ padding: 10 }}
+                >
+                    {f(v)}
+                </Col>
+            ))}
         </Row>
     );
 };
 
-// TODO : hook need update !
 export default function Monographic() {
     return (
         <Row style={{ padding: 45 }}>
             <Col span={20} offset={2} style={{ overflow: 'hidden' }}>
                 <Divider orientation="left">
-                    <h2>{Monographic.name}</h2>
+                    <h2>Monographic</h2>
                 </Divider>
                 <Row
                     style={{
                         padding: '6px 0',
                     }}
-                    // wrap={false}
                 >
                     <Col span={24}>
                         {FetchFC<Array<AjaxJson.monographic>>([

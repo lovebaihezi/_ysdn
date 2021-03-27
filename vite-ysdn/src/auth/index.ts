@@ -11,4 +11,4 @@ export const Auth = React.createContext<false | AjaxJson.user>(
 );
 export const useAuth = () => React.useContext<false | AjaxJson.user>(Auth);
 
-export const baseurl = 'http://104.225.144.145:5050';
+export const baseurl = 'http://localhost:5050';
