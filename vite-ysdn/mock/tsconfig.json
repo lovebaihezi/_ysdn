@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES2015"
+    ],
+    "target": "ES6",
+    "moduleResolution": "Node"
+  },
+  "include": [
+    "src/*.ts"
+  ]
+}
