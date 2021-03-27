@@ -79,30 +79,17 @@ const RankCard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                             actions={[CardAction<AjaxJson.QA>(v)]}
                             bodyStyle={{ padding: 6 }}
                         >
-                            {/* <Row>
-                                <Col span={24}>
-                                    <h4>{v?.title}</h4>
-                                </Col>
-                                <Col span={24}>
-                                    {
-                                        <UserLink
-                                            link={v.authors[0].Account.auth}
-                                            avatr={v.authors[0].avatarUrl}
-                                        />
-                                    }
-                                </Col>
-                            </Row> */}
                             <Card.Meta
                                 style={{ height: 100 }}
                                 avatar={<Avatar src={v.authors[0].avatarUrl} />}
                                 title={
                                     <code>
-                                        {v.authors[0].Account.nickname}{' '}
+                                        {v.question.author.Account.nickname}{' '}
                                         {v.createTime.toLocaleString()}
                                     </code>
                                 }
                                 description={
-                                    <code>{v.briefIntro.slice(1, 20)}</code>
+                                    <code>{v.question.title.slice(1, 20)}</code>
                                 }
                             />
                         </Card>

@@ -97,7 +97,7 @@ declare namespace AjaxJson {
         coverImgUrl: string;
     }
 
-    interface question extends Omit<production, ''> {
+    interface question extends Omit<production, 'authors'> {
         author: userInfo;
     }
 

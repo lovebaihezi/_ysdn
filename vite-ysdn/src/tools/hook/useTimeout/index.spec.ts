@@ -18,9 +18,9 @@ test('should push 1 after 2', async () => {
 });
 
 test('nothing', () => {
-    const { result } = renderHook<
-        never,
-        [boolean, Error, (time: number) => Promise<void>]
-    >(() => useTimeout());
-    const [T, E, G] = result.current;
+    // const { result } = renderHook<
+    //     never,
+    //     [boolean, Error, (time: number) => Promise<void>]
+    // >(() => useTimeout());
+    // const [T, E, G] = result.current;
 });

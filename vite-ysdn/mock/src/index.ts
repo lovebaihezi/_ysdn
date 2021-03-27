@@ -4,9 +4,7 @@ import * as Router from 'koa-router';
 import { AjaxJson } from '../../src/interface';
 import { Random } from 'mockjs';
 
-const users : AjaxJson.user[] = [
-    
-]
+const users: AjaxJson.user[] = [];
 
 const App = new Koa();
 const router = new Router();
@@ -108,6 +106,87 @@ router.post('/articles/rank', async (ctx) => {
 });
 
 router.post('/QA/recommend', async (ctx) => {
+    ctx.body = new Array(5).fill(0).map<AjaxJson.QA>((_, i) => {
+        return {
+            ...f(i),
+            answer: [],
+            question: {
+                comments: [],
+                id: mock.Random.id(),
+                createTime: new Date(),
+                title: mock.Random.title(1),
+                content: mock.Random.paragraph(3),
+                like: [],
+                read: mock.Random.integer(0, 1000),
+                marked: false,
+                approval: mock.Random.integer(0, 1000),
+                disapproval: 0,
+                markAmount: 0,
+                modifyTime: [new Date()],
+                tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
+                liked: false,
+                author: {
+                    Account: {
+                        createTime: new Date(),
+                        auth: mock.Random.name(),
+                        email: mock.Random.email(),
+                        nickname: mock.Random.string(),
+                        telephone: mock.Random.string(),
+                    },
+                    avatarUrl: mock.Random.image(),
+                },
+
+                lastModifyTime: new Date(),
+                coverImgUrl: mock.Random.image('720x300'),
+                commentsAmount: 0,
+            },
+            coverImgUrl: mock.Random.image('720x300'),
+        };
+    });
+});
+
+router.post('/QA/rank', async (ctx) => {
+    const Videos = new Array(5).fill(0).map<AjaxJson.QA>((_, i) => {
+        return {
+            ...f(i),
+            answer: [],
+            question: {
+                comments: [],
+                id: mock.Random.id(),
+                createTime: new Date(),
+                title: mock.Random.title(1),
+                content: mock.Random.paragraph(3),
+                like: [],
+                read: mock.Random.integer(0, 1000),
+                marked: false,
+                approval: mock.Random.integer(0, 1000),
+                disapproval: 0,
+                markAmount: 0,
+                modifyTime: [new Date()],
+                tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
+                liked: false,
+                author: {
+                    Account: {
+                        createTime: new Date(),
+                        auth: mock.Random.name(),
+                        email: mock.Random.email(),
+                        nickname: mock.Random.string(),
+                        telephone: mock.Random.string(),
+                    },
+                    avatarUrl: mock.Random.image(),
+                },
+
+                lastModifyTime: new Date(),
+                coverImgUrl: mock.Random.image('720x300'),
+                commentsAmount: 0,
+            },
+            coverImgUrl: mock.Random.image('150x150'),
+        };
+    });
+    ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
+});
+
+router.post('/video/recommend', async (ctx) => {
     ctx.body = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),
@@ -119,7 +198,7 @@ router.post('/QA/recommend', async (ctx) => {
     });
 });
 
-router.post('/QA/rank', async (ctx) => {
+router.post('/video/rank', async (ctx) => {
     const Videos = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),
