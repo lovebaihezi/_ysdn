@@ -1,6 +1,6 @@
 import dataBase from '../database';
 
-type _id = dataBase._id;
+type _id = string;
 
 type username = string;
 
@@ -29,7 +29,7 @@ declare namespace AjaxJson {
     }
 
     interface production {
-        id : _id;
+        id: _id;
         tags: tag[];
         read: number;
         title: string;
@@ -50,22 +50,16 @@ declare namespace AjaxJson {
     type amount = number;
 
     interface user {
-        follow: _id[];
-        articles: _id[];
-        comments: _id[];
-        follower: _id[];
         Account: account;
-        bookMarks: _id[];
         avatarUrl: string;
-        historyLike: _id[];
-        historyViewed: _id[];
-        historyUpdates: _id[];
+        follow: userInfo[];
+        follower: userInfo[];
         informationBackImageUrl?: string;
     }
 
     interface account {
         email: string;
-        auth: username; // ref to auth.username
+        auth: username;
         createTime: Date;
         nickname: string;
         telephone: string;
@@ -100,6 +94,7 @@ declare namespace AjaxJson {
     interface QA extends production {
         answer: answer[];
         question: question;
+        coverImgUrl: string;
     }
 
     interface question extends Omit<production, ''> {

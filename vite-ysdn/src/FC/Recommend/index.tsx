@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useFetchJson } from '../../tools/hook/useFetch';
 
 import {
+    MinusCircleFilled,
     CommentOutlined,
     LikeOutlined,
     StarOutlined,
@@ -18,7 +19,7 @@ import { MouseEventHandler } from 'react';
 const iconStyle = { fontSize: 20 };
 
 const CardTag: FC<{ name: string }> = ({ name }) => (
-    <Link to={`/tags/ + ${name}`}>
+    <Link to={`/tags/${name}`}>
         <Tag color="#108ee9">{name}</Tag>
     </Link>
 );
@@ -75,42 +76,53 @@ function CardAction<T extends Partial<AjaxJson.production>>(prop: T) {
     return (
         <Row wrap={false}>
             <Col span={10}>
-                {tags !== undefined &&
-                    tags.map((v) => <CardTag name={v.name} />)}
+                {tags !== undefined
+                    ? tags.map((v) => <CardTag name={v.name} />)
+                    : <MinusCircleFilled />}
             </Col>
             <Col span={10} offset={4}>
                 <Row wrap={false}>
                     <Col span={4} offset={1}>
-                        {read !== undefined && <CardRead amount={read} />}
+                        {read !== undefined ? (
+                            <CardRead amount={read} />
+                        ) : (
+                            <MinusCircleFilled />
+                        )}
                     </Col>
                     <Col span={4} offset={1}>
                         {title !== undefined &&
-                            commentsAmount !== undefined &&
-                            id !== undefined && (
-                                <CardComment
-                                    link={id.toString()}
-                                    amount={commentsAmount}
-                                />
-                            )}
+                        commentsAmount !== undefined &&
+                        id !== undefined ? (
+                            <CardComment
+                                link={id.toString()}
+                                amount={commentsAmount}
+                            />
+                        ) : (
+                            <MinusCircleFilled />
+                        )}
                     </Col>
                     <Col span={4} offset={1}>
-                        {liked !== undefined && (
+                        {liked !== undefined ? (
                             <LikeButton
                                 onClick={() => {
                                     f();
                                 }}
                                 initial={r?.liked ?? liked}
                             />
+                        ) : (
+                            <MinusCircleFilled />
                         )}
                     </Col>
                     <Col span={4} offset={1}>
-                        {marked !== undefined && (
+                        {marked !== undefined ? (
                             <MarkButton
                                 onClick={() => {
                                     F();
                                 }}
                                 initial={R?.marked ?? marked}
                             />
+                        ) : (
+                            <MinusCircleFilled />
                         )}
                     </Col>
                 </Row>

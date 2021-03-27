@@ -9,6 +9,7 @@ import { AjaxJson } from './interface';
 import { Bar, Index, UserServer, NotFound } from './pages';
 // import useAutoLogin from './tools/auto-login';
 import Layout, { Content, Footer } from 'antd/lib/layout/layout';
+import { Divider } from 'antd';
 
 // TODO : [AutoLogin,Login,Register]
 
@@ -32,6 +33,7 @@ function App() {
                     <Layout>
                         {Bar}
                         <Content style={{ background: 'white' }}>
+                        <Divider />
                             <Switch>
                                 {Index}
                                 {UserServer(SetAuth)}

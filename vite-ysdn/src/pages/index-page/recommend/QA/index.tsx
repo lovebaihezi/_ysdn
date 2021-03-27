@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Divider, Row, Image } from 'antd';
+import { Card, Col, Divider, Row, Image, Avatar } from 'antd';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { baseurl } from '../../../../auth';
@@ -7,8 +7,6 @@ import { AjaxJson } from '../../../../interface';
 import { CSSProperties } from 'react';
 import { FetchFC, renderFetchResult } from '../../../../FC/FetchFC';
 import CardAction from '../../../../FC/Recommend';
-import UserLink from '../../../../FC/userLink';
-import Avatar from 'antd/lib/avatar/avatar';
 
 const imageUrl = 'picture/data-analyze.png';
 
@@ -17,18 +15,11 @@ const RankCardStyle: CSSProperties = {
     overflow: 'hidden',
 };
 
-const grid = {
-    xs: {},
-    sm: {},
-    md: {},
-    lg: {},
-};
-
-const RankCard: renderFetchResult<AjaxJson.article[]> = ({ fetchResult }) => (
+const QACard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
     <>
         {fetchResult.map((v) => (
             <Card
-                key={v.id}
+                key={v?.id}
                 hoverable={true}
                 style={{ margin: '10px 0' }}
                 bordered={false}
@@ -44,47 +35,7 @@ const RankCard: renderFetchResult<AjaxJson.article[]> = ({ fetchResult }) => (
                         <Card
                             style={RankCardStyle}
                             bordered={false}
-                            actions={[CardAction<AjaxJson.article>(v)]}
-                            key={v?.title}
-                            bodyStyle={{ padding: 6 }}
-                        >
-                            <Card.Meta
-                                style={{ height: 80 }}
-                                avatar={<Avatar src={v.authors[0].avatarUrl} />}
-                                title={v.title}
-                                description={v.authors[0].Account.nickname}
-                            />
-                        </Card>
-                    </Col>
-                </Row>
-            </Card>
-        ))}
-    </>
-);
-
-const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
-    fetchResult,
-}) => (
-    <>
-        {fetchResult.map((v) => (
-            <Card
-                key={v?.id?.toString()}
-                hoverable={true}
-                style={{ margin: '10px 0' }}
-                bordered={false}
-                bodyStyle={{ padding: 6 }}
-            >
-                <Row wrap={false}>
-                    {imageUrl ? (
-                        <Col span={8} style={RankCardStyle}>
-                            <Image width="100%" src={v?.coverImgUrl} />
-                        </Col>
-                    ) : null}
-                    <Col span={16}>
-                        <Card
-                            style={RankCardStyle}
-                            bordered={false}
-                            actions={[CardAction<AjaxJson.article>(v)]}
+                            actions={[CardAction<AjaxJson.QA>(v)]}
                             bodyStyle={{ padding: 6 }}
                         >
                             <Card.Meta
@@ -96,8 +47,62 @@ const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
                                         {v.createTime.toLocaleString()}
                                     </code>
                                 }
+                                description={<code>{v?.question?.title}</code>}
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </Card>
+        ))}
+    </>
+);
+
+const RankCard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
+    <>
+        {fetchResult.map((v) => (
+            <Card
+                hoverable={true}
+                style={{ margin: '10px 0' }}
+                bordered={false}
+                bodyStyle={{ padding: 6 }}
+            >
+                <Row wrap={false}>
+                    {imageUrl ? (
+                        <Col span={8} style={RankCardStyle}>
+                            <Image width="100%" src={v?.coverImgUrl} />
+                        </Col>
+                    ) : null}
+                    <Col span={16}>
+                        <Card
+                            style={RankCardStyle}
+                            bordered={false}
+                            actions={[CardAction<AjaxJson.QA>(v)]}
+                            bodyStyle={{ padding: 6 }}
+                        >
+                            {/* <Row>
+                                <Col span={24}>
+                                    <h4>{v?.title}</h4>
+                                </Col>
+                                <Col span={24}>
+                                    {
+                                        <UserLink
+                                            link={v.authors[0].Account.auth}
+                                            avatr={v.authors[0].avatarUrl}
+                                        />
+                                    }
+                                </Col>
+                            </Row> */}
+                            <Card.Meta
+                                style={{ height: 100 }}
+                                avatar={<Avatar src={v.authors[0].avatarUrl} />}
+                                title={
+                                    <code>
+                                        {v.authors[0].Account.nickname}{' '}
+                                        {v.createTime.toLocaleString()}
+                                    </code>
+                                }
                                 description={
-                                    <code>{v.content.slice(1, 20)}</code>
+                                    <code>{v.briefIntro.slice(1, 20)}</code>
                                 }
                             />
                         </Card>
@@ -108,35 +113,32 @@ const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
     </>
 );
 
-const ArticlesGrid: FC = () => {
+const QAsGrid: FC = () => {
     return (
         <Row>
             <Col
                 span={20}
                 offset={2}
                 md={{ span: 22, offset: 1 }}
-                xs={24}
                 style={{ padding: 45 }}
             >
                 <Divider orientation="left">
-                    <h2>{'Articles'}</h2>
+                    <h2>{'QA'}</h2>
                 </Divider>
                 <Row>
                     <Col xxl={16} xl={12} lg={24} style={{ padding: 1 }}>
-                        <>
-                            {FetchFC([
-                                {
-                                    url: baseurl + '/articles/recommend',
-                                    option: { method: 'post' },
-                                },
-                                ArticleCard,
-                            ])}
-                        </>
+                        {FetchFC([
+                            {
+                                url: baseurl + '/QA/recommend',
+                                option: { method: 'post' },
+                            },
+                            QACard,
+                        ])}
                     </Col>
                     <Col xxl={8} xl={12} lg={24} style={{ padding: 1 }}>
                         {FetchFC([
                             {
-                                url: baseurl + '/articles/rank',
+                                url: baseurl + '/QA/rank',
                                 option: { method: 'post' },
                             },
                             RankCard,
@@ -148,4 +150,4 @@ const ArticlesGrid: FC = () => {
     );
 };
 
-export default ArticlesGrid;
+export default QAsGrid;

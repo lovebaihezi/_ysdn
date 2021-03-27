@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Card, Row, Col } from 'antd';
+import { Divider, Card, Row, Col, Image } from 'antd';
 import { Link } from 'react-router-dom';
 import { baseurl } from '../../../auth';
 import { AjaxJson } from '../../../interface';
@@ -23,7 +23,7 @@ const f = (v: AjaxJson.monographic) => {
         return (
             <Card
                 key={v.title}
-                style={{ height: '100%' }}
+                // style={{ minHeight: 300 }}
                 hoverable={true}
                 actions={[
                     CardAction<ActionType>({
@@ -35,7 +35,10 @@ const f = (v: AjaxJson.monographic) => {
                     }),
                 ]}
             >
-                <div style={{ height: 142 }}></div>
+                <Image
+                    src={v.coverUrl}
+                    placeholder={<div style={{ height: 250 }}></div>}
+                />
             </Card>
         );
     } else {
@@ -51,7 +54,14 @@ const CardContent: renderFetchResult<AjaxJson.monographic[]> = ({
         <Row wrap={false}>
             {fetchResult.map((v) =>
                 v ? (
-                    <Col key={v?.title} span={6} style={{ padding: 10 }}>
+                    <Col
+                        key={v?.title}
+                        xs={{ span: 20, offset: 2 }}
+                        sm={{ span: 10, offset: 2 }}
+                        lg={{ span: 8, offset: 0 }}
+                        xl={{ span: 6 }}
+                        style={{ padding: 10 }}
+                    >
                         {f(v)}
                     </Col>
                 ) : null,
@@ -72,7 +82,7 @@ export default function Monographic() {
                     style={{
                         padding: '6px 0',
                     }}
-                    wrap={false}
+                    // wrap={false}
                 >
                     <Col span={24}>
                         {FetchFC<Array<AjaxJson.monographic>>([
