@@ -13,9 +13,7 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-const RegisterForm: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
-    setAuth,
-}) => {
+const RegisterForm: FC<{ setAuth: (X: string) => void }> = ({ setAuth }) => {
     return (
         <Form
             name="normal_login"
@@ -66,9 +64,7 @@ const RegisterForm: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
     );
 };
 
-const RegisterPage: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
-    setAuth,
-}) => (
+const RegisterPage: FC<{ setAuth: (X: string) => void }> = ({ setAuth }) => (
     <>
         <Row>
             <Col span={16} offset={4}>

@@ -72,6 +72,8 @@ declare namespace AjaxJson {
 
     type userInfo = Pick<user, 'avatarUrl' | 'Account'>;
 
+    type userPageInfo = Omit<user, 'Account'> & { id: _id };
+
     interface comment extends Omit<production, 'authors'> {
         reply: reply[];
         author: userInfo;

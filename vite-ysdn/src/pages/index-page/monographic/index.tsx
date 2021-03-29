@@ -8,7 +8,7 @@ import CardAction from '../../../FC/Recommend';
 
 type ActionType = Pick<
     AjaxJson.monographic,
-    'read' | 'liked' | 'marked' | 'commentsAmount' | 'title'
+    'read' | 'liked' | 'marked' | 'commentsAmount' | 'title' | 'id'
 >;
 
 const f = (v: AjaxJson.monographic) => {
@@ -26,13 +26,10 @@ const f = (v: AjaxJson.monographic) => {
                 onClick={() => {
                     location.href = `/mongraphic/${v.id}`;
                 }}
-                actions={[
-                    CardAction<ActionType>(v),
-                ]}
+                actions={[CardAction<ActionType>(v)]}
             >
-                <Image
+                <img
                     src={v.coverUrl}
-                    placeholder={<div style={{ height: 250 }}></div>}
                 />
             </Card>
         );

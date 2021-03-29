@@ -14,7 +14,7 @@ export default function Carousel() {
             {imgUrls.map((url) => (
                 <Row key={url.concat(new Date().toISOString())}>
                     <Col span={12} offset={6}>
-                        <Image src={url} alt="960*320 picture" />
+                        <img src={url} alt="960*320 picture" />
                     </Col>
                 </Row>
             ))}

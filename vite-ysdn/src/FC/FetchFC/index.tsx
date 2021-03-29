@@ -30,7 +30,6 @@ export function FetchFC<T>([{ url, option }, Component]: [
     const [res] = RLE;
     useEffect(() => {
         Fetch().catch(Catch);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <Sure RLE={RLE}>

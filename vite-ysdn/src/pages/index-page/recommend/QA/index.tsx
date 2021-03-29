@@ -32,7 +32,7 @@ const QACard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                 <Row wrap={false}>
                     {imageUrl ? (
                         <Col span={8} style={RankCardStyle}>
-                            <Image width="100%" src={v?.coverImgUrl} />
+                            <img width="100%" src={v?.coverImgUrl} />
                         </Col>
                     ) : null}
                     <Col span={16}>
@@ -77,7 +77,7 @@ const RankCard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                 <Row wrap={false}>
                     {imageUrl ? (
                         <Col span={8} style={RankCardStyle}>
-                            <Image width="100%" src={v?.coverImgUrl} />
+                            <img width="100%" src={v?.coverImgUrl} />
                         </Col>
                     ) : null}
                     <Col span={16}>

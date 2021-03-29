@@ -13,7 +13,7 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-const LoginForm: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
+const LoginForm: FC<{ setAuth: (X: string) => void }> = ({
     setAuth,
 }) => {
     return (
@@ -70,7 +70,7 @@ const LoginForm: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
     );
 };
 
-const LoginPage: FC<{ setAuth: (X: AjaxJson.user) => void }> = ({
+const LoginPage: FC<{ setAuth: (X: string) => void }> = ({
     setAuth,
 }) => (
     <Row>

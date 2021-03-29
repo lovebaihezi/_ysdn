@@ -37,17 +37,13 @@ export const Bar = (
     </Header>
 );
 
-export const Login = ({ setAuth }: { setAuth: (X: AjaxJson.user) => void }) => (
+export const Login = ({ setAuth }: { setAuth: (X: string) => void }) => (
     <Route key="/auth/login" exact path="/login">
         <LoginPage setAuth={setAuth} />
     </Route>
 );
 
-export const Register = ({
-    setAuth,
-}: {
-    setAuth: (X: AjaxJson.user) => void;
-}) => (
+export const Register = ({ setAuth }: { setAuth: (X: string) => void }) => (
     <Route key="/auth/register" exact path="/register">
         <RegisterPage setAuth={setAuth} />
     </Route>
@@ -58,11 +54,11 @@ export const User = () => {};
 type returnRouteArray = ({
     setAuth,
 }: {
-    setAuth: (X: AjaxJson.user) => void;
+    setAuth: (X: string) => void;
 }) => Array<JSX.Element>;
 
 // const combineRoute : (X : Array<JSX.Element> | (() => JSX.Element>)) => <P>(...args : P) => Array<JSX.Element> = () => () => [];
 
-export const UserServer: (
-    setAuth: (X: AjaxJson.user) => void,
-) => JSX.Element[] = (setAuth) => [Login({ setAuth }), Register({ setAuth })];
+export const UserServer: (setAuth: (X: string) => void) => JSX.Element[] = (
+    setAuth,
+) => [Login({ setAuth }), Register({ setAuth })];

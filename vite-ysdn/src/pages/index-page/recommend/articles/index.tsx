@@ -37,10 +37,10 @@ const RankCard: renderFetchResult<AjaxJson.article[]> = ({ fetchResult }) => (
                     location.href = `/article/${v.id}`;
                 }}
             >
-                <Row wrap={false}>
+                <Row>
                     {imageUrl ? (
                         <Col span={8} style={RankCardStyle}>
-                            <Image width="100%" src={v?.coverImgUrl} />
+                            <img width="100%" src={v?.coverImgUrl} />
                         </Col>
                     ) : null}
                     <Col span={16}>
@@ -84,7 +84,7 @@ const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
                     <Row wrap={false}>
                         {imageUrl ? (
                             <Col span={8} style={RankCardStyle}>
-                                <Image width="100%" src={v?.coverImgUrl} />
+                                <img width="100%" src={v?.coverImgUrl} />
                             </Col>
                         ) : null}
                         <Col span={16}>
@@ -99,7 +99,7 @@ const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
                                     avatar={<UserLink v={v.authors[0]} />}
                                     title={
                                         <code>
-                                            {v.authors[0].Account.nickname}{' '}
+                                            {v.authors[0].Account.nickname}
                                             {v.createTime.toLocaleString()}
                                         </code>
                                     }

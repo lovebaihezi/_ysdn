@@ -3,7 +3,9 @@ import React, { FC } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import { AjaxJson } from '../../../interface';
 
-const UserInformation: FC<{ user: AjaxJson.user }> = ({ user }) => {
+const defaultBg = '';
+
+const UserInformation: FC<{ user: AjaxJson.userPageInfo }> = ({ user }) => {
     return (
         <Row>
             <Col span={20} offset={2}>
@@ -11,25 +13,21 @@ const UserInformation: FC<{ user: AjaxJson.user }> = ({ user }) => {
                     <Col span={24}>
                         <Image
                             height={200}
-                            src={user.informationBackImageUrl ?? ''}
+                            src={user.informationBackImageUrl ?? defaultBg}
                         />
                     </Col>
                     <Col span={24}>
                         <Row>
                             <Col span={2}>
-                                <Link to={`/${user.Account.auth}/articles`}>
+                                <Link to={`/${user.id}/articles`}>
                                     Articles
                                 </Link>
                             </Col>
                             <Col span={2}>
-                                <Link to={`/${user.Account.auth}/videos`}>
-                                    Videos
-                                </Link>
+                                <Link to={`/${user.id}/videos`}>Videos</Link>
                             </Col>
                             <Col span={2}>
-                                <Link to={`/${user.Account.auth}/QA`}>
-                                    Q.A.
-                                </Link>
+                                <Link to={`/${user.id}/QA`}>Q.A.</Link>
                             </Col>
                         </Row>
                         <Row>
@@ -37,15 +35,15 @@ const UserInformation: FC<{ user: AjaxJson.user }> = ({ user }) => {
                                 <Switch>
                                     <Route
                                         exact
-                                        path={`/${user.Account.auth}/articles`}
+                                        path={`/${user.id}/articles`}
                                     ></Route>
                                     <Route
                                         exact
-                                        path={`/${user.Account.auth}/videos`}
+                                        path={`/${user.id}/videos`}
                                     ></Route>
                                     <Route
                                         exact
-                                        path={`/${user.Account.auth}/QA`}
+                                        path={`/${user.id}/QA`}
                                     ></Route>
                                 </Switch>
                             </Col>

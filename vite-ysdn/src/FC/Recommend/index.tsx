@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Badge, Button, Col, Row, Tag } from 'antd';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons';
 import { AjaxJson } from '../../interface';
 import { MouseEventHandler } from 'react';
+import { useAuth } from '../../auth';
 
 const iconStyle = { fontSize: 20 };
 
@@ -63,15 +64,28 @@ const CardRead: FC<{ amount: number }> = ({ amount } = { amount: 0 }) => (
     </Badge>
 );
 
-function CardAction<T extends Partial<AjaxJson.production>>(prop: T) {
-    const { read, tags, title, commentsAmount, liked, marked, id } = prop;
+type limit = {
+    read: number;
+    tags?: AjaxJson.tag[];
+    title: string;
+    commentsAmount: number;
+    liked: boolean;
+    marked: boolean;
+    id: string;
+};
+
+function CardAction<T extends limit>(content: T) {
+    const { read, tags, title, commentsAmount, liked, marked, id } = content;
+    const user = useAuth();
+    const { Account } = user ? user : { Account: { auth: 'denied' } };
+    const { auth } = Account ?? { auth: 'denied' };
     const [[r], f, c] = useFetchJson<{ liked: boolean }>({
-        url: '',
-        option: {},
+        url: `/${auth}/like/${id}`,
+        option: { method: liked ? 'DEL' : 'PUT' },
     });
     const [[R], F, C] = useFetchJson<{ marked: boolean }>({
-        url: '',
-        option: {},
+        url: `/${auth}/mark/${id}`,
+        option: { method: marked ? 'DEL' : 'PUT' },
     });
     return (
         <Row wrap={false}>
@@ -113,7 +127,9 @@ function CardAction<T extends Partial<AjaxJson.production>>(prop: T) {
                     <Col span={4} offset={1}>
                         {liked !== undefined ? (
                             <LikeButton
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     f();
                                 }}
                                 initial={r?.liked ?? liked}
@@ -125,7 +141,9 @@ function CardAction<T extends Partial<AjaxJson.production>>(prop: T) {
                     <Col span={4} offset={1}>
                         {marked !== undefined ? (
                             <MarkButton
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     F();
                                 }}
                                 initial={R?.marked ?? marked}

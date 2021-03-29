@@ -4,7 +4,7 @@ import { Switch, BrowserRouter, Route } from 'react-router-dom';
 
 import './App.css';
 import 'antd/dist/antd.css';
-import { Auth as UserAuth, useAuth } from './auth';
+import { Auth as UserAuth, Token, useAuth, useToken } from './auth';
 import { AjaxJson } from './interface';
 import { Bar, Index, UserServer, NotFound } from './pages';
 import Layout, { Content, Footer } from 'antd/lib/layout/layout';
@@ -14,6 +14,7 @@ import Articles from './pages/Articles';
 import Videos from './pages/Videos';
 import Monographic from './pages/Monographic';
 import QA from './pages/QA';
+import useAutoLogin from './tools/auto-login';
 
 // TODO : [AutoLogin,Login,Register]
 
@@ -22,17 +23,19 @@ import QA from './pages/QA';
 // TODO : DRY your Code to accept all changes
 
 function App() {
-    const [user, setAuth] = useState<false | AjaxJson.user>(useAuth());
-    // const [state, autoLogin] = useAutoLogin(localStorage.getItem('authID'));
-    const SetAuth = useCallback((user: AjaxJson.user) => setAuth(user), [
-        setAuth,
+    const [tocken, setToken] = useState<false | string>(useToken());
+    const [user, autoLogin] = useAutoLogin(useToken());
+    const SetToken = useCallback((user: string) => setToken(user), [
+        setToken,
     ]);
     useEffect(() => {
-        // autoLogin();
-    }, []);
+        if (tocken) {
+            autoLogin();
+        }
+    }, [tocken]);
     return (
         <>
-            <UserAuth.Provider value={user}>
+            <Token.Provider value={tocken}>
                 <BrowserRouter basename="/">
                     <Layout>
                         {Bar}
@@ -40,7 +43,7 @@ function App() {
                             <Divider />
                             <Switch>
                                 {Index}
-                                {UserServer(SetAuth)}
+                                {UserServer(SetToken)}
                                 <Route path="/user/:username/">
                                     <User />
                                 </Route>
@@ -62,7 +65,7 @@ function App() {
                         <Footer style={{ background: 'white' }}></Footer>
                     </Layout>
                 </BrowserRouter>
-            </UserAuth.Provider>
+            </Token.Provider>
         </>
     );
 }

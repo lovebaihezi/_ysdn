@@ -1,14 +1,14 @@
-import * as React from 'react';
+import { useContext, createContext } from 'react';
 import { AjaxJson } from '../interface';
-export const Auth = React.createContext<false | AjaxJson.user>(
-    ((P: AjaxJson.user): false | AjaxJson.user => (P ? P : false))(
-        JSON.parse(
-            ((P: string) => (P && P !== 'undefined' ? P : '{}'))(
-                sessionStorage.getItem('AjaxJson.user') ?? '',
-            ) ?? '{}',
-        ),
-    ),
+export const Auth = createContext<false | string>(
+    ((id: string | null) => id ?? false)(localStorage.getItem('id')),
 );
-export const useAuth = () => React.useContext<false | AjaxJson.user>(Auth);
+export const useAuth = () => useContext(Auth);
 
-export const baseurl = 'http://104.225.144.145:5050';
+export const Token = createContext<false | string>(
+    ((token: string | null) => token ?? false)(localStorage.getItem('token')),
+);
+
+export const useToken = () => useContext(Token);
+
+export const baseurl = 'http://localhost:5050';
