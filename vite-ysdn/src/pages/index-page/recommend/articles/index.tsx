@@ -91,7 +91,9 @@ const ArticleCard: renderFetchResult<AjaxJson.article[]> = ({
                             <Card
                                 style={RankCardStyle}
                                 bordered={false}
-                                actions={[CardAction<AjaxJson.article>(v)]}
+                                actions={[
+                                    CardAction<AjaxJson.article>(v, 'articles'),
+                                ]}
                                 bodyStyle={{ padding: 6 }}
                             >
                                 <Card.Meta

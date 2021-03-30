@@ -26,7 +26,7 @@ const f = (v: AjaxJson.monographic) => {
                 onClick={() => {
                     location.href = `/mongraphic/${v.id}`;
                 }}
-                actions={[CardAction<ActionType>(v)]}
+                actions={[CardAction<ActionType>(v,'monographic')]}
             >
                 <img
                     src={v.coverUrl}

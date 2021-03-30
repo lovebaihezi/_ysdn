@@ -4,6 +4,7 @@ import { AjaxJson } from '../../interface';
 import { Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useForm } from 'antd/lib/form/Form';
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,15 +14,14 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-const LoginForm: FC<{ setAuth: (X: string) => void }> = ({
-    setAuth,
-}) => {
+const LoginForm: FC<{ setAuth: (X: string) => void }> = ({ setAuth }) => {
+    const [form] = useForm();
     return (
         <Form
             name="normal_login"
             className="login-form"
             initialValues={{ remember: true }}
-            onFinish={console.log}
+            onFinish={(...rest) => console.log(...rest)}
         >
             <Form.Item
                 name="username"
@@ -50,10 +50,6 @@ const LoginForm: FC<{ setAuth: (X: string) => void }> = ({
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-
-                <a className="login-form-forgot" href="">
-                    Forgot password
-                </a>
             </Form.Item>
 
             <Form.Item>
@@ -70,9 +66,7 @@ const LoginForm: FC<{ setAuth: (X: string) => void }> = ({
     );
 };
 
-const LoginPage: FC<{ setAuth: (X: string) => void }> = ({
-    setAuth,
-}) => (
+const LoginPage: FC<{ setAuth: (X: string) => void }> = ({ setAuth }) => (
     <Row>
         <Col span={16} offset={4}>
             <Row>

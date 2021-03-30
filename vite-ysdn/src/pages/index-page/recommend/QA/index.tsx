@@ -39,7 +39,7 @@ const QACard: renderFetchResult<AjaxJson.QA[]> = ({ fetchResult }) => (
                         <Card
                             style={RankCardStyle}
                             bordered={false}
-                            actions={[CardAction<AjaxJson.QA>(v)]}
+                            actions={[CardAction<AjaxJson.QA>(v, 'QAs')]}
                             bodyStyle={{ padding: 6 }}
                         >
                             <Card.Meta

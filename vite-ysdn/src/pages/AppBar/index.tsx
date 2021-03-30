@@ -31,7 +31,7 @@ export default function HeadBar() {
             <Menu.Item>Monographic</Menu.Item>
             <Menu.Item>Q.A.</Menu.Item>
             <Menu.Item style={{ float: 'right' }}>
-                {user ? <LoginButton /> : <UserIconButton />}
+                {user ? <UserIconButton /> : <LoginButton />}
             </Menu.Item>
         </Menu>
     );

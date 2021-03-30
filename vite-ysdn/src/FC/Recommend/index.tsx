@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
-import { Badge, Button, Col, Row, Tag } from 'antd';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetchJson } from '../../tools/hook/useFetch';
-
+import React, { useEffect } from 'react';
 import {
     MinusCircleFilled,
     CommentOutlined,
@@ -13,27 +10,45 @@ import {
     LikeFilled,
     StarFilled,
 } from '@ant-design/icons';
-import { AjaxJson } from '../../interface';
-import { MouseEventHandler } from 'react';
 import { useAuth } from '../../auth';
+import { MouseEventHandler } from 'react';
+import { AjaxJson } from '../../interface';
+import { Badge, Button, Card, Col, Row, Tag } from 'antd';
+import { useFetchJson } from '../../tools/hook/useFetch';
+
+function forbidden(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    e.preventDefault();
+    e.stopPropagation();
+}
 
 const iconStyle = { fontSize: 20 };
 
 const CardTag: FC<{ name: string }> = ({ name }) => (
-    <Link to={`/tags/${name}`}>
-        <Tag color="#108ee9">{name}</Tag>
-    </Link>
+    <Tag
+        color="#108ee9"
+        onClick={(e) => {
+            forbidden(e);
+            location.href = `/tags/${name}`;
+        }}
+    >
+        {name}
+    </Tag>
 );
 
 const CardComment: FC<{ link: string; amount: number }> = ({
     link,
     amount,
 }) => (
-    <Link to={'/' + link + '/comments'}>
-        <Badge count={amount}>
+    <Row
+        onClick={(e) => {
+            forbidden(e);
+            location.href = `/${link}`;
+        }}
+    >
+        <Col span={24}>
             <CommentOutlined style={iconStyle} />
-        </Badge>
-    </Link>
+        </Col>
+    </Row>
 );
 
 const LikeButton: FC<{
@@ -58,10 +73,17 @@ const MarkButton: FC<{
     );
 };
 
-const CardRead: FC<{ amount: number }> = ({ amount } = { amount: 0 }) => (
-    <Badge count={amount} size="small" showZero={true}>
-        <EyeOutlined style={iconStyle} />
-    </Badge>
+const CardRead: FC<{ amount: number }> = ({ amount }) => (
+    // <Badge count={amount} size="small" showZero={true}>
+    <Row>
+        <Col span={12}>
+            <EyeOutlined style={iconStyle} />
+        </Col>
+        <Col span={10} offset={1}>
+            {amount}
+        </Col>
+    </Row>
+    // </Badge>
 );
 
 type limit = {
@@ -74,17 +96,18 @@ type limit = {
     id: string;
 };
 
-function CardAction<T extends limit>(content: T) {
+function CardAction<T extends limit>(
+    content: T,
+    type: 'articles' | 'monographic' | 'videos' | 'QAs',
+) {
     const { read, tags, title, commentsAmount, liked, marked, id } = content;
     const user = useAuth();
-    const { Account } = user ? user : { Account: { auth: 'denied' } };
-    const { auth } = Account ?? { auth: 'denied' };
     const [[r], f, c] = useFetchJson<{ liked: boolean }>({
-        url: `/${auth}/like/${id}`,
+        url: `/${user}/like/${id}`,
         option: { method: liked ? 'DEL' : 'PUT' },
     });
     const [[R], F, C] = useFetchJson<{ marked: boolean }>({
-        url: `/${auth}/mark/${id}`,
+        url: `/${user}/mark/${id}`,
         option: { method: marked ? 'DEL' : 'PUT' },
     });
     return (
@@ -103,7 +126,7 @@ function CardAction<T extends limit>(content: T) {
                     <MinusCircleFilled />
                 )}
             </Col>
-            <Col span={10} offset={4}>
+            <Col span={10} offset={2}>
                 <Row wrap={false}>
                     <Col span={4} offset={1}>
                         {read !== undefined ? (
@@ -117,7 +140,7 @@ function CardAction<T extends limit>(content: T) {
                         commentsAmount !== undefined &&
                         id !== undefined ? (
                             <CardComment
-                                link={id.toString()}
+                                link={`${type}/${id.toString()}`}
                                 amount={commentsAmount}
                             />
                         ) : (
@@ -128,8 +151,7 @@ function CardAction<T extends limit>(content: T) {
                         {liked !== undefined ? (
                             <LikeButton
                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                                    forbidden(e);
                                     f();
                                 }}
                                 initial={r?.liked ?? liked}
@@ -142,8 +164,7 @@ function CardAction<T extends limit>(content: T) {
                         {marked !== undefined ? (
                             <MarkButton
                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                                    forbidden(e);
                                     F();
                                 }}
                                 initial={R?.marked ?? marked}
