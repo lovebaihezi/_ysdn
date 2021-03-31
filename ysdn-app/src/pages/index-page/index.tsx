@@ -1,6 +1,7 @@
+import React from 'react';
 import Carousel from './Carousel';
 import Monographic from './monographic';
-import VideosGrid from './recommend/videos';
+import QAGrid from './recommend/QA';
 import ArticlesGrid from './recommend/articles';
 import Tags from './recommend/Tags';
 
@@ -10,7 +11,7 @@ export default function Index() {
             <Carousel />
             <Monographic />
             <ArticlesGrid />
-            <VideosGrid />
+            <QAGrid />
             <Tags />
         </>
     );

@@ -1,64 +1,42 @@
-import { Header } from 'antd/lib/layout/layout';
-import { Route, Switch } from 'react-router-dom';
-import { AjaxJson } from '../interface';
-import AppBar from './AppBar';
-import NotFoundPage from './forbidden/404';
-import IndexPage from './index-page';
-import LoginPage from './login';
-import RegisterPage from './register';
-import React from 'react';
-const Routes: Array<JSX.Element> = [
-    <Route exact path="/">
-        <IndexPage />
-    </Route>,
-];
-Routes.push(
-    <Route exact path="/*">
-        <NotFoundPage />
-    </Route>,
-);
-export default Routes;
+import { Col, Row, Spin } from 'antd';
+import React, { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import NavBar from '../component/NavBar';
 
-export const Index = (
-    <Route exact path="/">
-        <IndexPage />
-    </Route>
-);
+// import IndexPage from './IndexPage';
 
-export const NotFound = (
-    <Route exact path="/*">
-        <NotFoundPage />
-    </Route>
-);
+const Index = lazy(() => import('./IndexPage'));
 
-export const Bar = (
-    <Header style={{ background: 'white' }}>
-        <AppBar />
-    </Header>
-);
-
-export const Login = ({ setAuth }: { setAuth: (X: string) => void }) => (
-    <Route key="/auth/login" exact path="/login">
-        <LoginPage setAuth={setAuth} />
-    </Route>
-);
-
-export const Register = ({ setAuth }: { setAuth: (X: string) => void }) => (
-    <Route key="/auth/register" exact path="/register">
-        <RegisterPage setAuth={setAuth} />
-    </Route>
-);
-
-export const User = () => {};
-
-type returnRouteArray = ({
-    setAuth,
-}: {
-    setAuth: (X: string) => void;
-}) => Array<JSX.Element>;
-
-// const combineRoute : (X : Array<JSX.Element> | (() => JSX.Element>)) => <P>(...args : P) => Array<JSX.Element> = () => () => [];
-
-export const UserServer: (setAuth: (X: string) => void) => JSX.Element[] = (
-    setAuth,
-) => [Login({ setAuth }), Register({ setAuth })];
+export default function Pages() {
+    return (
+        <Row>
+            <Col span={22} offset={1}>
+                <NavBar />
+            </Col>
+            <Col span={24}>
+                <Switch>
+                    <Route exact path={['/', '/index']}>
+                        <Row justify="center">
+                            <Suspense
+                                fallback={
+                                    <Col>
+                                        <Spin size="large" />
+                                    </Col>
+                                }
+                            >
+                                <Col span={24}>
+                                    <Index />
+                                </Col>
+                            </Suspense>
+                        </Row>
+                    </Route>
+                    <Route path="*">
+                        <Row justify="center">
+                            <Col span={24}>404</Col>
+                        </Row>
+                    </Route>
+                </Switch>
+            </Col>
+        </Row>
+    );
+}

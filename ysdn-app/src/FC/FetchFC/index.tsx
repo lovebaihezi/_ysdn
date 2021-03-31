@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button, Result, Skeleton } from 'antd';
 import { FC, useEffect } from 'react';
 import { useFetchJson } from '../../tools/hook/useFetch';
@@ -29,7 +30,6 @@ export function FetchFC<T>([{ url, option }, Component]: [
     const [res] = RLE;
     useEffect(() => {
         Fetch().catch(Catch);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <Sure RLE={RLE}>

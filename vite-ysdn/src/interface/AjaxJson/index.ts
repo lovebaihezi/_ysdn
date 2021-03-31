@@ -123,6 +123,42 @@ declare namespace AjaxJson {
     interface monographic extends production {
         coverUrl: string;
     }
+
+    type IndexDetailArticle = Pick<
+        article,
+        | 'authors'
+        | 'commentsAmount'
+        | 'title'
+        | 'createTime'
+        | 'id'
+        | 'approval'
+        | 'read'
+        | 'coverImgUrl'
+        | 'tags'
+    >;
+
+    type IndexRankArticle = Pick<
+        article,
+        'authors' | 'title' | 'id' | 'approval' | 'read'
+    >;
+
+    type IndexDetailQA = Pick<
+        QA,
+        | 'authors'
+        | 'question'
+        | 'title'
+        | 'createTime'
+        | 'id'
+        | 'approval'
+        | 'read'
+        | 'coverImgUrl'
+        | 'tags'
+    >;
+
+    type IndexRankQA = Pick<
+        QA,
+        'authors' | 'title' | 'id' | 'approval' | 'read'
+    >;
 }
 
 export default AjaxJson;

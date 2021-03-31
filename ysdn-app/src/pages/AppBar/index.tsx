@@ -29,8 +29,9 @@ export default function HeadBar() {
             <Menu.Item>Articles</Menu.Item>
             <Menu.Item>Videos</Menu.Item>
             <Menu.Item>Monographic</Menu.Item>
-            <Menu.Item direction="ltr">
-                {user ? <LoginButton /> : <UserIconButton />}
+            <Menu.Item>Q.A.</Menu.Item>
+            <Menu.Item style={{ float: 'right' }}>
+                {user ? <UserIconButton /> : <LoginButton />}
             </Menu.Item>
         </Menu>
     );

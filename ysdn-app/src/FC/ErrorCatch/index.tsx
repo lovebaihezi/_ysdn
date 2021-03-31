@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC ,Component } from 'react';
 
 const ErrorCatch: FC = ({ children }) => {

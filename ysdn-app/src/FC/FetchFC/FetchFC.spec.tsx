@@ -1,3 +1,4 @@
+import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen, waitFor } from '@testing-library/react';

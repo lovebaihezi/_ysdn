@@ -49,17 +49,17 @@ const f: (i: number) => AjaxJson.production = (i) => ({
 });
 
 router.post('/render/Monographic/all', async (ctx, next) => {
-    ctx.body = new Array<unknown>(10)
+    ctx.body = new Array(10)
         .fill({})
         .map<AjaxJson.monographic>((_, i) => ({
             ...f(i),
-            coverUrl: mock.Random.image('300x250'),
+            coverUrl: mock.Random.image('550x250'),
             content: mock.Random.string(),
         }));
 });
 
 const y = () =>
-    new Array(5).fill(0).map<AjaxJson.article>((_) => {
+    new Array(10).fill(0).map<AjaxJson.article>((_) => {
         return {
             comments: [],
             id: mock.Random.id(),
@@ -93,11 +93,11 @@ const y = () =>
         };
     });
 
-router.post('/articles/recommend', async (ctx) => {
+router.post('/index/articles/recommend', async (ctx) => {
     ctx.body = y();
 });
 
-router.post('/articles/rank', async (ctx) => {
+router.post('/index/articles/rank', async (ctx) => {
     const Articles = y().map((v) => ({
         ...v,
         coverImgUrl: mock.Random.image('150x150'),
@@ -105,7 +105,7 @@ router.post('/articles/rank', async (ctx) => {
     ctx.body = Articles.sort((a, b) => a.like.length - b.like.length);
 });
 
-router.post('/QA/recommend', async (ctx) => {
+router.post('/index/QAs/recommend', async (ctx) => {
     ctx.body = new Array(5).fill(0).map<AjaxJson.QA>((_, i) => {
         return {
             ...f(i),
@@ -145,8 +145,8 @@ router.post('/QA/recommend', async (ctx) => {
     });
 });
 
-router.post('/QA/rank', async (ctx) => {
-    const Videos = new Array(5).fill(0).map<AjaxJson.QA>((_, i) => {
+router.post('/index/QAs/rank', async (ctx) => {
+    const Videos = new Array(10).fill(0).map<AjaxJson.QA>((_, i) => {
         return {
             ...f(i),
             answer: [],
@@ -186,7 +186,7 @@ router.post('/QA/rank', async (ctx) => {
     ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
 });
 
-router.post('/video/recommend', async (ctx) => {
+router.post('/index/video/recommend', async (ctx) => {
     ctx.body = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),
@@ -198,8 +198,8 @@ router.post('/video/recommend', async (ctx) => {
     });
 });
 
-router.post('/video/rank', async (ctx) => {
-    const Videos = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
+router.post('/index/video/rank', async (ctx) => {
+    const Videos = new Array(10).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),
             mark: [],
@@ -211,7 +211,7 @@ router.post('/video/rank', async (ctx) => {
     ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
 });
 
-router.post('/tags/all', async (ctx) => {
+router.post('/index/tags/all', async (ctx) => {
     ctx.body = new Array(8).fill({}).map<AjaxJson.tag>((v) => ({
         name: mock.Random.name(),
         createTime: new Date(),

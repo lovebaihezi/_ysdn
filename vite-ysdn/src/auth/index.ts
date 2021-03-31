@@ -1,13 +1,14 @@
 import { useContext, createContext } from 'react';
-import { AjaxJson } from '../interface';
-export const Auth = createContext<false | string>(
+export const Auth = createContext<[false | string, (s: string) => void]>([
     ((id: string | null) => id ?? false)(localStorage.getItem('id')),
-);
+    (s: string) => {},
+]);
 export const useAuth = () => useContext(Auth);
 
-export const Token = createContext<false | string>(
-    ((token: string | null) => token ?? false)(localStorage.getItem('token')),
-);
+export const Token = createContext<[false | string, (s: string) => void]>([
+    ((id: string | null) => id ?? false)(localStorage.getItem('id')),
+    (s: string) => {},
+]);
 
 export const useToken = () => useContext(Token);
 
