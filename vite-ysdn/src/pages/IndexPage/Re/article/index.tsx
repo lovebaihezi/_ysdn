@@ -1,5 +1,4 @@
-import { Card, Col, Divider, Row, Skeleton } from 'antd';
-import Avatar from 'antd/lib/avatar/avatar';
+import { Col, Divider, Row, Skeleton } from 'antd';
 import React, { lazy, Suspense } from 'react';
 import { baseurl } from '../../../../auth';
 import Ajax, { Commponent } from '../../../../component/AjaxResponse';

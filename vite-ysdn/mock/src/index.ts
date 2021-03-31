@@ -186,7 +186,7 @@ router.post('/index/QAs/rank', async (ctx) => {
     ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
 });
 
-router.post('/index/video/recommend', async (ctx) => {
+router.post('/index/videos/recommend', async (ctx) => {
     ctx.body = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),
@@ -198,7 +198,7 @@ router.post('/index/video/recommend', async (ctx) => {
     });
 });
 
-router.post('/index/video/rank', async (ctx) => {
+router.post('/index/videos/rank', async (ctx) => {
     const Videos = new Array(10).fill(0).map<AjaxJson.video>((_, i) => {
         return {
             ...f(i),

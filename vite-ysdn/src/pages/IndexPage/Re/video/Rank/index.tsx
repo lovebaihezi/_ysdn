@@ -71,4 +71,4 @@ const VideoRank: Commponent<AjaxJson.video[]> = ({ Response }) => {
     );
 };
 
-export default videoRank;
+export default VideoRank;
