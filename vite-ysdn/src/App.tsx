@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Token } from './auth';
-import Pages from './pages/Index';
+import Pages from './pages';
 
 import './App.css';
 import 'antd/dist/antd.css';

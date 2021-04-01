@@ -3,8 +3,6 @@ import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NavBar from '../component/NavBar';
 
-// import IndexPage from './IndexPage';
-
 const Index = lazy(() => import('./IndexPage'));
 
 export default function Pages() {
@@ -32,7 +30,9 @@ export default function Pages() {
                     </Route>
                     <Route path="*">
                         <Row justify="center">
-                            <Col span={24}>404</Col>
+                            <Col className="P404" span={24}>
+                                404
+                            </Col>
                         </Row>
                     </Route>
                 </Switch>
