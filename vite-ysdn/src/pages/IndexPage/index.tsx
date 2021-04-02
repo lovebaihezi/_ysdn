@@ -4,7 +4,7 @@ import NavBar from '../../component/NavBar';
 import Carousel from './carousel';
 const IndexArticle = lazy(() => import('./Re/article'));
 const IndexQA = lazy(() => import('./Re/qa'));
-const IndexMo = lazy(() => import('./Re/mongraph'));
+const IndexMo = lazy(() => import('./Re/monograph'));
 const IndexVideo = lazy(() => import('./Re/video'));
 
 export default function IndexPage() {

@@ -1,15 +1,18 @@
 import { Skeleton } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FC } from 'react';
 import { useFetchJson, useFetchProps } from '../../tools/hook/useFetch';
 import AjaxError from '../result';
 
-export type AjaxProp<T> = { Requset: useFetchProps; Component: Commponent<T> };
+export type AjaxProp<T> = { Request: useFetchProps; Component: Component<T> };
 
-export type Commponent<T> = FC<{ Response: T }>;
+export type Component<T> = FC<{ Response: T }>;
 
-export default function Ajax<T>({ Requset, Component }: AjaxProp<T>): JSX.Element {
-    const [[response, loading, error], Fetch, Catch] = useFetchJson<T>(Requset);
+export default function Ajax<T>({
+    Request,
+    Component,
+}: AjaxProp<T>): JSX.Element {
+    const [[response, loading, error], Fetch, Catch] = useFetchJson<T>(Request);
     useEffect(() => {
         Fetch().catch(Catch);
     }, []);

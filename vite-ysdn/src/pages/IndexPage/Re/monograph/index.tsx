@@ -1,13 +1,13 @@
 import { Card, Col, Divider, Row } from 'antd';
 import React from 'react';
 import { baseurl } from '../../../../auth';
-import Ajax, { Commponent } from '../../../../component/AjaxResponse';
+import Ajax, { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
 
-import './mongraph.css';
+import './monograph.css';
 
-const MonographCard: Commponent<AjaxJson.monographic[]> = ({ Response }) => (
+const MonographCard: Component<AjaxJson.monographic[]> = ({ Response }) => (
     <Row>
         <Col span={24} style={{ overflow: 'hidden' }}>
             <Divider />
@@ -15,7 +15,7 @@ const MonographCard: Commponent<AjaxJson.monographic[]> = ({ Response }) => (
                 {Response.map((monograph) => (
                     <Col span={8} key={monograph.id} style={{ padding: 10 }}>
                         <Card
-                            className="mongraphCard"
+                            className="monographCard"
                             cover={
                                 <img
                                     width="300px"
@@ -40,11 +40,11 @@ const MonographCard: Commponent<AjaxJson.monographic[]> = ({ Response }) => (
     </Row>
 );
 
-const Requset: useFetchProps = {
+const Request: useFetchProps = {
     url: baseurl + '/render/Monographic/all',
     option: { method: 'POST' },
 };
 
 export default function IndexMonograph() {
-    return <Ajax Requset={Requset} Component={MonographCard} />;
+    return <Ajax Request={Request} Component={MonographCard} />;
 }

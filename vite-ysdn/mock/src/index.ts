@@ -49,13 +49,11 @@ const f: (i: number) => AjaxJson.production = (i) => ({
 });
 
 router.post('/render/Monographic/all', async (ctx, next) => {
-    ctx.body = new Array(10)
-        .fill({})
-        .map<AjaxJson.monographic>((_, i) => ({
-            ...f(i),
-            coverUrl: mock.Random.image('550x250'),
-            content: mock.Random.string(),
-        }));
+    ctx.body = new Array(10).fill({}).map<AjaxJson.monographic>((_, i) => ({
+        ...f(i),
+        coverUrl: mock.Random.image('550x250'),
+        content: mock.Random.string(),
+    }));
 });
 
 const y = () =>
@@ -187,15 +185,13 @@ router.post('/index/QAs/rank', async (ctx) => {
 });
 
 router.post('/index/videos/recommend', async (ctx) => {
-    ctx.body = new Array(5).fill(0).map<AjaxJson.video>((_, i) => {
-        return {
-            ...f(i),
-            mark: [],
-            videoSrc: mock.Random.url(),
-            briefIntro: mock.Random.paragraph(),
-            coverImgUrl: mock.Random.image('720x300'),
-        };
-    });
+    ctx.body = new Array(5).fill(0).map<AjaxJson.video>((_, i) => ({
+        ...f(i),
+        mark: [],
+        videoSrc: mock.Random.url(),
+        briefIntro: mock.Random.paragraph(),
+        coverImgUrl: mock.Random.image('720x300'),
+    }));
 });
 
 router.post('/index/videos/rank', async (ctx) => {
@@ -217,6 +213,10 @@ router.post('/index/tags/all', async (ctx) => {
         createTime: new Date(),
         clickTimes: mock.Random.integer(1, 500),
     }));
+});
+
+router.post('/article/tags/all', async (ctx) => {
+    ctx.body = new Array(8).fill({}).map<AjaxJson.article>((v) => y()[0]);
 });
 
 App.use(router.routes());

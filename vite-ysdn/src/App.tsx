@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Token } from './auth';
-import Pages from './pages';
+import Pages from './pages/';
 
 import './App.css';
 import 'antd/dist/antd.css';
@@ -12,6 +12,9 @@ import { BrowserRouter } from 'react-router-dom';
 const Context: FC = ({ children }) => {
     const [token, s] = useState<string | false>(false);
     const S = useCallback((t: string) => s(t), []);
+    useEffect(() => {
+        console.log("i am render!")
+    })
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token !== null) {

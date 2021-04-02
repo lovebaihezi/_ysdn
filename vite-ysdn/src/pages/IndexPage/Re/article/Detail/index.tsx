@@ -1,7 +1,7 @@
 import { Card, Col, Divider, Row } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
-import { Commponent } from '../../../../../component/AjaxResponse';
+import { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 import {
     EyeOutlined,
@@ -80,7 +80,7 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                             }}
                         >
                             <Avatar
-                                className="avatr"
+                                className="avatar"
                                 src={article.authors[0].avatarUrl}
                             />
                             {article.authors[0].Account.nickname}
@@ -92,7 +92,7 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     </Col>
 );
 
-const DetailArticle: Commponent<AjaxJson.IndexDetailArticle[]> = ({
+const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
     Response,
 }) => {
     return (

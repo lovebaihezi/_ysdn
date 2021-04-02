@@ -1,7 +1,7 @@
 import { Card, Col, Divider, Row, Tag } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
-import Ajax, { Commponent } from '../../../../../component/AjaxResponse';
+import Ajax, { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 import {
     EyeOutlined,
@@ -65,7 +65,6 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                                     </Col>
                                     <Col className="action">
                                         <CommentOutlined />
-                                        {/* {QA.CommponentsAmount} */}
                                     </Col>
                                     <Col className="action">
                                         <StarOutlined />
@@ -87,7 +86,7 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                             }}
                         >
                             <Avatar
-                                className="avatr"
+                                className="avatar"
                                 src={QA.authors[0].avatarUrl}
                             />
                             {QA.authors[0].Account.nickname}
@@ -99,7 +98,7 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
     </Col>
 );
 
-const DetailQA: Commponent<AjaxJson.IndexDetailQA[]> = ({ Response }) => {
+const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => {
     return (
         <Row>
             <Col span={22} offset={1}>

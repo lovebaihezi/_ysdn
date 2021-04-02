@@ -2,7 +2,12 @@ a {
     text-decoration: none;
     color: white;
 }
+/* 
+html,body {
+    background-color: rgb(80, 80, 80); */
+}
 
 * {
     font-family: 'Fira Code', monospace;
+    /* outline: dashed greenyellow; */
 }

@@ -1,23 +1,33 @@
 import { Col, Divider, Row, Skeleton } from 'antd';
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useMemo } from 'react';
 import { baseurl } from '../../../../auth';
-import Ajax, { Commponent } from '../../../../component/AjaxResponse';
+import Ajax, { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
 const AR = lazy(() => import('./Rank'));
 const AD = lazy(() => import('./Detail'));
 
-const ArticleRank: Commponent<AjaxJson.IndexRankArticle[]> = ({ Response }) => (
+const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => (
     <Suspense fallback={<Skeleton />}>
-        <AR Response={Response.slice(0, 7)} />
+        {useMemo(
+            () => (
+                <AR Response={Response.slice(0, 7)} />
+            ),
+            [...Response.map(Object.values)].flat(),
+        )}
     </Suspense>
 );
 
-const DetailArticle: Commponent<AjaxJson.IndexDetailArticle[]> = ({
+const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
     Response,
 }) => (
     <Suspense fallback={<Skeleton />}>
-        <AD Response={Response.slice(0, 5)} />
+        {useMemo(
+            () => (
+                <AD Response={Response.slice(0, 5)} />
+            ),
+            [...Response.map(Object.values)].flat(),
+        )}
     </Suspense>
 );
 
@@ -38,13 +48,13 @@ export default function IndexArticle() {
             <Row>
                 <Col span={18}>
                     <Ajax
-                        Requset={articleDetailRequest}
+                        Request={articleDetailRequest}
                         Component={DetailArticle}
                     />
                 </Col>
                 <Col span={6}>
                     <Ajax
-                        Requset={articleRankRequest}
+                        Request={articleRankRequest}
                         Component={ArticleRank}
                     />
                 </Col>
