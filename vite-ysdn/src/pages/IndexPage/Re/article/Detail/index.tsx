@@ -10,7 +10,6 @@ import {
     StarOutlined,
 } from '@ant-design/icons';
 
-import './Detail.css';
 import { FC } from 'react';
 
 const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({

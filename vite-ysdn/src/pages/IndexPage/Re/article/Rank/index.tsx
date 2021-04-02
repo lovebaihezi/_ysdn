@@ -1,11 +1,11 @@
 import { Card, Col, Divider, Row } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
-import Ajax, { Commponent } from '../../../../../component/AjaxResponse';
+import Ajax, { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 import { EyeOutlined, LikeOutlined } from '@ant-design/icons';
 
-const ArticleRank: Commponent<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
+const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     return (
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>

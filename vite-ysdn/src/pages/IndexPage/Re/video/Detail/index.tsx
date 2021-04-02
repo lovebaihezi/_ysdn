@@ -1,9 +1,9 @@
 import { Card, Col, Divider, Row } from 'antd';
 import React from 'react';
-import { Commponent } from '../../../../../component/AjaxResponse';
+import { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 
-const VideoCard: Commponent<AjaxJson.video[]> = ({ Response }) => (
+const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
     <Row>
         <Col span={24} style={{ overflow: 'hidden' }}>
             <Divider />
@@ -11,7 +11,7 @@ const VideoCard: Commponent<AjaxJson.video[]> = ({ Response }) => (
                 {Response.map((video) => (
                     <Col span={8} key={video.id} style={{ padding: 10 }}>
                         <Card
-                            className="mongraphCard"
+                            className="monographCard"
                             cover={
                                 <img
                                     width="300px"
