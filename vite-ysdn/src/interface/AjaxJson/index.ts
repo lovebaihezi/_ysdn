@@ -124,6 +124,20 @@ declare namespace AjaxJson {
         coverUrl: string;
     }
 
+    interface activities {
+        holder: Date;
+        form: string;
+        endTime: Date;
+        tags: string[];
+        title : string;
+        startTime: Date;
+        briefIntro: string;
+        partner: userInfo[];
+        amount : amount;
+        max : amount;
+        status: activitiesStatus;
+    }
+
     type IndexDetailArticle = Pick<
         article,
         | 'authors'
@@ -159,6 +173,12 @@ declare namespace AjaxJson {
         QA,
         'authors' | 'title' | 'id' | 'approval' | 'read'
     >;
+}
+
+export enum activitiesStatus {
+    ended,
+    started,
+    inReview,
 }
 
 export default AjaxJson;

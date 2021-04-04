@@ -9,6 +9,7 @@ const Index = lazy(() => import('./IndexPage'));
 const Article = lazy(() => import('./Article'));
 const QA = lazy(() => import('./QA'));
 const Video = lazy(() => import('./Video'));
+const Activities = lazy(() => import('./Activity'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
@@ -46,6 +47,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/videos">
                             <Render Lazy={Video} />
+                        </Route>
+                        <Route path="/activities">
+                            <Render Lazy={Activities} />
                         </Route>
                         <Route path="*">
                             <Row justify="center">
