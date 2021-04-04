@@ -2,12 +2,31 @@ a {
     text-decoration: none;
     color: white;
 }
-/* 
-html,body {
-    background-color: rgb(80, 80, 80); */
-}
 
 * {
     font-family: 'Fira Code', monospace;
-    /* outline: dashed greenyellow; */
 }
+
+.P404 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    line-height: 100%;
+}
+
+.writeArticle {
+    width: 100%;
+    font-size: 24px;
+    height: max-content;
+}
+
+
+.title {
+    font-size: 20px;
+    padding: 10px 2px;
+}
+
+.avatar {
+    margin-right: 10px;
+}
+

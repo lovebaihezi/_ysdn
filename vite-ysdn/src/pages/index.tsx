@@ -7,8 +7,8 @@ import NavBar from '../component/NavBar';
 
 const Index = lazy(() => import('./IndexPage'));
 const Article = lazy(() => import('./Article'));
-
-import './pages.css';
+const QA = lazy(() => import('./QA'));
+const Video = lazy(() => import('./Video'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
@@ -29,13 +29,10 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
 );
 
 export default function Pages() {
-    useEffect(() => {
-        console.log('i am render!');
-    });
     return (
         <>
             <NavBar />
-            <Row style={{ marginTop: 80 }}>
+            <Row style={{ marginTop: 60 }}>
                 <Col span={24}>
                     <Switch>
                         <Route exact path={['/', '/index']}>
@@ -43,6 +40,12 @@ export default function Pages() {
                         </Route>
                         <Route path="/articles">
                             <Render Lazy={Article} />
+                        </Route>
+                        <Route path="/QAs">
+                            <Render Lazy={QA} />
+                        </Route>
+                        <Route path="/videos">
+                            <Render Lazy={Video} />
                         </Route>
                         <Route path="*">
                             <Row justify="center">
