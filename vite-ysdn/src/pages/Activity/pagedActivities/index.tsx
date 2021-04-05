@@ -58,7 +58,7 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                                             }}
                                             span={8}
                                         >
-                                            <EyeOutlined />{' '}
+                                            <EyeOutlined />
                                         </Col>
                                         <Col
                                             style={{
@@ -67,7 +67,7 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                                             }}
                                             span={8}
                                         >
-                                            <LikeOutlined />{' '}
+                                            <LikeOutlined />
                                             <span
                                                 style={{ padding: '0 4px' }}
                                             ></span>
@@ -107,8 +107,11 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                                 {activity.briefIntro}
                             </Col>
                             <Col span={24} style={{ padding: 12 }}>
-                                {activity.tags.map((tag) => (
-                                    <span style={{ padding: '0 12' }} key={tag}>
+                                {activity.tags.map((tag, index) => (
+                                    <span
+                                        style={{ padding: '0 12' }}
+                                        key={tag + index}
+                                    >
                                         <Link
                                             to={`/tags/${tag}`}
                                             style={{ color: 'gray' }}
