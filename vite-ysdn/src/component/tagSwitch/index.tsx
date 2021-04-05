@@ -1,7 +1,7 @@
 import { Row, Col, Tabs } from 'antd';
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import './tags.css';
-import Periodicals from '../../pages/Article/rightSide/periodicals';
+import Periodicals from '../../pages/Main/Article/rightSide/periodicals';
 import { FC } from 'react';
 
 // function f({ name }: { name?: string }) {

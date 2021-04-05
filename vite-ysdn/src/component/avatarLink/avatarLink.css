@@ -1,0 +1,9 @@
+.avatarLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatarLinkSpan {
+    padding: 0 12px;
+}

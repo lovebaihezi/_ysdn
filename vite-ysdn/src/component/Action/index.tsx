@@ -1,6 +1,7 @@
 import { Col, Row, Tag } from 'antd';
 import React from 'react';
 import { FC } from 'react';
+import TagLink from '../tag';
 
 const Action: FC<{ tags?: string[]; tagPosition?: 'right' | 'left' }> = ({
     tags,
@@ -26,7 +27,7 @@ const Action: FC<{ tags?: string[]; tagPosition?: 'right' | 'left' }> = ({
                                 span={24 / tags.length}
                                 key={tag}
                             >
-                                <Tag color="#108ee9">{tag}</Tag>
+                                <TagLink to={`/tags/${tag}`}>{tag}</TagLink>
                             </Col>
                         ))}
                     </Row>

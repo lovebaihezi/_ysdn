@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NavBar from '../component/NavBar';
 
-const Index = lazy(() => import('./IndexPage'));
-const Article = lazy(() => import('./Article'));
-const QA = lazy(() => import('./QA'));
-const Video = lazy(() => import('./Video'));
-const Activities = lazy(() => import('./Activity'));
+const Index = lazy(() => import('./Main/IndexPage'));
+const Article = lazy(() => import('./Main/Article'));
+const QA = lazy(() => import('./Main/QA'));
+const Video = lazy(() => import('./Main/Video'));
+const Activities = lazy(() => import('./Main/Activity'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
