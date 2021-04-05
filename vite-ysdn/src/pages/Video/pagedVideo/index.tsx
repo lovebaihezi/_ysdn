@@ -1,4 +1,4 @@
-import { Row, Col, Card, Divider, Button, Tag } from 'antd';
+import { Row, Col, Card, Button, Tag } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -13,22 +13,29 @@ import { AjaxJson } from '../../../interface';
 
 import Action from '../../../component/Action';
 
+import './paged.css';
+
 const Actions: FC<{ video: AjaxJson.video }> = ({ video }) => (
-    <Action tags={video.tags.map((c) => c.name)}>
-        <Row className="actionContain" justify="end">
-            <Col span={4}>
-                <EyeOutlined /> {video.read}
-            </Col>
-            <Col span={4}>
-                <LikeOutlined /> {video.approval}
-            </Col>
-            <Col span={4}>
-                <CommentOutlined /> {video.commentsAmount}
-            </Col>
-            <Col span={4}>
-                <StarOutlined />
-            </Col>
-        </Row>
+    <Action>
+        <Col flex="auto">
+            <Row className="actionContain" justify="end">
+                <Col className="action">
+                    <EyeOutlined />
+                    {video.read}
+                </Col>
+                <Col className="action">
+                    <LikeOutlined />
+                    {video.approval}
+                </Col>
+                <Col className="action">
+                    <CommentOutlined />
+                    {video.commentsAmount}
+                </Col>
+                <Col className="action">
+                    <StarOutlined />
+                </Col>
+            </Row>
+        </Col>
     </Action>
 );
 
@@ -40,7 +47,7 @@ const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) =>
                     {Response.map((video) => (
                         <Col span={8} style={{ padding: 36 }} key={video.id}>
                             <Card
-                                actions={[]}
+                                actions={[<Actions video={video} />]}
                                 cover={
                                     <img
                                         height="200px"
@@ -63,30 +70,6 @@ const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) =>
                                     }
                                     description={video.briefIntro}
                                 />
-                                <Action>
-                                    <Col flex="auto">
-                                        <Row
-                                            className="actionContain"
-                                            justify="end"
-                                        >
-                                            <div>
-                                                <EyeOutlined />
-                                                {video.read}
-                                            </div>
-                                            <div>
-                                                <LikeOutlined />
-                                                {video.approval}
-                                            </div>
-                                            <div>
-                                                <CommentOutlined />
-                                                {video.commentsAmount}
-                                            </div>
-                                            <div>
-                                                <StarOutlined />
-                                            </div>
-                                        </Row>
-                                    </Col>
-                                </Action>
                             </Card>
                         </Col>
                     ))}

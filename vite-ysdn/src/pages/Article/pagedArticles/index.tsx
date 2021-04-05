@@ -13,42 +13,6 @@ import { AjaxJson } from '../../../interface';
 
 import Action from '../../../component/Action';
 
-const Actions: FC<{ article: AjaxJson.article }> = ({ article }) => (
-    <Row
-        onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-        }}
-    >
-        <Col span={12}>
-            {article.tags.map((tag) => (
-                <Tag style={{ fontSize: 16 }} color="blue">
-                    {tag.name}
-                </Tag>
-            ))}
-        </Col>
-        <Col flex="auto">
-            <Row className="actionContain" justify="end">
-                <div>
-                    <EyeOutlined />
-                    {article.read}
-                </div>
-                <div>
-                    <LikeOutlined />
-                    {article.approval}
-                </div>
-                <div>
-                    <CommentOutlined />
-                    {article.commentsAmount}
-                </div>
-                <div>
-                    <StarOutlined />
-                </div>
-            </Row>
-        </Col>
-    </Row>
-);
-
 const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
     useMemo(
         () => (
@@ -74,26 +38,22 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
                                 />
                             </Card>
                             <Action tags={article.tags.map((c) => c.name)}>
-                                    <Row
-                                        className="actionContain"
-                                        justify="end"
-                                    >
-                                        <Col span={4}>
-                                            <EyeOutlined />{' '}
-                                            {article.read}
-                                        </Col>
-                                        <Col span={4}>
-                                            <LikeOutlined />{' '}
-                                            {article.approval}
-                                        </Col>
-                                        <Col span={4}>
-                                            <CommentOutlined />{' '}
-                                            {article.commentsAmount}
-                                        </Col>
-                                        <Col span={4}>{' '}
-                                            <StarOutlined />
-                                        </Col>
-                                    </Row>
+                                <Row style={{ width: '100%' }} justify="end">
+                                    <Col span={4}>
+                                        <EyeOutlined /> {article.read}
+                                    </Col>
+                                    <Col span={4}>
+                                        <LikeOutlined /> {article.approval}
+                                    </Col>
+                                    <Col span={4}>
+                                        <CommentOutlined />{' '}
+                                        {article.commentsAmount}
+                                    </Col>
+                                    <Col span={4}>
+                                        {' '}
+                                        <StarOutlined />
+                                    </Col>
+                                </Row>
                             </Action>
                             <Divider />
                         </Col>

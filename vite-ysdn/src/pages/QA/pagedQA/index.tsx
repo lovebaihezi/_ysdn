@@ -30,7 +30,7 @@ const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
                 style={{ display: 'flex', alignItems: 'center' }}
                 span={4}
             >
-                <EyeOutlined />{' '}
+                <EyeOutlined />
                 <span style={{ padding: '0 4px' }}>{QA.read}</span>
             </Col>
             <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>

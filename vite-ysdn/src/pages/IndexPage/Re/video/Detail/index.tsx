@@ -3,10 +3,17 @@ import React from 'react';
 import { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 
+import {
+    StarOutlined,
+    EyeOutlined,
+    LikeOutlined,
+    CommentOutlined,
+} from '@ant-design/icons';
+import Avatar from 'antd/lib/avatar/avatar';
+
 const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
     <Row>
         <Col span={24} style={{ overflow: 'hidden' }}>
-            <Divider />
             <Row wrap={false}>
                 {Response.map((video) => (
                     <Col span={8} key={video.id} style={{ padding: 10 }}>
@@ -19,6 +26,42 @@ const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
                                     src={video.coverImgUrl}
                                 />
                             }
+                            actions={[
+                                <Row>
+                                    <Col span={12}>
+                                        <Avatar
+                                            src={video.authors[0].avatarUrl}
+                                        />
+                                        {video.authors[0].Account.nickname}
+                                    </Col>
+                                    <Col span={12}>
+                                        <Row
+                                            style={{
+                                                alignItems: 'center',
+                                                display: 'flex',
+                                                height: '100%',
+                                            }}
+                                            justify="end"
+                                        >
+                                            <Col flex="auto">
+                                                <EyeOutlined />
+                                                {video.read}
+                                            </Col>
+                                            <Col flex="auto">
+                                                <LikeOutlined />
+                                                {video.approval}
+                                            </Col>
+                                            <Col flex="auto">
+                                                <CommentOutlined />
+                                                {video.commentsAmount}
+                                            </Col>
+                                            <Col flex="auto">
+                                                <StarOutlined />
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>,
+                            ]}
                         >
                             <Row>
                                 <Col span={24}>
@@ -26,7 +69,12 @@ const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
                                         {video.title}
                                     </strong>
                                 </Col>
-                                <Col span={24}>{video.briefIntro}</Col>
+                                <Col
+                                    span={24}
+                                    style={{ height: 100, overflow: 'hidden' }}
+                                >
+                                    {video.briefIntro}
+                                </Col>
                             </Row>
                         </Card>
                     </Col>

@@ -29,7 +29,7 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
         <Row>
             {Response.map((activity) => (
                 <Col
-                    span={10}
+                    span={11}
                     style={{ margin: '0 0 24px 0', padding: 12 }}
                     offset={1}
                 >
@@ -101,7 +101,7 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                     >
                         <Row>
                             <Col
-                                style={{ height: 200, overflow: 'hidden' }}
+                                style={{ height: 100, overflow: 'hidden' }}
                                 span={24}
                             >
                                 {activity.briefIntro}
