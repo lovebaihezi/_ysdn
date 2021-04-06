@@ -4,6 +4,7 @@ import React from 'react';
 import Ajax, { Component } from '../../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../../interface';
 import { EyeOutlined, LikeOutlined } from '@ant-design/icons';
+import AvatarLink from '../../../../../../component/avatarLink';
 
 const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     return (
@@ -16,7 +17,7 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                             <Col
                                 span={18}
                                 onClick={(e) => {
-                                    location.href = `/${article.authors[0].Account.auth}/article/${article.id}`;
+                                    location.href = `/article/${article.id}`;
                                 }}
                                 style={{ cursor: 'pointer' }}
                             >
@@ -26,22 +27,15 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                     title={article.title}
                                     headStyle={{ padding: 0 }}
                                     actions={[
-                                        <Row
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }}
-                                        >
-                                            <Col
-                                                span={4}
-                                                onClick={(e) => {
-                                                    location.href = `/user/${article.authors[0].Account.auth}`;
-                                                }}
-                                            >
-                                                {
-                                                    article.authors[0].Account
-                                                        .nickname
-                                                }
+                                        <Row>
+                                            <Col span={4}>
+                                                <AvatarLink
+                                                    to={`/user/${article.authors[0].Account.auth}`}
+                                                    name={
+                                                        article.authors[0]
+                                                            .Account.nickname
+                                                    }
+                                                />
                                             </Col>
                                             <Col span={20}>
                                                 <Row justify="end">

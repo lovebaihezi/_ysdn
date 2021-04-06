@@ -5,18 +5,18 @@ import { baseurl } from '../../../../../auth';
 import Ajax, { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 import { useFetchProps } from '../../../../../tools/hook/useFetch';
-const AR = lazy(() => import('./Rank'));
-const AD = lazy(() => import('./Detail'));
+const QR = lazy(() => import('./Rank'));
+const QD = lazy(() => import('./Detail'));
 
 const QARank: Component<AjaxJson.IndexRankQA[]> = ({ Response }) => (
     <Suspense fallback={<Skeleton />}>
-        <AR Response={Response.slice(0, 7)} />
+        <QR Response={Response.slice(0, 7)} />
     </Suspense>
 );
 
 const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => (
     <Suspense fallback={<Skeleton />}>
-        <AD Response={Response.slice(0, 5)} />
+        <QD Response={Response.slice(0, 5)} />
     </Suspense>
 );
 

@@ -19,7 +19,7 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     <Col
         span={22}
         onClick={(e) => {
-            location.href = `/${article.authors[0].Account.auth}/article/${article.id}`;
+            location.href = `/article/${article.id}`;
         }}
         offset={1}
         style={{ margin: '2px 0' }}
@@ -40,10 +40,6 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                     headStyle={{ padding: 0 }}
                     actions={[
                         <Row
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }}
                             justify="end"
                         >
                             <Col span={12}>

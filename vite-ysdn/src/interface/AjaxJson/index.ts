@@ -28,6 +28,27 @@ declare namespace AjaxJson {
         commentsAmount = 'commentsAmount',
     }
 
+    interface notification {
+        fromWho : userInfo;
+        sendTime : Date;
+    }
+
+    interface userDetail {
+        username: _id;
+        nickname: string;
+        avatarUrl : string;
+        notifications : notification[];
+        follow : userInfo[];
+        follower : userInfo[];
+        articles : _id[];
+        videos : _id[];
+        answers : _id[];
+        questions : _id[];
+        activities : _id[];
+        marks : _id[];
+        liked : _id[];
+    }
+
     interface production {
         id: _id;
         tags: tag[];
@@ -129,12 +150,12 @@ declare namespace AjaxJson {
         form: string;
         endTime: Date;
         tags: string[];
-        title : string;
+        title: string;
         startTime: Date;
         briefIntro: string;
         partner: userInfo[];
-        amount : amount;
-        max : amount;
+        amount: amount;
+        max: amount;
         status: activitiesStatus;
     }
 

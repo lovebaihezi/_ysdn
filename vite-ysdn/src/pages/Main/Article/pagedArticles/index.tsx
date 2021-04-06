@@ -46,11 +46,10 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
                                         <LikeOutlined /> {article.approval}
                                     </Col>
                                     <Col span={4}>
-                                        <CommentOutlined />{' '}
+                                        <CommentOutlined />
                                         {article.commentsAmount}
                                     </Col>
                                     <Col span={4}>
-                                        {' '}
                                         <StarOutlined />
                                     </Col>
                                 </Row>

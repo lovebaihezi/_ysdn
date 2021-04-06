@@ -23,6 +23,9 @@ const MonographCard: Component<AjaxJson.monographic[]> = ({ Response }) => (
                                     src={monograph.coverUrl}
                                 />
                             }
+                            onClick={(e) => {
+                                location.href = `/monograph/${monograph.id}`;
+                            }}
                         >
                             <Row>
                                 <Col span={24}>

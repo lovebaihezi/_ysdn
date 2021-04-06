@@ -1,15 +1,17 @@
-import { Col, Row, Spin } from 'antd';
-import React, { lazy, Suspense } from 'react';
 import { FC } from 'react';
-import { useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Col, Row, Spin } from 'antd';
 import NavBar from '../component/NavBar';
+import React, { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Login from './Login';
 
-const Index = lazy(() => import('./Main/IndexPage'));
-const Article = lazy(() => import('./Main/Article'));
 const QA = lazy(() => import('./Main/QA'));
 const Video = lazy(() => import('./Main/Video'));
+const Article = lazy(() => import('./Main/Article'));
+const Index = lazy(() => import('./Main/IndexPage'));
 const Activities = lazy(() => import('./Main/Activity'));
+
+const User = lazy(() => import('./each/user'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
@@ -50,6 +52,13 @@ export default function Pages() {
                         </Route>
                         <Route path="/activities">
                             <Render Lazy={Activities} />
+                        </Route>
+                        <Route path="/articles/:id"></Route>
+                        <Route path="/user/:id">
+                            <Render Lazy={User} />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
                         </Route>
                         <Route path="*">
                             <Row justify="center">

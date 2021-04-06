@@ -4,44 +4,38 @@ import React from 'react';
 import Ajax, { Component } from '../../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../../interface';
 import { EyeOutlined, LikeOutlined } from '@ant-design/icons';
+import AvatarLink from '../../../../../../component/avatarLink';
 
-const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
+const QARank: Component<AjaxJson.IndexRankQA[]> = ({ Response }) => {
     return (
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
-                {Response.slice(0,10).map((article, index) => (
-                    <Col key={article.id} span={24}>
+                {Response.slice(0, 10).map((QA, index) => (
+                    <Col key={QA.id} span={24}>
                         <Row>
                             <Col span={6}></Col>
                             <Col
                                 span={18}
                                 onClick={(e) => {
-                                    location.href = `/${article.authors[0].Account.auth}/article/${article.id}`;
+                                    location.href = `/QA/${QA.id}`;
                                 }}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <Card
                                     bordered={false}
                                     bodyStyle={{ padding: 0 }}
-                                    title={article.title}
+                                    title={QA.title}
                                     headStyle={{ padding: 0 }}
                                     actions={[
-                                        <Row
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }}
-                                        >
-                                            <Col
-                                                span={4}
-                                                onClick={(e) => {
-                                                    location.href = `/user/${article.authors[0].Account.auth}`;
-                                                }}
-                                            >
-                                                {
-                                                    article.authors[0].Account
-                                                        .nickname
-                                                }
+                                        <Row>
+                                            <Col span={4}>
+                                                <AvatarLink
+                                                    to={`/user/${QA.authors[0].Account.auth}`}
+                                                    name={
+                                                        QA.authors[0].Account
+                                                            .nickname
+                                                    }
+                                                />
                                             </Col>
                                             <Col span={20}>
                                                 <Row justify="end">
@@ -49,13 +43,13 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                                         <EyeOutlined />
                                                     </Col>
                                                     <Col span={4}>
-                                                        {article.read}
+                                                        {QA.read}
                                                     </Col>
                                                     <Col span={4}>
                                                         <LikeOutlined />
                                                     </Col>
                                                     <Col span={4}>
-                                                        {article.approval}
+                                                        {QA.approval}
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -71,4 +65,4 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     );
 };
 
-export default ArticleRank;
+export default QARank;

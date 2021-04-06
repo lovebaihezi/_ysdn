@@ -19,7 +19,7 @@ export default function Extra() {
                         onClick={() => {
                             const id = sessionStorage.getItem('id');
                             if (id) {
-                                location.href = `/${id}/update/article`;
+                                location.href = `/update/article`;
                             } else {
                                 location.href = `/login`;
                             }

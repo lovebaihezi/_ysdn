@@ -3,7 +3,6 @@ import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import { AjaxJson } from '../../src/interface';
 import { Random } from 'mockjs';
-import { activitiesStatus } from '../../src/interface/AjaxJson';
 
 const users: AjaxJson.user[] = [];
 
@@ -274,6 +273,43 @@ router.post('/activity/tags/:tags', async (ctx) => {
         amount: mock.Random.integer(0, 99),
         max: mock.Random.integer(100, 300),
     }));
+});
+
+router.post('/getUser', async (ctx) => {
+    const Response: AjaxJson.userDetail = {
+        nickname: 'test',
+        notifications: [],
+        activities: [],
+        articles: [],
+        answers: [],
+        questions: [],
+        marks: [],
+        liked: [],
+        avatarUrl: 'https://dummyimage.com/100x100',
+        follow: [],
+        follower: [],
+        username: 'アスカ',
+        videos: [],
+    };
+    ctx.body = Response;
+});
+
+router.post('/login', async (ctx) => {
+    return {
+        nickname: 'test',
+        notifications: [],
+        activities: [],
+        articles: [],
+        answers: [],
+        questions: [],
+        marks: [],
+        liked: [],
+        avatarUrl: 'https://dummyimage.com/100x100',
+        follow: [],
+        follower: [],
+        username: 'アスカ',
+        videos: [],
+    };
 });
 
 App.use(router.routes());

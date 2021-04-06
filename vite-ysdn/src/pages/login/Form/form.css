@@ -1,0 +1,12 @@
+.loginForm {
+    width: 320px;
+    height: 480px;
+    justify-self: center;
+}
+
+.buttonLine {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

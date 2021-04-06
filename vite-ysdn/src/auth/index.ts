@@ -1,9 +1,9 @@
 import { useContext, createContext } from 'react';
-export const Auth = createContext<[false | string, (s: string) => void]>([
-    ((id: string | null) => id ?? false)(localStorage.getItem('id')),
-    (s: string) => {},
-]);
-export const useAuth = () => useContext(Auth);
+import { AjaxJson } from '../interface';
+export const UserDetail = createContext<
+    [AjaxJson.userDetail | null, (P: AjaxJson.userDetail) => void]
+>([null, (P) => {}]);
+export const useUserDetail = () => useContext(UserDetail);
 
 export const Token = createContext<[false | string, (s: string) => void]>([
     ((id: string | null) => id ?? false)(localStorage.getItem('id')),
