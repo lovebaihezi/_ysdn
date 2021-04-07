@@ -296,7 +296,7 @@ router.post('/getUser', async (ctx) => {
 
 router.post('/login', async (ctx) => {
     ctx.body = {
-        nickname: 'test',
+        nickname: 'アスカ',
         notifications: [],
         activities: [],
         articles: [],
@@ -307,7 +307,7 @@ router.post('/login', async (ctx) => {
         avatarUrl: 'https://dummyimage.com/100x100',
         follow: [],
         follower: [],
-        username: 'アスカ',
+        username: 'test',
         videos: [],
     };
 });

@@ -26,6 +26,7 @@ export default function LoginForm() {
         const json: AjaxJson.userDetail = await res.json();
         if (check(json)) {
             S(json);
+            location.href = '/';
         }
     };
     useEffect(() => {
@@ -33,7 +34,7 @@ export default function LoginForm() {
     });
     useEffect(() => {
         D !== null && History.goBack();
-    }, [...Object.values(D ?? {})]);
+    }, []);
     return (
         <Form
             className="loginForm"
