@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Token, UserDetail } from './auth';
+import { baseurl, Token, UserDetail } from './auth';
 import Pages from './pages/';
 
 import './App.css';
@@ -8,39 +8,13 @@ import { FC } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AjaxJson } from './interface';
 import { message, Result } from 'antd';
-
-function check(S: AjaxJson.userDetail) {
-    const keys = [
-        'username',
-        'nickname',
-        'avatarUrl',
-        'notifications',
-        'follow',
-        'follower',
-        'articles',
-        'videos',
-        'answers',
-        'questions',
-        'activities',
-        'marks',
-        'liked',
-    ];
-    const x = Object.keys(S);
-    if (x.length !== keys.length) {
-        return false;
-    } else {
-        return x.every((key) => keys.includes(key));
-    }
-}
+import check from './tools/check';
 
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
     const S = useCallback((t: AjaxJson.userDetail) => setDetail(t), []);
-    useEffect(() => {
-        console.log('i am render!');
-    });
     const f = async (token: string) => {
-        const res = await fetch('/login', {
+        const res = await fetch(baseurl + '/login', {
             method: 'POST',
             headers: new Headers({ token: token }),
         });
