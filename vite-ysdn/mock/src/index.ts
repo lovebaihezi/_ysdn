@@ -295,7 +295,7 @@ router.post('/getUser', async (ctx) => {
 });
 
 router.post('/login', async (ctx) => {
-    return {
+    ctx.body = {
         nickname: 'test',
         notifications: [],
         activities: [],
