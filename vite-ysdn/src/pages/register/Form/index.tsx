@@ -30,7 +30,7 @@ export default function RegisterForm() {
             if (check(json)) {
                 S(json);
                 localStorage.setItem('token', json.username);
-                History.goBack();
+                location.href = '/chooseTags'
             } else {
                 setDisable(false);
             }

@@ -26,11 +26,12 @@ const Context: FC = ({ children }) => {
     };
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(token);
         if (token !== null) {
-            f(token).catch((e) => {
-                message.error('自动登录失败');
-            });
+            f(token)
+                .then(() => {
+                    message.success('auto login success!');
+                })
+                .catch((e) => {});
         } else {
             message.info({
                 content: 'login to get better experience!',
@@ -47,9 +48,9 @@ const Context: FC = ({ children }) => {
 function App() {
     return (
         <Context>
-            <HashRouter basename="/">
+            <BrowserRouter>
                 <Pages />
-            </HashRouter>
+            </BrowserRouter>
         </Context>
     );
 }

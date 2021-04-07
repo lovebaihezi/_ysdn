@@ -5,6 +5,7 @@ import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import ChooseTags from './ChooseTags';
 
 const QA = lazy(() => import('./Main/QA'));
 const Video = lazy(() => import('./Main/Video'));
@@ -63,6 +64,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/register">
                             <Register />
+                        </Route>
+                        <Route path="/chooseTags">
+                            <ChooseTags />
                         </Route>
                         <Route path="*">
                             <Row justify="center">

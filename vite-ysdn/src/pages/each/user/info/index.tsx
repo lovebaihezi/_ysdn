@@ -6,7 +6,9 @@ import { AjaxJson } from '../../../../interface';
 const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
     return (
         <Row>
-            <Col span={24}></Col>
+            <Col span={24}>
+                
+            </Col>
             <Col span={24}></Col>
         </Row>
     );

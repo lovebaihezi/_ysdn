@@ -216,6 +216,10 @@ router.post('/index/tags/all', async (ctx) => {
     }));
 });
 
+router.post('/tags/all', async (ctx) => {
+    ctx.body = new Array(12).fill(0).map(($) => mock.Random.title(2, 8));
+});
+
 router.post('/article/tags/:tag', async (ctx) => {
     ctx.body = new Array(8).fill({}).map<AjaxJson.article>((v) => y()[0]);
 });
