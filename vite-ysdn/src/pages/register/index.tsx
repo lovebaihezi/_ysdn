@@ -1,9 +1,10 @@
 import { Row, Col } from 'antd';
 import React from 'react';
-import { Switch } from 'react-router';
+import { Switch, useRouteMatch } from 'react-router';
 import RegisterForm from './Form';
-
+//TODO : treat tabChoose as part of Register not in pages route!
 export default function Register() {
+    const { params, url } = useRouteMatch();
     return (
         <Row>
             <Col
