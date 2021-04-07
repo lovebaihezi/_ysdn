@@ -13,7 +13,8 @@ App.use(async (ctx, next) => {
     ctx.set({
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': ['X-Requested-With', 'Content-Type'],
+        'Access-Control-Allow-Headers':
+            'X-Requested-With, Access-Control-Allow-Headers, Authorization, ,Content-Type',
     });
     await next();
 });
@@ -277,7 +278,7 @@ router.post('/activity/tags/:tags', async (ctx) => {
 
 router.post('/getUser', async (ctx) => {
     const Response: AjaxJson.userDetail = {
-        nickname: 'test',
+        nickname: 'アスカ',
         notifications: [],
         activities: [],
         articles: [],
@@ -288,13 +289,15 @@ router.post('/getUser', async (ctx) => {
         avatarUrl: 'https://dummyimage.com/100x100',
         follow: [],
         follower: [],
-        username: 'アスカ',
+        username: 'test',
         videos: [],
+        tags: ['test'],
     };
     ctx.body = Response;
 });
 
 router.post('/login', async (ctx) => {
+    ctx.status = 200;
     ctx.body = {
         nickname: 'アスカ',
         notifications: [],
@@ -309,6 +312,26 @@ router.post('/login', async (ctx) => {
         follower: [],
         username: 'test',
         videos: [],
+        tags: [],
+    };
+});
+
+router.post('/register', async (ctx) => {
+    ctx.body = {
+        nickname: 'アスカ',
+        notifications: [],
+        activities: [],
+        articles: [],
+        answers: [],
+        questions: [],
+        marks: [],
+        liked: [],
+        avatarUrl: 'https://dummyimage.com/100x100',
+        follow: [],
+        follower: [],
+        username: 'test',
+        videos: [],
+        tags: [],
     };
 });
 

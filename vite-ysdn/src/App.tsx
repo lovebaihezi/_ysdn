@@ -5,7 +5,7 @@ import Pages from './pages/';
 import './App.css';
 import 'antd/dist/antd.css';
 import { FC } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { AjaxJson } from './interface';
 import { message, Result } from 'antd';
 import check from './tools/check';
@@ -14,9 +14,10 @@ const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
     const S = useCallback((t: AjaxJson.userDetail) => setDetail(t), []);
     const f = async (token: string) => {
-        const res = await fetch(baseurl + '/login', {
+        const res = await fetch(baseurl + '/tokenLogin', {
             method: 'POST',
-            headers: new Headers({ token: token }),
+            // headers: new Headers({ token: token }),
+            body: token,
         });
         const json: AjaxJson.userDetail = await res.json();
         if (check(json)) {
@@ -25,16 +26,14 @@ const Context: FC = ({ children }) => {
     };
     useEffect(() => {
         const token = localStorage.getItem('token');
+        console.log(token);
         if (token !== null) {
             f(token).catch((e) => {
-                message.error(e.toString());
+                message.error('自动登录失败');
             });
         } else {
             message.info({
                 content: 'login to get better experience!',
-                style: {
-                    marginTop: 80,
-                },
             });
         }
     }, []);
@@ -48,9 +47,9 @@ const Context: FC = ({ children }) => {
 function App() {
     return (
         <Context>
-            <BrowserRouter basename="/">
+            <HashRouter basename="/">
                 <Pages />
-            </BrowserRouter>
+            </HashRouter>
         </Context>
     );
 }

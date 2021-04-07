@@ -4,41 +4,41 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { baseurl, useUserDetail } from '../../../auth';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useFetchJson } from '../../../tools/hook/useFetch';
-import { Link } from 'react-router-dom';
-
-import './form.css';
 import { AjaxJson } from '../../../interface';
 import check from '../../../tools/check';
 import useError from '../../../tools/hook/useError';
 
-export default function LoginForm() {
+export default function RegisterForm() {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
     const History = useHistory();
-    const [Error, setError] = useError();
+    const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
+    const [regexp, setRegexp] = useState<string>('');
     const login = async (v: any) => {
         if (!disable) {
             setDisable(true);
-            const res = await fetch(baseurl + '/login', {
+            const res = await fetch(baseurl + '/register', {
                 method: 'POST',
                 // headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(v),
             });
+            if (res.status === 404) {
+                throw new Error('404 Not Found!');
+            }
             const json: AjaxJson.userDetail = await res.json();
             if (check(json)) {
                 S(json);
                 localStorage.setItem('token', json.username);
-                History.goBack()
+                History.goBack();
             } else {
                 setDisable(false);
             }
         }
     };
     useEffect(() => {
-        if (Error) message.error(Error.toString());
-    },[Error]);
+        if (E) message.error(E.message);
+    }, [E]);
     useEffect(() => {
         D !== null && History.goBack();
     }, []);
@@ -81,25 +81,39 @@ export default function LoginForm() {
                 ]}
             >
                 <Input
+                    onChange={console.log}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"
+                    onInput={(e) => {
+                        setRegexp(`^${e.currentTarget.value}\$`);
+                        console.log(new RegExp(`^${e.currentTarget.value}$`));
+                    }}
+                />
+            </Form.Item>
+            <Divider />
+            <Form.Item
+                name="confirm-password"
+                rules={[
+                    {
+                        required: true,
+                        message: 'should be as same as password',
+                        pattern: new RegExp(regexp),
+                    },
+                ]}
+            >
+                <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Confirm"
                 />
             </Form.Item>
             <Divider />
             <Form.Item>
                 <div className="buttonLine">
                     <Button type="primary" disabled={disable} htmlType="submit">
-                        Sign in!
+                        Sign up!
                     </Button>
-                </div>
-            </Form.Item>
-            <Divider />
-            <Form.Item className="buttonLine">
-                <div className="buttonLine">
-                    <Link to="/register">
-                        <Button type="link">Sign up!</Button>
-                    </Link>
                 </div>
             </Form.Item>
         </Form>

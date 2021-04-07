@@ -1,4 +1,4 @@
-import { AjaxJson } from "../../interface";
+import { AjaxJson } from '../../interface';
 
 export default function check(S: AjaxJson.userDetail) {
     const keys = [
@@ -15,6 +15,7 @@ export default function check(S: AjaxJson.userDetail) {
         'activities',
         'marks',
         'liked',
+        'tags',
     ];
     const x = Object.keys(S);
     if (x.length !== keys.length) {

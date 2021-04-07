@@ -29,24 +29,25 @@ declare namespace AjaxJson {
     }
 
     interface notification {
-        fromWho : userInfo;
-        sendTime : Date;
+        fromWho: userInfo;
+        sendTime: Date;
     }
 
     interface userDetail {
+        marks: _id[];
         username: _id;
+        liked: _id[];
+        videos: _id[];
+        answers: _id[];
+        tags: string[];
+        articles: _id[];
+        questions: _id[];
         nickname: string;
-        avatarUrl : string;
-        notifications : notification[];
-        follow : userInfo[];
-        follower : userInfo[];
-        articles : _id[];
-        videos : _id[];
-        answers : _id[];
-        questions : _id[];
-        activities : _id[];
-        marks : _id[];
-        liked : _id[];
+        activities: _id[];
+        avatarUrl: string;
+        follow: userInfo[];
+        follower: userInfo[];
+        notifications: notification[];
     }
 
     interface production {
