@@ -11,7 +11,7 @@ const Video = lazy(() => import('./Main/Video'));
 const Article = lazy(() => import('./Main/Article'));
 const Index = lazy(() => import('./Main/IndexPage'));
 const Activities = lazy(() => import('./Main/Activity'));
-
+const ArticlePage = lazy(() => import('./each/article'));
 const User = lazy(() => import('./each/user'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
@@ -20,7 +20,16 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     <Row justify="center">
         <Suspense
             fallback={
-                <Col>
+                <Col
+                    span={24}
+                    style={{
+                        display: 'flex',
+                        height: '100%',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
                     <Spin size="large" />
                 </Col>
             }
@@ -57,7 +66,9 @@ export default function Pages() {
                         <Route path="/activities">
                             <Render Lazy={Activities} />
                         </Route>
-                        <Route path="/articles/:id"></Route>
+                        <Route path="/article/:id">
+                            <Render Lazy={ArticlePage} />
+                        </Route>
                         <Route path="/user/:id">
                             <Render Lazy={User} />
                         </Route>
