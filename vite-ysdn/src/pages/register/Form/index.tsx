@@ -1,14 +1,16 @@
 import { Button, Divider, Form, Input, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { baseurl, useUserDetail } from '../../../auth';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { AjaxJson } from '../../../interface';
 import check from '../../../tools/check';
 import useError from '../../../tools/hook/useError';
+import { Link } from 'react-router-dom';
 
 export default function RegisterForm() {
+    const { url, path } = useRouteMatch();
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
     const History = useHistory();
@@ -30,7 +32,7 @@ export default function RegisterForm() {
             if (check(json)) {
                 S(json);
                 localStorage.setItem('token', json.username);
-                location.href = '/chooseTags'
+                location.href = `${url}/chooseTags`;
             } else {
                 setDisable(false);
             }
@@ -39,9 +41,6 @@ export default function RegisterForm() {
     useEffect(() => {
         if (E) message.error(E.message);
     }, [E]);
-    useEffect(() => {
-        D !== null && History.goBack();
-    }, []);
     return (
         <Form
             className="loginForm"

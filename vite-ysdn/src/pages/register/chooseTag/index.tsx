@@ -1,8 +1,8 @@
 import { Col, Row } from 'antd';
 import React from 'react';
-import { baseurl } from '../../auth';
-import Ajax from '../../component/AjaxResponse';
-import { useFetchProps } from '../../tools/hook/useFetch';
+import { baseurl } from '../../../auth';
+import Ajax from '../../../component/AjaxResponse';
+import { useFetchProps } from '../../../tools/hook/useFetch';
 
 import Tags from './Tags';
 

@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Col, Row, Spin } from 'antd';
 import NavBar from '../component/NavBar';
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
-import ChooseTags from './ChooseTags';
 
 const QA = lazy(() => import('./Main/QA'));
 const Video = lazy(() => import('./Main/Video'));
@@ -34,6 +33,9 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
 );
 
 export default function Pages() {
+    useEffect(() => {
+        console.log('!');
+    });
     return (
         <>
             <NavBar />
@@ -64,9 +66,6 @@ export default function Pages() {
                         </Route>
                         <Route path="/register">
                             <Register />
-                        </Route>
-                        <Route path="/chooseTags">
-                            <ChooseTags />
                         </Route>
                         <Route path="*">
                             <Row justify="center">

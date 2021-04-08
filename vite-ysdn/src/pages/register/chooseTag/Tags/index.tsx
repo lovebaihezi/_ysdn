@@ -1,10 +1,10 @@
 import { Button, Card, Col, message, Row } from 'antd';
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Component } from '../../../component/AjaxResponse';
+import { Component } from '../../../../component/AjaxResponse';
 
 import { HeartOutlined, SendOutlined } from '@ant-design/icons';
-import { useFetchJson } from '../../../tools/hook/useFetch';
-import { baseurl, useUserDetail } from '../../../auth';
+import { useFetchJson } from '../../../../tools/hook/useFetch';
+import { baseurl, useUserDetail } from '../../../../auth';
 
 const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
     name,
@@ -51,7 +51,7 @@ const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
         } else if (e) {
             message.error('error!, skip...');
             location.href = '/';
-        } else {
+        } else if (r) {
             message.success('');
             location.href = '/';
         }
@@ -81,10 +81,19 @@ const Tags: Component<string[]> = ({ Response }) => {
             ))}
             <Col
                 span={24}
-                style={{ display: 'flex', justifyContent: 'center' }}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                }}
             >
                 <SubmitButton container={C} />
                 <Button
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                    }}
                     onClick={(e) => {
                         message.info('skip this for you');
                         location.href = '/';
