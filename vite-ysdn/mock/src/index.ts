@@ -339,6 +339,41 @@ router.post('/register', async (ctx) => {
     };
 });
 
+router.get('/article/:id', async (ctx) => {
+    const Res: AjaxJson.article = {
+        comments: [],
+        id: mock.Random.id(),
+        createTime: new Date(),
+        title: mock.Random.title(1),
+        content: mock.Random.paragraph(3),
+        like: [],
+        read: mock.Random.integer(0, 1000),
+        marked: false,
+        approval: mock.Random.integer(0, 1000),
+        disapproval: 0,
+        markAmount: 0,
+        modifyTime: [new Date()],
+        tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
+        liked: false,
+        authors: [
+            {
+                Account: {
+                    createTime: new Date(),
+                    auth: mock.Random.name(),
+                    email: mock.Random.email(),
+                    nickname: mock.Random.string(),
+                    telephone: mock.Random.string(),
+                },
+                avatarUrl: mock.Random.image(),
+            },
+        ],
+        lastModifyTime: new Date(),
+        coverImgUrl: mock.Random.image('720x300'),
+        commentsAmount: 0,
+    };
+    ctx.body = Res;
+});
+
 App.use(router.routes());
 
 App.listen(5050, console.log.bind(console, 'mock start'));
