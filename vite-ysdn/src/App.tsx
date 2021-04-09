@@ -10,6 +10,8 @@ import { AjaxJson } from './interface';
 import { message, Result } from 'antd';
 import check from './tools/check';
 
+// todo : check user link!!! auth => nickname!
+
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
     const S = useCallback((t: AjaxJson.userDetail) => setDetail(t), []);
