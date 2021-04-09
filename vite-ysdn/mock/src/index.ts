@@ -105,84 +105,51 @@ router.post('/index/articles/rank', async (ctx) => {
 });
 
 router.post('/index/QAs/recommend', async (ctx) => {
-    ctx.body = new Array(5).fill(0).map<AjaxJson.QA>((_, i) => {
-        return {
-            ...f(i),
-            answer: [],
-            question: {
-                comments: [],
-                id: mock.Random.id(),
+    const Response: () => AjaxJson.IndexDetailQA = () => ({
+        author: {
+            avatarUrl: 'https://dummyimage.com/100x100',
+            Account: {
                 createTime: new Date(),
-                title: mock.Random.title(1),
-                content: mock.Random.paragraph(3),
-                like: [],
-                read: mock.Random.integer(0, 1000),
-                marked: false,
-                approval: mock.Random.integer(0, 1000),
-                disapproval: 0,
-                markAmount: 0,
-                modifyTime: [new Date()],
-                tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
-                liked: false,
-                author: {
-                    Account: {
-                        createTime: new Date(),
-                        auth: mock.Random.name(),
-                        email: mock.Random.email(),
-                        nickname: mock.Random.string(),
-                        telephone: mock.Random.string(),
-                    },
-                    avatarUrl: mock.Random.image(),
-                },
-
-                lastModifyTime: new Date(),
-                coverImgUrl: mock.Random.image('720x300'),
-                commentsAmount: 0,
+                auth: mock.Random.name(),
+                email: mock.Random.email(),
+                nickname: mock.Random.string(),
+                telephone: mock.Random.string(),
             },
-            coverImgUrl: mock.Random.image('720x300'),
-        };
+        },
+        approval: 10,
+        createTime: new Date(),
+        tags: ['test'],
+        read: 12,
+        title: mock.Random.title(),
+        id: mock.Random.id(),
+        content: mock.Random.paragraph(1, 20),
     });
+    ctx.body = new Array(8).fill(8).map(Response);
 });
 
 router.post('/index/QAs/rank', async (ctx) => {
-    const Videos = new Array(10).fill(0).map<AjaxJson.QA>((_, i) => {
-        return {
-            ...f(i),
-            answer: [],
-            question: {
-                comments: [],
-                id: mock.Random.id(),
+    const Response: () => AjaxJson.IndexRankQA = () => ({
+        author: {
+            avatarUrl: 'https://dummyimage.com/100x100',
+            Account: {
                 createTime: new Date(),
-                title: mock.Random.title(1),
-                content: mock.Random.paragraph(3),
-                like: [],
-                read: mock.Random.integer(0, 1000),
-                marked: false,
-                approval: mock.Random.integer(0, 1000),
-                disapproval: 0,
-                markAmount: 0,
-                modifyTime: [new Date()],
-                tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
-                liked: false,
-                author: {
-                    Account: {
-                        createTime: new Date(),
-                        auth: mock.Random.name(),
-                        email: mock.Random.email(),
-                        nickname: mock.Random.string(),
-                        telephone: mock.Random.string(),
-                    },
-                    avatarUrl: mock.Random.image(),
-                },
-
-                lastModifyTime: new Date(),
-                coverImgUrl: mock.Random.image('720x300'),
-                commentsAmount: 0,
+                auth: mock.Random.name(),
+                email: mock.Random.email(),
+                nickname: mock.Random.string(),
+                telephone: mock.Random.string(),
             },
-            coverImgUrl: mock.Random.image('150x150'),
-        };
+        },
+        approval: 10,
+        createTime: new Date(),
+        tags: ['test'],
+        read: 12,
+        title: mock.Random.title(),
+        id: mock.Random.id(),
     });
-    ctx.body = Videos.sort((a, b) => a.like.length - b.like.length);
+    ctx.body = new Array(8)
+        .fill(8)
+        .map(Response)
+        .sort((a, b) => a.approval - b.approval);
 });
 
 router.post('/index/videos/recommend', async (ctx) => {
@@ -225,43 +192,29 @@ router.post('/article/tags/:tag', async (ctx) => {
 });
 
 router.post('/QA/tags/:tag', async (ctx) => {
-    ctx.body = new Array(10).fill(0).map<AjaxJson.QA>((_, i) => {
-        return {
-            ...f(i),
-            answer: [],
-            question: {
-                comments: [],
-                id: mock.Random.id(),
+    const Response: () => AjaxJson.QA = () => ({
+        author: {
+            avatarUrl: 'https://dummyimage.com/100x100',
+            Account: {
                 createTime: new Date(),
-                title: mock.Random.title(1),
-                content: mock.Random.paragraph(3),
-                like: [],
-                read: mock.Random.integer(0, 1000),
-                marked: false,
-                approval: mock.Random.integer(0, 1000),
-                disapproval: 0,
-                markAmount: 0,
-                modifyTime: [new Date()],
-                tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
-                liked: false,
-                author: {
-                    Account: {
-                        createTime: new Date(),
-                        auth: mock.Random.name(),
-                        email: mock.Random.email(),
-                        nickname: mock.Random.string(),
-                        telephone: mock.Random.string(),
-                    },
-                    avatarUrl: mock.Random.image(),
-                },
-
-                lastModifyTime: new Date(),
-                coverImgUrl: mock.Random.image('720x300'),
-                commentsAmount: 0,
+                auth: mock.Random.name(),
+                email: mock.Random.email(),
+                nickname: mock.Random.string(),
+                telephone: mock.Random.string(),
             },
-            coverImgUrl: mock.Random.image('150x150'),
-        };
+        },
+        approval: 10,
+        createTime: new Date(),
+        tags: ['test'],
+        read: 12,
+        title: mock.Random.title(),
+        id: mock.Random.id(),
+        content: mock.Random.paragraph(1, 20),
+        answerAmount: 0,
+        answer: [],
+        disapproval: 0,
     });
+    ctx.body = new Array(8).fill({}).map(Response);
 });
 
 router.post('/activity/tags/:tags', async (ctx) => {
@@ -372,6 +325,32 @@ router.get('/article/:id', async (ctx) => {
         commentsAmount: 0,
     };
     ctx.body = Res;
+});
+
+router.get('/QA/:id', async (ctx) => {
+    const Response: () => AjaxJson.QA = () => ({
+        author: {
+            avatarUrl: 'https://dummyimage.com/100x100',
+            Account: {
+                createTime: new Date(),
+                auth: mock.Random.name(),
+                email: mock.Random.email(),
+                nickname: mock.Random.string(),
+                telephone: mock.Random.string(),
+            },
+        },
+        approval: 10,
+        createTime: new Date(),
+        tags: ['test'],
+        read: 12,
+        title: mock.Random.title(),
+        id: mock.Random.id(),
+        content: mock.Random.paragraph(1, 20),
+        answerAmount: 0,
+        answer: [],
+        disapproval: 0,
+    });
+    ctx.body = Response();
 });
 
 App.use(router.routes());
