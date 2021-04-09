@@ -17,19 +17,14 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
     <Col
         span={22}
         onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            location.href = `/${QA.authors[0].Account.auth}/QA/${QA.id}`;
+            location.href = `/QA/${QA.id}`;
         }}
         offset={1}
         style={{ margin: '2px 0' }}
         className="Detail"
     >
         <Row>
-            <Col span={8}>
-                <img width="100%" src={QA.coverImgUrl} alt={QA.title} />
-            </Col>
-            <Col span={15} offset={1}>
+            <Col span={24}>
                 <Card
                     bordered={false}
                     bodyStyle={{ padding: 0 }}
@@ -40,16 +35,15 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                                 <Row className="actionContain">
                                     {QA.tags.slice(0, 4).map((tag) => (
                                         <Col
-                                            key={tag.name}
+                                            key={tag}
                                             span={2}
                                             className="action"
                                             onClick={(e) => {
-                                                e.preventDefault();
                                                 e.stopPropagation();
-                                                location.href = `/tags/${tag.name}`;
+                                                location.href = `/tags/${tag}`;
                                             }}
                                         >
-                                            <Tag color="blue">{tag.name}</Tag>
+                                            <Tag color="blue">{tag}</Tag>
                                         </Col>
                                     ))}
                                 </Row>
@@ -79,11 +73,25 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                         <Col span={24} className="title action">
                             {QA.title}
                         </Col>
-                        <AvatarLink
-                            to={`/user/${QA.authors[0].Account.auth}`}
-                            src={QA.authors[0].avatarUrl}
-                            name={QA.authors[0].Account.nickname}
-                        />
+                        <Col
+                            span={24}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start',
+                            }}
+                        >
+                            <AvatarLink
+                                to={`/user/${QA.author.Account.auth}`}
+                                src={QA.author.avatarUrl}
+                                name={QA.author.Account.nickname}
+                            />
+                        </Col>
+                        <Col
+                            span={24}
+                            style={{ height: 60, overflow: 'hidden' }}
+                        >
+                            {QA.content}
+                        </Col>
                     </Row>
                 </Card>
             </Col>

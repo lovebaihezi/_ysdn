@@ -14,7 +14,7 @@ import { AjaxJson } from '../../../../interface';
 import Action from '../../../../component/Action';
 
 const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
-    <Action tagPosition="right" tags={QA.tags.map((c) => c.name)}>
+    <Action tagPosition="right" tags={QA.tags}>
         <Row className="actionContain">
             <Col span={4}>
                 <Button type="primary" color="">
@@ -23,7 +23,7 @@ const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
                 </Button>
             </Col>
             <Col span={4} offset={1}>
-                <Button color="blue">{`${QA.answer.length} answers`}</Button>
+                <Button color="blue">{`${QA.answerAmount} answers`}</Button>
             </Col>
             <Col
                 offset={1}
@@ -34,7 +34,8 @@ const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
                 <span style={{ padding: '0 4px' }}>{QA.read}</span>
             </Col>
             <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
-                <LikeOutlined /> <span style={{ padding: '0 4px' }}>{QA.approval}</span>
+                <LikeOutlined />{' '}
+                <span style={{ padding: '0 4px' }}>{QA.approval}</span>
             </Col>
             <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
                 <StarOutlined />
@@ -58,11 +59,11 @@ const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) =>
                                 style={{ cursor: 'pointer' }}
                             >
                                 <Card.Meta
-                                    title={QA.authors[0].Account.nickname}
+                                    title={QA.author.Account.nickname}
                                     avatar={
-                                        <Avatar src={QA.authors[0].avatarUrl} />
+                                        <Avatar src={QA.author.avatarUrl} />
                                     }
-                                    description={QA.question.title}
+                                    description={QA.title}
                                 />
                             </Card>
                             <Actions QA={QA} />

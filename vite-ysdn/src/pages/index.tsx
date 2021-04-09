@@ -1,18 +1,19 @@
+import Login from './Login';
+import Register from './Register';
 import { FC, useEffect } from 'react';
 import { Col, Row, Spin } from 'antd';
 import NavBar from '../component/NavBar';
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Login from './Login';
-import Register from './Register';
 
 const QA = lazy(() => import('./Main/QA'));
+const User = lazy(() => import('./each/user'));
+const QAPage = lazy(() => import('./each/QA'));
 const Video = lazy(() => import('./Main/Video'));
 const Article = lazy(() => import('./Main/Article'));
 const Index = lazy(() => import('./Main/IndexPage'));
 const Activities = lazy(() => import('./Main/Activity'));
 const ArticlePage = lazy(() => import('./each/article'));
-const User = lazy(() => import('./each/user'));
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
@@ -41,6 +42,8 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     </Row>
 );
 
+// TODO : collect all pages into Array....
+
 export default function Pages() {
     useEffect(() => {
         console.log('!');
@@ -68,6 +71,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/article/:id">
                             <Render Lazy={ArticlePage} />
+                        </Route>
+                        <Route path="/QA/:id">
+                            <Render Lazy={QAPage} />
                         </Route>
                         <Route path="/user/:id">
                             <Render Lazy={User} />

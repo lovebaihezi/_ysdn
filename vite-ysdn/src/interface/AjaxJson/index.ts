@@ -96,13 +96,18 @@ declare namespace AjaxJson {
 
     type userPageInfo = Omit<user, 'Account'> & { id: _id };
 
-    interface comment extends Omit<production, 'authors'> {
-        reply: reply[];
+    interface comment {
+        content: string;
         author: userInfo;
+        answerTime: Date;
+        approval: number;
+        reply: reply[];
+        disapproval: number;
+        comments: comment[];
     }
 
     interface reply {
-        replay: reply;
+        replay: reply[];
         content: string;
         createTime: Date;
         author: userInfo;
@@ -115,18 +120,30 @@ declare namespace AjaxJson {
         lastModifyTime: Date;
     }
 
-    interface QA extends production {
-        answer: answer[];
-        question: question;
-        coverImgUrl: string;
+    interface QA extends question {
+        answerAmount: number;
+        id: string;
+        answer : answer[];
     }
 
-    interface question extends Omit<production, 'authors'> {
+    interface question {
+        read: number;
+        title: string;
+        tags: string[];
+        content: string;
         author: userInfo;
+        createTime: Date;
+        approval: number;
+        disapproval : number;
     }
 
-    interface answer extends Omit<production, 'authors'> {
+    interface answer {
+        content: string;
         author: userInfo;
+        answerTime: Date;
+        approval: number;
+        disapproval: number;
+        comments: comment[];
     }
 
     interface video extends production {
@@ -180,20 +197,12 @@ declare namespace AjaxJson {
 
     type IndexDetailQA = Pick<
         QA,
-        | 'authors'
-        | 'question'
-        | 'title'
-        | 'createTime'
-        | 'id'
-        | 'approval'
-        | 'read'
-        | 'coverImgUrl'
-        | 'tags'
+        'author' | 'title' | 'id' | 'approval' | 'read' | 'tags' | 'content'
     >;
 
     type IndexRankQA = Pick<
         QA,
-        'authors' | 'title' | 'id' | 'approval' | 'read'
+        'author' | 'title' | 'id' | 'approval' | 'read'
     >;
 }
 

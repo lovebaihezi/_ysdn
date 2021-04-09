@@ -30,9 +30,9 @@ const QARank: Component<AjaxJson.IndexRankQA[]> = ({ Response }) => {
                                         <Row>
                                             <Col span={4}>
                                                 <AvatarLink
-                                                    to={`/user/${QA.authors[0].Account.auth}`}
+                                                    to={`/user/${QA.author.Account.auth}`}
                                                     name={
-                                                        QA.authors[0].Account
+                                                        QA.author.Account
                                                             .nickname
                                                     }
                                                 />
