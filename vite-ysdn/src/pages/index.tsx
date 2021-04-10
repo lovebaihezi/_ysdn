@@ -14,6 +14,15 @@ const Article = lazy(() => import('./Main/Article'));
 const Index = lazy(() => import('./Main/IndexPage'));
 const Activities = lazy(() => import('./Main/Activity'));
 const ArticlePage = lazy(() => import('./each/article'));
+const UpdatePAge = lazy(() => import('./each/update'));
+
+const LazySpinStyle = {
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+};
 
 const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     Lazy,
@@ -21,16 +30,7 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     <Row justify="center">
         <Suspense
             fallback={
-                <Col
-                    span={24}
-                    style={{
-                        display: 'flex',
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
+                <Col span={24} style={LazySpinStyle}>
                     <Spin size="large" />
                 </Col>
             }
@@ -42,7 +42,7 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     </Row>
 );
 
-// TODO : collect all pages into Array....
+// ! collect all pages into Array.... <- maybe impossible and hard to do..
 
 export default function Pages() {
     useEffect(() => {
@@ -77,6 +77,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/user/:id">
                             <Render Lazy={User} />
+                        </Route>
+                        <Route path="/update/:name">
+                            <Render Lazy={UpdatePAge} />
                         </Route>
                         <Route path="/login">
                             <Login />

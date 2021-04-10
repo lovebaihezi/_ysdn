@@ -14,8 +14,8 @@ export default function NavBar() {
     const [info] = useUserDetail();
     return (
         <Row className="NavBar outSide">
-            <Col span={4} className="Split">
-                <h1 style={{ margin: 0 }}>LOGO</h1>
+            <Col span={4}>
+                <h1  className="Split" style={{ margin: 0 }}>LOGO</h1>
             </Col>
             <Col span={10}>
                 <Row className="Split">
