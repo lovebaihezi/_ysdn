@@ -11,12 +11,6 @@ export default function Editor() {
     const [value, setValue] = useState(state);
     return (
         <Row>
-            {/* <Col span={12}>
-                <ReactQuill value={value} onChange={setValue} />
-            </Col>
-            <Col span={12}>
-                <ReactMarkdown source={value} />
-            </Col> */}
             <Col span={24} style={{ border: '1px solid gray' }}>
                 <BraftEditor value={value} onChange={setValue} />
             </Col>

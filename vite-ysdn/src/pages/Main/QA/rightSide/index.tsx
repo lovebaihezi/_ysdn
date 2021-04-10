@@ -17,11 +17,11 @@ export default function Extra() {
                         type="primary"
                         onClick={() => {
                             const id = sessionStorage.getItem('id');
-                            if (id) {
-                                location.href = `/${id}/update/article`;
-                            } else {
-                                location.href = `/login`;
-                            }
+                            // if (id) {
+                                location.href = `/update/QA`;
+                            // } else {
+                                // location.href = `/login`;
+                            // }
                         }}
                     >
                         <EditOutlined />
