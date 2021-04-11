@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd';
 import React, { useMemo } from 'react';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { baseurl } from '../../../auth';
 import Ajax from '../../../component/AjaxResponse';
 import TagSwitch, { useTag } from '../../../component/tagSwitch';
@@ -40,6 +41,7 @@ export default function Video() {
                         'security',
                         'project',
                     ]}
+                    tabBarExtraContent={<Link to="/update/video">submit</Link>}
                 >
                     <TagSwitch tags={['Hottest', 'Newest']}>
                         <MainContain />
