@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { baseurl, Token, UserDetail } from './auth';
 import Pages from './pages/';
 
@@ -15,6 +15,10 @@ import check from './tools/check';
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
     const S = useCallback((t: AjaxJson.userDetail) => setDetail(t), []);
+    const value: [
+        AjaxJson.userDetail | null,
+        (P: AjaxJson.userDetail) => void,
+    ] = [userDetail, S];
     const f = async (token: string) => {
         const res = await fetch(baseurl + '/tokenLogin', {
             method: 'POST',
@@ -27,6 +31,7 @@ const Context: FC = ({ children }) => {
         }
     };
     useEffect(() => {
+        console.log('context refresh!');
         const token = localStorage.getItem('token');
         if (token !== null) {
             f(token)
@@ -40,21 +45,17 @@ const Context: FC = ({ children }) => {
             });
         }
     }, []);
-    return (
-        <UserDetail.Provider value={[userDetail, S]}>
-            {children}
-        </UserDetail.Provider>
-    );
+    return <UserDetail.Provider value={value}>{children}</UserDetail.Provider>;
 };
 
+const Browser = () => (
+    <BrowserRouter>
+        <Pages />
+    </BrowserRouter>
+);
+
 function App() {
-    return (
-        <Context>
-            <BrowserRouter>
-                <Pages />
-            </BrowserRouter>
-        </Context>
-    );
+    return <Context>{Browser()}</Context>;
 }
 
 export default App;

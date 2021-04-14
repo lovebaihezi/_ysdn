@@ -5,6 +5,7 @@ import Ajax, { Component } from '../../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../../interface';
 import { EyeOutlined, LikeOutlined } from '@ant-design/icons';
 import AvatarLink from '../../../../../../component/avatarLink';
+import { Link } from 'react-router-dom';
 
 const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     return (
@@ -12,52 +13,49 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
             <Row>
                 {Response.slice(0, 10).map((article, index) => (
                     <Col key={article.id} span={24}>
-                        <Row>
-                            <Col span={6}></Col>
-                            <Col
-                                span={18}
-                                onClick={(e) => {
-                                    location.href = `/article/${article.id}`;
-                                }}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <Card
-                                    bordered={false}
-                                    bodyStyle={{ padding: 0 }}
-                                    title={article.title}
-                                    headStyle={{ padding: 0 }}
-                                    actions={[
-                                        <Row>
-                                            <Col span={4}>
-                                                <AvatarLink
-                                                    to={`/user/${article.authors[0].Account.auth}`}
-                                                    name={
-                                                        article.authors[0]
-                                                            .Account.nickname
-                                                    }
-                                                />
-                                            </Col>
-                                            <Col span={20}>
-                                                <Row justify="end">
-                                                    <Col span={4}>
-                                                        <EyeOutlined />
-                                                    </Col>
-                                                    <Col span={4}>
-                                                        {article.read}
-                                                    </Col>
-                                                    <Col span={4}>
-                                                        <LikeOutlined />
-                                                    </Col>
-                                                    <Col span={4}>
-                                                        {article.approval}
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-                                        </Row>,
-                                    ]}
-                                />
-                            </Col>
-                        </Row>
+                        <Link to={`/article/${article.id}`}>
+                            <Row>
+                                <Col span={6}></Col>
+                                <Col span={18} style={{ cursor: 'pointer' }}>
+                                    <Card
+                                        bordered={false}
+                                        bodyStyle={{ padding: 0 }}
+                                        title={article.title}
+                                        headStyle={{ padding: 0 }}
+                                        actions={[
+                                            <Row>
+                                                <Col span={4}>
+                                                    <AvatarLink
+                                                        to={`/user/${article.authors[0].Account.auth}`}
+                                                        name={
+                                                            article.authors[0]
+                                                                .Account
+                                                                .nickname
+                                                        }
+                                                    />
+                                                </Col>
+                                                <Col span={20}>
+                                                    <Row justify="end">
+                                                        <Col span={4}>
+                                                            <EyeOutlined />
+                                                        </Col>
+                                                        <Col span={4}>
+                                                            {article.read}
+                                                        </Col>
+                                                        <Col span={4}>
+                                                            <LikeOutlined />
+                                                        </Col>
+                                                        <Col span={4}>
+                                                            {article.approval}
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>,
+                                        ]}
+                                    />
+                                </Col>
+                            </Row>
+                        </Link>
                     </Col>
                 ))}
             </Row>

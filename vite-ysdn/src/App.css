@@ -23,3 +23,7 @@ a {
     font-size: 20px;
     padding: 10px 2px;
 }
+
+.action {
+    cursor: pointer;
+}

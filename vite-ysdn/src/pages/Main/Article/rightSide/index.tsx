@@ -1,8 +1,18 @@
-import { Button, Card, Col, Row } from 'antd';
+import { Button, Card, Col, message, Row } from 'antd';
 import React from 'react';
 import Periodicals from './periodicals';
 
 import { EditOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+
+const f = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.stopPropagation();
+    const t = localStorage.getItem('token');
+    if (t === null) {
+        e.preventDefault();
+        message.info("you haven't login yet!");
+    }
+};
 
 export default function Extra() {
     return (
@@ -16,17 +26,11 @@ export default function Extra() {
                             height: 'max-content',
                         }}
                         type="primary"
-                        onClick={() => {
-                            const id = sessionStorage.getItem('id');
-                            // if (id) {
-                            location.href = `/update/article`;
-                            // } else {
-                            // location.href = `/login`;
-                            // }
-                        }}
                     >
-                        <EditOutlined />
-                        Write Article
+                        <Link onClick={f} to="/update/article">
+                            <EditOutlined />
+                            Write Article
+                        </Link>
                     </Button>
                 </Card>
             </Col>
