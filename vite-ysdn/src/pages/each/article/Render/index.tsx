@@ -18,7 +18,7 @@ const Render: Component<AjaxJson.article> = ({ Response }) => {
                         <Col span={8}></Col>
                         <Col span={16}>
                             <MarkdownView
-                                markdown={Response.content.repeat(10)}
+                                markdown={Response.content.repeat(12)}
                             />
                         </Col>
                     </Row>

@@ -17,13 +17,8 @@ import { Link } from 'react-router-dom';
 const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     article,
 }) => (
-    <Link to={`/article/${article.id}`}>
-        <Col
-            span={22}
-            offset={1}
-            style={{ margin: '2px 0' }}
-            className="Detail"
-        >
+    <Col span={22} offset={1} style={{ margin: '2px 0' }} className="Detail">
+        <Link to={`/article/${article.id}`}>
             <Row>
                 <Col span={8}>
                     <img
@@ -79,8 +74,8 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                     </Card>
                 </Col>
             </Row>
-        </Col>
-    </Link>
+        </Link>
+    </Col>
 );
 
 const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({

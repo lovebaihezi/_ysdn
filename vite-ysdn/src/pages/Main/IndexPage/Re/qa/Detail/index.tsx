@@ -12,44 +12,21 @@ import {
 import { FC } from 'react';
 import './Detail.css';
 import AvatarLink from '../../../../../../component/avatarLink';
+import Action from '../../../../../../component/Action';
+import { Link } from 'react-router-dom';
 
 const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
-    <Col
-        span={22}
-        onClick={(e) => {
-            location.href = `/QA/${QA.id}`;
-        }}
-        offset={1}
-        style={{ margin: '2px 0' }}
-        className="Detail"
-    >
-        <Row>
-            <Col span={24}>
-                <Card
-                    bordered={false}
-                    bodyStyle={{ padding: 0 }}
-                    headStyle={{ padding: 0 }}
-                    actions={[
-                        <Row justify="end">
-                            <Col span={12}>
-                                <Row className="actionContain">
-                                    {QA.tags.slice(0, 4).map((tag) => (
-                                        <Col
-                                            key={tag}
-                                            span={2}
-                                            className="action"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                location.href = `/tags/${tag}`;
-                                            }}
-                                        >
-                                            <Tag color="blue">{tag}</Tag>
-                                        </Col>
-                                    ))}
-                                </Row>
-                            </Col>
-                            <Col span={12}>
-                                <Row className="actionContain" justify="end">
+    <Col span={22} offset={1} style={{ margin: '2px 0' }} className="Detail">
+        <Link to={`/QA/${QA.id}`}>
+            <Row>
+                <Col span={24}>
+                    <Card
+                        bordered={false}
+                        bodyStyle={{ padding: 0 }}
+                        headStyle={{ padding: 0 }}
+                        actions={[
+                            <Action tags={QA.tags.map((c) => c)}>
+                                <Row style={{ width: '100%' }} justify="end">
                                     <Col className="action">
                                         <EyeOutlined />
                                         {QA.read}
@@ -65,37 +42,37 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                                         <StarOutlined />
                                     </Col>
                                 </Row>
+                            </Action>,
+                        ]}
+                    >
+                        <Row className="actionContain">
+                            <Col span={24} className="title action">
+                                {QA.title}
                             </Col>
-                        </Row>,
-                    ]}
-                >
-                    <Row className="actionContain">
-                        <Col span={24} className="title action">
-                            {QA.title}
-                        </Col>
-                        <Col
-                            span={24}
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                            }}
-                        >
-                            <AvatarLink
-                                to={`/user/${QA.author.Account.auth}`}
-                                src={QA.author.avatarUrl}
-                                name={QA.author.Account.nickname}
-                            />
-                        </Col>
-                        <Col
-                            span={24}
-                            style={{ height: 60, overflow: 'hidden' }}
-                        >
-                            {QA.content}
-                        </Col>
-                    </Row>
-                </Card>
-            </Col>
-        </Row>
+                            <Col
+                                span={24}
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                }}
+                            >
+                                <AvatarLink
+                                    to={`/user/${QA.author.Account.auth}`}
+                                    src={QA.author.avatarUrl}
+                                    name={QA.author.Account.nickname}
+                                />
+                            </Col>
+                            <Col
+                                span={24}
+                                style={{ height: 60, overflow: 'hidden' }}
+                            >
+                                {QA.content}
+                            </Col>
+                        </Row>
+                    </Card>
+                </Col>
+            </Row>
+        </Link>
     </Col>
 );
 
@@ -108,12 +85,9 @@ const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => {
                     bodyStyle={{ padding: '2px 16px' }}
                     title="QA"
                     extra={
-                        <strong
-                            style={{ cursor: 'pointer' }}
-                            onClick={(e) => {
-                                location.href = '/QA';
-                            }}
-                        >{`more >`}</strong>
+                        <Link to="/QAs">
+                            <strong>{`more >`}</strong>
+                        </Link>
                     }
                 >
                     <Row>

@@ -17,14 +17,13 @@ const Action: FC<{ tags?: string[]; tagPosition?: 'right' | 'left' }> = ({
                         style={{ height: '100%' }}
                         justify={tagPosition === 'left' ? 'start' : 'end'}
                     >
-                        {tags.map((tag) => (
+                        {tags.slice(0, 6).map((tag) => (
                             <Col
                                 style={{
                                     height: '100%',
                                     display: 'flex',
                                     alignItems: 'center',
                                 }}
-                                span={24 / tags.length}
                                 key={tag}
                             >
                                 <TagLink to={`/tags/${tag}`}>{tag}</TagLink>

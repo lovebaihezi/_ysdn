@@ -15,7 +15,7 @@ import Action from '../../../../component/Action';
 
 const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
     <Action tagPosition="right" tags={QA.tags}>
-        <Row className="actionContain">
+        <Row>
             <Col span={4}>
                 <Button type="primary" color="">
                     <PlusOutlined />
