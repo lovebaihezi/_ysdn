@@ -1,0 +1,9 @@
+.editor {
+    height: max-content;
+    min-height: 720px;
+    padding: 10px;
+}
+
+.editor:focus {
+    outline: none;
+}

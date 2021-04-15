@@ -52,7 +52,9 @@ export default function Submit({
                             </Col>
                             <Col>
                                 <h3>
-                                    <strong>{title}</strong>
+                                    <strong>
+                                        {title === '' ? 'no title' : title}
+                                    </strong>
                                 </h3>
                                 {tips ? (
                                     <p>{tips}</p>
@@ -79,7 +81,9 @@ export default function Submit({
                             }}
                             placeholder={placeholder ?? 'title'}
                         />
-                        <Editor />
+                    </Col>
+                    <Col span={24}>
+                        <Editor onInput={console.log} />
                     </Col>
                 </Row>
             </Col>
