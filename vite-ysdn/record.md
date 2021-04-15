@@ -39,3 +39,13 @@
 点开频次,滞留时长等数据进行权值计算并作为推荐依据来进行个性化推荐
 
 ### 前期问题改进
+
+### bug : 
+
+#### UI :
+
+index page carousel style bug
+
+### feature : 
+
+chooseTags button merge
