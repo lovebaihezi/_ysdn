@@ -23,7 +23,7 @@ const time = (S: Date, E: Date) => {
         return 'in';
     }
 };
-
+// todo : add link for whole activity
 const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
     return (
         <Row>

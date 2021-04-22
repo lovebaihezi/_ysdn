@@ -22,6 +22,8 @@ const MainContain: FC = () => {
     );
 };
 
+
+//todo : 
 export default function Activities() {
     return (
         <Row>

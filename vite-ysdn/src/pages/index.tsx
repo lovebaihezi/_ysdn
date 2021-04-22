@@ -42,7 +42,7 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
     </Row>
 );
 
-// ! collect all pages into Array.... <- maybe impossible and hard to do..
+// todo : your logic!!!, write it down!
 
 export default function Pages() {
     useEffect(() => {
