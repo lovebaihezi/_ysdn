@@ -2,7 +2,7 @@ import { Button, Card, Col, Row } from 'antd';
 import React from 'react';
 import { Component } from '../../../../component/AjaxResponse';
 import AvatarLink from '../../../../component/avatarLink';
-import TagLink from '../../../../component/tag';
+import TagLink from '../../../../component/Tag';
 import { AjaxJson } from '../../../../interface';
 import MarkdownView from 'react-showdown';
 import { Comment } from 'antd';

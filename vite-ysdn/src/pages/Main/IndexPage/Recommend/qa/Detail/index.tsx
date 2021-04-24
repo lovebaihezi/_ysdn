@@ -12,8 +12,14 @@ import {
 import { FC } from 'react';
 import './Detail.css';
 import AvatarLink from '../../../../../../component/avatarLink';
-import Action from '../../../../../../component/Action';
 import { Link } from 'react-router-dom';
+import UserLink from '../../../../../../component/userLink';
+import {
+    AnswerButton,
+    FollowButton,
+    LikeButton,
+    ReadButton,
+} from '../../../../../../component/actionButton';
 
 const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
     <Col span={22} offset={1} style={{ margin: '2px 0' }} className="Detail">
@@ -25,24 +31,10 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                         bodyStyle={{ padding: 0 }}
                         headStyle={{ padding: 0 }}
                         actions={[
-                            <Action tags={QA.tags.map((c) => c)}>
-                                <Row style={{ width: '100%' }} justify="end">
-                                    <Col className="action">
-                                        <EyeOutlined />
-                                        {QA.read}
-                                    </Col>
-                                    <Col className="action">
-                                        <LikeOutlined />
-                                        {QA.approval}
-                                    </Col>
-                                    <Col className="action">
-                                        <CommentOutlined />
-                                    </Col>
-                                    <Col className="action">
-                                        <StarOutlined />
-                                    </Col>
-                                </Row>
-                            </Action>,
+                            <AnswerButton amount={13} />,
+                            <FollowButton amount={17} initial={false} />,
+                            <ReadButton amount={14} link={''} />,
+                            <LikeButton amount={15} initial={false} />,
                         ]}
                     >
                         <Row className="actionContain">
@@ -56,11 +48,7 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
                                     justifyContent: 'flex-start',
                                 }}
                             >
-                                <AvatarLink
-                                    to={`/user/${QA.author.Account.auth}`}
-                                    src={QA.author.avatarUrl}
-                                    name={QA.author.Account.nickname}
-                                />
+                                <UserLink user={QA.author} />
                             </Col>
                             <Col
                                 span={24}

@@ -2,9 +2,10 @@ import { Button, Col, Row } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserDetail } from '../../auth';
-import AvatarLink from '../avatarLink';
 import { MenuLink } from '../MenuLink';
 import Searcher from '../search';
+import UserLink from '../userLink';
+import { MessageOutlined } from '@ant-design/icons';
 
 import './NavBar.css';
 
@@ -15,7 +16,9 @@ export default function NavBar() {
     return (
         <Row className="NavBar outSide">
             <Col span={4}>
-                <h1  className="Split" style={{ margin: 0 }}>LOGO</h1>
+                <h1 className="Split" style={{ margin: 0 }}>
+                    LOGO
+                </h1>
             </Col>
             <Col span={10}>
                 <Row className="Split">
@@ -26,25 +29,34 @@ export default function NavBar() {
                     ))}
                 </Row>
             </Col>
-            <Col span={10}>
-                <Row className="Split">
-                    <Col span={14}>
-                        <Searcher />
-                    </Col>
-                    <Col span={6} offset={2}>
-                        {info ? (
-                            <AvatarLink
-                                name={info.nickname}
-                                src={info.avatarUrl}
-                                to={`/user/${info.username}`}
-                            />
-                        ) : (
-                            <Link to="/login">
-                                <Button>Login</Button>
-                            </Link>
-                        )}
-                    </Col>
-                </Row>
+            <Col
+                span={5}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Searcher />
+            </Col>
+            <Col
+                span={5}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                {info ? (
+                    <>
+                        <MessageOutlined />
+                        <UserLink user={info} />
+                    </>
+                ) : (
+                    <Link to="/login">
+                        <Button>Login</Button>
+                    </Link>
+                )}
             </Col>
         </Row>
     );

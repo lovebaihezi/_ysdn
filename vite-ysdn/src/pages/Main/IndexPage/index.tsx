@@ -2,10 +2,10 @@ import { Row, Col, Skeleton } from 'antd';
 import React, { lazy, Suspense } from 'react';
 import NavBar from '../../../component/NavBar';
 import Carousel from './carousel';
-const IndexArticle = lazy(() => import('./Re/article'));
-const IndexQA = lazy(() => import('./Re/qa'));
-const IndexMo = lazy(() => import('./Re/monograph'));
-const IndexVideo = lazy(() => import('./Re/video'));
+const IndexArticle = lazy(() => import('./Recommend/article'));
+const IndexQA = lazy(() => import('./Recommend/qa'));
+const IndexMo = lazy(() => import('./Recommend/monograph'));
+const IndexVideo = lazy(() => import('./Recommend/video'));
 
 export default function IndexPage() {
     return (

@@ -3,21 +3,21 @@ import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
 import { Component } from '../../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../../interface';
-import {
-    EyeOutlined,
-    LikeOutlined,
-    CommentOutlined,
-    StarOutlined,
-} from '@ant-design/icons';
-
 import { FC } from 'react';
-import AvatarLink from '../../../../../../component/avatarLink';
 import { Link } from 'react-router-dom';
+import UserLink from '../../../../../../component/userLink';
+import {
+    LikeButton,
+    MarkButton,
+    CommentButton,
+    ReadButton,
+} from '../../../../../../component/actionButton';
+import Tags from '../../../../../../component/Tags';
 
 const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     article,
 }) => (
-    <Col span={22} offset={1} style={{ margin: '2px 0' }} className="Detail">
+    <Col span={24} style={{ margin: '2px 0' }} className="Detail">
         <Link to={`/article/${article.id}`}>
             <Row>
                 <Col span={8}>
@@ -33,30 +33,11 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                         bodyStyle={{ padding: 0 }}
                         headStyle={{ padding: 0 }}
                         actions={[
-                            <Row justify="end">
-                                <Col span={12}>
-                                    <Row
-                                        className="actionContain"
-                                        justify="end"
-                                    >
-                                        <Col className="action">
-                                            <EyeOutlined />
-                                            {article.read}
-                                        </Col>
-                                        <Col className="action">
-                                            <LikeOutlined />
-                                            {article.approval}
-                                        </Col>
-                                        <Col className="action">
-                                            <CommentOutlined />
-                                            {article.commentsAmount}
-                                        </Col>
-                                        <Col className="action">
-                                            <StarOutlined />
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>,
+                            <Tags tags={['test']} />,
+                            <LikeButton amount={12} initial={true} />,
+                            <MarkButton amount={12} initial={true} />,
+                            <CommentButton amount={12} link={''} />,
+                            <ReadButton amount={12} link={''} />,
                         ]}
                     >
                         <Row className="actionContain">
@@ -64,11 +45,7 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                                 {article.title}
                             </Col>
                             <Col className="action">
-                                <AvatarLink
-                                    to={`/user/${article.authors[0].Account.auth}`}
-                                    src={article.authors[0].avatarUrl}
-                                    name={article.authors[0].Account.nickname}
-                                />
+                                <UserLink user={article.authors[0]} />
                             </Col>
                         </Row>
                     </Card>

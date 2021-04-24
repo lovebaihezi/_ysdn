@@ -62,25 +62,25 @@ declare namespace AjaxJson {
     type objectId = Mongoose.Types.ObjectId;
     type amount = number;
 
-    interface user {
-        email?: string;
-        auth: username;
-        createTime: Date;
-        nickname: string;
-        telephone: string;
-        avatarUrl: string;
-        follow: userInfo[];
-        follower: userInfo[];
-        informationBackImageUrl?: string;
-    }
-    interface auth {
-        username: username;
-        password: string;
-    }
+    // interface user {
+    //     email: string;
+    //     auth: username;
+    //     createTime: Date;
+    //     nickname: string;
+    //     telephone: string;
+    //     avatarUrl: string;
+    //     follow: userInfo[];
+    //     follower: userInfo[];
+    //     informationBackImageUrl?: string;
+    // }
+    // interface auth {
+    //     username: username;
+    //     password: string;
+    // }
 
-    type userInfo = Pick<user, 'avatarUrl' | 'auth' | 'nickname'>;
+    type userInfo = Pick<userDetail, 'avatarUrl' | 'username' | 'nickname'>;
 
-    type userPageInfo = Omit<user, 'Account'> & { id: _id };
+    type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
 
     interface comment {
         content: string;
