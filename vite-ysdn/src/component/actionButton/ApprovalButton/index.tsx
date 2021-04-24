@@ -14,17 +14,22 @@ export const LikeButton: FC<{
         <Row
             onClick={(e) => {
                 e.stopPropagation();
-                setState(!state);
-                if (state) {
-                    setAmounts(amounts - 1);
-                } else {
-                    setAmounts(amounts + 1);
-                }
-                onClick && onClick(state, amounts);
+                e.preventDefault();
             }}
         >
-            <Col span={24} className="actionButton">
-                <Button type="link">
+            <Col span={24}>
+                <Button
+                    onClick={(e) => {
+                        setState(!state);
+                        if (state) {
+                            setAmounts(amounts - 1);
+                        } else {
+                            setAmounts(amounts + 1);
+                        }
+                        onClick && onClick(state, amounts);
+                    }}
+                    type="link"
+                >
                     {state ? <LikeFilled /> : <LikeOutlined />}
                     {amounts}
                 </Button>

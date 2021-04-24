@@ -1,5 +1,4 @@
-import { Card, Col, Divider, Row } from 'antd';
-import Avatar from 'antd/lib/avatar/avatar';
+import { Card, Col, Row } from 'antd';
 import React from 'react';
 import { Component } from '../../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../../interface';
@@ -12,7 +11,7 @@ import {
     CommentButton,
     ReadButton,
 } from '../../../../../../component/actionButton';
-import Tags from '../../../../../../component/Tags';
+import Tags from '../../../../../../component/ActionTags';
 
 const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     article,
@@ -40,11 +39,9 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                             <ReadButton amount={12} link={''} />,
                         ]}
                     >
-                        <Row className="actionContain">
-                            <Col span={24} className="action title">
-                                {article.title}
-                            </Col>
-                            <Col className="action">
+                        <h2>{article.title}</h2>
+                        <Row>
+                            <Col span={8}>
                                 <UserLink user={article.authors[0]} />
                             </Col>
                         </Row>

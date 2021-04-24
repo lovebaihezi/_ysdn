@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Col, Row } from 'antd';
 import React, { FC, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -7,14 +7,18 @@ export const FollowButton: FC<{ amount: number; initial: boolean }> = ({
 }) => {
     const [] = useState();
     return (
-        <Button
+        <Row
             onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
             }}
-            type="default"
         >
-            follow
-            <PlusOutlined />
-        </Button>
+            <Col span={24}>
+                <Button type="default">
+                    follow
+                    <PlusOutlined />
+                </Button>
+            </Col>
+        </Row>
     );
 };

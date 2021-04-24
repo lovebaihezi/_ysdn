@@ -1,18 +1,17 @@
 import { Row, Col, Card, Divider, Button, Tag } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
-
-import {
-    EyeOutlined,
-    LikeOutlined,
-    CommentOutlined,
-    StarOutlined,
-} from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 
-import Action from '../../../../component/Action';
 import { Link } from 'react-router-dom';
+import {
+    LikeButton,
+    MarkButton,
+    CommentButton,
+    ReadButton,
+} from '../../../../component/actionButton';
+import Tags from '../../../../component/ActionTags';
 
 const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
     useMemo(
@@ -25,14 +24,23 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
                                 <Card
                                     bordered={false}
                                     title={article.title}
-                                    actions={[]}
+                                    actions={[
+                                        <Tags tags={['test']} />,
+                                        <LikeButton
+                                            amount={12}
+                                            initial={true}
+                                        />,
+                                        <MarkButton
+                                            amount={12}
+                                            initial={true}
+                                        />,
+                                        <CommentButton amount={12} link={''} />,
+                                        <ReadButton amount={12} link={''} />,
+                                    ]}
                                     headStyle={{ padding: 0, border: 0 }}
-                                    style={{ cursor: 'pointer' }}
                                 >
                                     <Card.Meta
-                                        title={
-                                            article.authors[0].Account.nickname
-                                        }
+                                        title={article.authors[0].toString()}
                                         avatar={
                                             <Avatar
                                                 src={
@@ -43,26 +51,6 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
                                         description={article.content}
                                     />
                                 </Card>
-                                <Action tags={article.tags.map((c) => c.name)}>
-                                    <Row
-                                        style={{ width: '100%' }}
-                                        justify="end"
-                                    >
-                                        <Col span={4}>
-                                            <EyeOutlined /> {article.read}
-                                        </Col>
-                                        <Col span={4}>
-                                            <LikeOutlined /> {article.approval}
-                                        </Col>
-                                        <Col span={4}>
-                                            <CommentOutlined />
-                                            {article.commentsAmount}
-                                        </Col>
-                                        <Col span={4}>
-                                            <StarOutlined />
-                                        </Col>
-                                    </Row>
-                                </Action>
                             </Link>
                             <Divider />
                         </Col>
