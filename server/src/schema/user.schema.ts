@@ -1,64 +1,39 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, ObjectId, SchemaTypes } from 'mongoose';
+// import { UserDto } from 'src/user/user.dto';
 
 export type UserDocument = User & Document;
-export type AuthDocument = Auth & Document;
-export type LikedRefDocument = LikedRef & Document;
-
-@Schema({})
-export class LikedRef {
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
-    })
-    article: string[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
-    })
-    video: string[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
-    })
-    comment: string[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
-    })
-    tag: string[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
-    })
-    question: string[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
-    })
-    answer: string[];
-}
+export type NotificationDocument = Notification & Document;
 
 @Schema({})
 export class User {
-    @Prop({ ref: 'Auth' })
-    Auth: string;
+    @Prop({ default: 'anonymous' })
     nickname: string;
 
-    @Prop({
-        type: [SchemaTypes.ObjectId, 'type in not allowed!'],
-        ref: LikedRef.name,
-    })
-    liked: LikedRef;
+    @Prop({ default: '' })
+    avatarUrl: string;
 
-    @Prop({ required: false })
-    avatarUrl?: string;
-
-    @Prop({ required: false })
+    @Prop({ required: false, default: '' })
     backgroundImage?: string;
-}
 
-@Schema({})
-export class Auth {
+    @Prop({ type: [{ type: SchemaTypes.ObjectId }], default: [] })
+    marks: string[];
+
+    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'User' }], default: [] })
+    follow: User[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'User' }],
+        default: [],
+    })
+    follower: User[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Notification' }],
+        default: [],
+    })
+    notifications: Notification[];
+
     @Prop({
         required: true,
         min: [8, 'username is less than 8'],
@@ -66,6 +41,7 @@ export class Auth {
         match: /[a-zA-Z0-9]{8,20}/g,
     })
     username: string; // this will simplify code when find
+
     @Prop({
         required: true,
         min: [8, 'password is less than 8'],
@@ -75,9 +51,90 @@ export class Auth {
     password: string;
 
     @Prop({ required: false, type: String })
-    email?: string;
+    email: string;
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
+        default: [],
+    })
+    articles: string[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
+        default: [],
+    })
+    videos: string[];
+
+    // @Prop({
+    //     type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
+    //     default: [],
+    // })
+    // comments: string[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
+        default: [],
+    })
+    tags: string[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
+        default: [],
+    })
+    questions: string[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
+        default: [],
+    })
+    answers: string[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
+        default: [],
+    })
+    activities: string[];
+
+    get liked() {
+        return undefined;
+    }
+}
+
+@Schema()
+export class Notification {
+    @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
+    sender: ObjectId;
+
+    @Prop()
+    body: string;
+
+    @Prop()
+    sendTime: Date;
+
+    @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
+    to: ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-export const AuthSchema = SchemaFactory.createForClass(Auth);
-export const LikeSchema = SchemaFactory.createForClass(LikedRef);
+UserSchema.loadClass(
+    class {
+        articles: string[];
+        videos: string[];
+        comments: string[];
+        tags: string[];
+        questions: string[];
+        answers: string[];
+        activities: string[];
+        get liked() {
+            return [
+                ...this.videos,
+                ...this.articles,
+                ...this.activities,
+                ...this.answers,
+                ...this.questions,
+            ];
+        }
+    },
+);
+UserSchema.set('toObject', { getters: true, virtual: true });
+export const NotificationSchema = SchemaFactory.createForClass(Notification);

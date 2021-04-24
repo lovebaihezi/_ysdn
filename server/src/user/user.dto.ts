@@ -1,35 +1,27 @@
-import { Auth, User } from '../schema/user.schema';
+import { AjaxJson } from 'src/interface';
 
-export class LikedRefDto {
-    article: string[];
-
-    video: string[];
-
-    comment: string[];
-
-    tag: string[];
-
-    question: string[];
-
-    answer: string[];
-}
-
-export class AuthDto implements Auth {
+export class UserDto implements AjaxJson.userDetail {
+    id: string;
+    marks: string[];
+    liked: string[];
+    follow: AjaxJson.userInfo[];
+    follower: AjaxJson.userInfo[];
+    notifications: AjaxJson.notification[];
+    nickname: string;
+    avatarUrl: string;
+    backgroundImage?: string;
     username: string;
     password: string;
-    email?: string;
-}
-
-export class UserDto implements User {
-    Auth: string; // |-> ref to Auth, this will be used when check user account valid
-    nickname: string;
-    avatarUrl?: string;
-    backgroundImage?: string;
-    liked: LikedRefDto;
+    email: string;
+    articles: string[];
+    videos: string[];
+    tags: string[];
+    questions: string[];
+    answers: string[];
+    activities: string[];
 }
 
 export class UserInfoDto {
     username: string;
     password: string;
-    email?: string;
 }

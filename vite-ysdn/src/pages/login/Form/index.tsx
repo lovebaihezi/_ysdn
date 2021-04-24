@@ -16,29 +16,34 @@ export default function LoginForm() {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
     const History = useHistory();
-    const [Error, setError] = useError();
+    const [error, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
     const login = async (v: any) => {
         if (!disable) {
             setDisable(true);
-            const res = await fetch(baseurl + '/login', {
+            const res = await fetch(baseurl + '/user/login', {
                 method: 'POST',
-                // headers: new Headers({ 'Content-Type': 'application/json' }),
+                headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(v),
             });
-            const json: AjaxJson.userDetail = await res.json();
+            const json = await res.json();
             if (check(json)) {
-                S(json);
-                localStorage.setItem('token', json.username);
-                History.goBack()
+                S(json as AjaxJson.userDetail);
+                localStorage.setItem('id', json.id);
+                History.goBack();
             } else {
+                setError(
+                    `${(json as AjaxJson.responseMessage).message},from : ${
+                        (json as AjaxJson.responseMessage).from
+                    }`,
+                );
                 setDisable(false);
             }
         }
     };
     useEffect(() => {
-        if (Error) message.error(Error.toString());
-    },[Error]);
+        if (error) message.error(error.toString());
+    }, [error]);
     useEffect(() => {
         D !== null && History.goBack();
     }, []);

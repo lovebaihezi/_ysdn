@@ -20,9 +20,10 @@ export default function RegisterForm() {
     const login = async (v: any) => {
         if (!disable) {
             setDisable(true);
-            const res = await fetch(baseurl + '/register', {
+            console.log(v);
+            const res = await fetch(baseurl + '/user/register', {
                 method: 'POST',
-                // headers: new Headers({ 'Content-Type': 'application/json' }),
+                headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(v),
             });
             if (res.status === 404) {

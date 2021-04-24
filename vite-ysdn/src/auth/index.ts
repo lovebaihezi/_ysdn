@@ -12,5 +12,5 @@ export const Token = createContext<[false | string, (s: string) => void]>([
 
 export const useToken = () => useContext(Token);
 // use env to set baseurl!!!
-export const baseurl = 'http://104.225.144.145:5050';
+export const baseurl = 'http://localhost:5050';
 // export const baseurl = 'http://localhost:5050';

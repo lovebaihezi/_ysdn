@@ -15,6 +15,7 @@ const Index = lazy(() => import('./Main/IndexPage'));
 const Activities = lazy(() => import('./Main/Activity'));
 const ArticlePage = lazy(() => import('./each/article'));
 const UpdatePAge = lazy(() => import('./each/update'));
+const ActivityPage = lazy(() => import('./each/activity'));
 
 const LazySpinStyle = {
     display: 'flex',
@@ -80,6 +81,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/update/:name">
                             <Render Lazy={UpdatePAge} />
+                        </Route>
+                        <Route path="/activities/:id">
+                            <Render Lazy={ActivityPage} />
                         </Route>
                         <Route path="/login">
                             <Login />
