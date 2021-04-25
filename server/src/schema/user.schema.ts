@@ -1,9 +1,65 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
+import {
+    Activity,
+    Answer,
+    Article,
+    productionName,
+    Question,
+    Video,
+} from './production.schema';
+import { Tag } from './tags.schema';
 // import { UserDto } from 'src/user/user.dto';
 
 export type UserDocument = User & Document;
 export type NotificationDocument = Notification & Document;
+export type UserProductDocument = UserProduct & Document;
+@Schema()
+export class UserProduct {
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
+        default: [],
+    })
+    articles: Article[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
+        default: [],
+    })
+    videos: Video[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
+        default: [],
+    })
+    comments: Comment[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
+        default: [],
+    })
+    tags: Tag[];
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
+        default: [],
+    })
+    questions: Question[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
+        default: [],
+    })
+    answers: Answer[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
+        default: [],
+    })
+    activities: Activity[];
+    get id() {
+        return '';
+    }
+}
 
 @Schema({})
 export class User {
@@ -14,16 +70,24 @@ export class User {
     avatarUrl: string;
 
     @Prop({ required: false, default: '' })
-    backgroundImage?: string;
+    backgroundImage: string;
 
-    @Prop({ type: [{ type: SchemaTypes.ObjectId }], default: [] })
-    marks: string[];
+    @Prop({
+        type: [
+            raw({ name: { type: String }, id: { type: SchemaTypes.ObjectId } }),
+        ],
+        default: [],
+    })
+    marks: { name: productionName; id: ObjectId }[];
 
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'User' }], default: [] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        default: [],
+    })
     follow: User[];
 
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'User' }],
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
     follower: User[];
@@ -65,11 +129,11 @@ export class User {
     })
     videos: string[];
 
-    // @Prop({
-    //     type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
-    //     default: [],
-    // })
-    // comments: string[];
+    @Prop({
+        type: SchemaTypes.ObjectId,
+        ref: UserProduct.name,
+    })
+    userProduct: UserProduct;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
@@ -98,11 +162,14 @@ export class User {
     get liked() {
         return undefined;
     }
+    get id() {
+        return '';
+    }
 }
 
 @Schema()
 export class Notification {
-    @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
+    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
     sender: ObjectId;
 
     @Prop()
@@ -111,7 +178,7 @@ export class Notification {
     @Prop()
     sendTime: Date;
 
-    @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
+    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
     to: ObjectId;
 }
 
@@ -138,3 +205,5 @@ UserSchema.loadClass(
 );
 UserSchema.set('toObject', { getters: true, virtual: true });
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
+export const UserProductSchema = SchemaFactory.createForClass(UserProduct);
+UserProductSchema.set('toObject', { getter: true, virtual: true });

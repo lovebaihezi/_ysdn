@@ -1,5 +1,4 @@
 import { AjaxJson } from 'src/interface';
-
 export class UserDto implements AjaxJson.userDetail {
     id: string;
     marks: string[];
@@ -7,6 +6,7 @@ export class UserDto implements AjaxJson.userDetail {
     follow: AjaxJson.userInfo[];
     follower: AjaxJson.userInfo[];
     notifications: AjaxJson.notification[];
+    userProduct: AjaxJson.userProduct;
     nickname: string;
     avatarUrl: string;
     backgroundImage?: string;

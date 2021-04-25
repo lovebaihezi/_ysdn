@@ -55,29 +55,28 @@ declare namespace AjaxJson {
         markAmount: amount;
         disapproval: amount;
         comments: comment[];
-        authors: userInfo[];
+        // authors: userInfo[];
         commentsAmount: amount;
     }
 
     type objectId = Mongoose.Types.ObjectId;
     type amount = number;
 
-    // interface user {
-    //     email: string;
-    //     auth: username;
-    //     createTime: Date;
-    //     nickname: string;
-    //     telephone: string;
-    //     avatarUrl: string;
-    //     follow: userInfo[];
-    //     follower: userInfo[];
-    //     informationBackImageUrl?: string;
-    // }
-    // interface auth {
-    //     username: username;
-    //     password: string;
-    // }
-
+    interface user {
+        email: string;
+        auth: username;
+        createTime: Date;
+        nickname: string;
+        telephone: string;
+        avatarUrl: string;
+        follow: userInfo[];
+        follower: userInfo[];
+        informationBackImageUrl?: string;
+    }
+    interface auth {
+        username: username;
+        password: string;
+    }
     type userInfo = Pick<userDetail, 'avatarUrl' | 'username' | 'nickname'>;
 
     type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
@@ -99,6 +98,7 @@ declare namespace AjaxJson {
     }
 
     interface article extends production {
+        author: userInfo;
         title: string;
         content: string;
         coverImgUrl: string;
@@ -133,7 +133,7 @@ declare namespace AjaxJson {
 
     interface video extends production {
         videoSrc: string;
-        mark: userInfo;
+        mark: userInfo[];
         briefIntro: string;
         coverImgUrl: string;
     }
@@ -149,7 +149,7 @@ declare namespace AjaxJson {
     }
 
     interface activities {
-        holder: Date;
+        holder: userInfo[];
         form: string;
         endTime: Date;
         tags: string[];
@@ -164,7 +164,7 @@ declare namespace AjaxJson {
 
     type IndexDetailArticle = Pick<
         article,
-        | 'authors'
+        | 'author'
         | 'commentsAmount'
         | 'title'
         | 'createTime'
@@ -177,7 +177,7 @@ declare namespace AjaxJson {
 
     type IndexRankArticle = Pick<
         article,
-        'authors' | 'title' | 'id' | 'approval' | 'read'
+        'author' | 'title' | 'id' | 'approval' | 'read'
     >;
 
     type IndexDetailQA = Pick<

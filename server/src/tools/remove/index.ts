@@ -21,3 +21,11 @@ export function get<
     }
     return o as Omit<T, U>;
 }
+
+export const Remove = <T extends Record<string | number | symbol, unknown>>(
+    ...rest: (keyof T)[]
+) => (target: T) => remove(target, ...rest);
+
+export const Get = <T extends Record<string | number | symbol, unknown>>(
+    ...rest: (keyof T)[]
+) => (target: T) => get(target, ...rest);

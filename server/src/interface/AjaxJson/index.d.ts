@@ -24,6 +24,17 @@ declare namespace AjaxJson {
         to: userInfo;
     }
 
+    interface userProduct {
+        id: string;
+        videos: _id[];
+        tags: string[];
+        answers: _id[];
+        articles: _id[];
+        questions: _id[];
+        activities: _id[];
+        comments: _id[];
+    }
+
     interface userDetail {
         id: string;
         username: string;
@@ -36,6 +47,7 @@ declare namespace AjaxJson {
         articles: _id[];
         questions: _id[];
         activities: _id[];
+        userProduct: userProduct;
         avatarUrl: string;
         follow: userInfo[];
         follower: userInfo[];
@@ -55,7 +67,7 @@ declare namespace AjaxJson {
         markAmount: amount;
         disapproval: amount;
         comments: comment[];
-        authors: userInfo[];
+        // authors: userInfo[];
         commentsAmount: amount;
     }
 
@@ -63,7 +75,7 @@ declare namespace AjaxJson {
     type amount = number;
 
     interface user {
-        email?: string;
+        email: string;
         auth: username;
         createTime: Date;
         nickname: string;
@@ -78,9 +90,9 @@ declare namespace AjaxJson {
         password: string;
     }
 
-    type userInfo = Pick<user, 'avatarUrl' | 'auth' | 'nickname'>;
+    type userInfo = Pick<userDetail, 'avatarUrl' | 'username' | 'nickname'>;
 
-    type userPageInfo = Omit<user, 'Account'> & { id: _id };
+    type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
 
     interface comment {
         content: string;
@@ -99,6 +111,7 @@ declare namespace AjaxJson {
     }
 
     interface article extends production {
+        author: userInfo;
         title: string;
         content: string;
         coverImgUrl: string;
@@ -133,7 +146,7 @@ declare namespace AjaxJson {
 
     interface video extends production {
         videoSrc: string;
-        mark: userInfo;
+        mark: userInfo[];
         briefIntro: string;
         coverImgUrl: string;
     }
@@ -149,14 +162,14 @@ declare namespace AjaxJson {
     }
 
     interface activities {
-        holder: Date;
+        holder: userInfo[];
         form: string;
         endTime: Date;
         tags: string[];
         title: string;
         startTime: Date;
         briefIntro: string;
-        partner: userInfo;
+        partner: userInfo[];
         amount: amount;
         max: amount;
         status: activitiesStatus;
@@ -164,7 +177,7 @@ declare namespace AjaxJson {
 
     type IndexDetailArticle = Pick<
         article,
-        | 'authors'
+        | 'author'
         | 'commentsAmount'
         | 'title'
         | 'createTime'
@@ -177,7 +190,7 @@ declare namespace AjaxJson {
 
     type IndexRankArticle = Pick<
         article,
-        'authors' | 'title' | 'id' | 'approval' | 'read'
+        'author' | 'title' | 'id' | 'approval' | 'read'
     >;
 
     type IndexDetailQA = Pick<

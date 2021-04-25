@@ -3,7 +3,12 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserModule } from './user.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '../schema/user.schema';
+import {
+    User,
+    UserSchema,
+    UserProduct,
+    UserProductSchema,
+} from '../schema/user.schema';
 
 describe('AppController', () => {
     let userController: UserController;
@@ -11,10 +16,13 @@ describe('AppController', () => {
     beforeEach(async () => {
         const app: TestingModule = await Test.createTestingModule({
             imports: [
-                UserModule,
-                MongooseModule.forRoot('mongodb://localhost:27017/server'),
+                MongooseModule.forRoot('mongodb://localhost:27017/server', {
+                    useNewUrlParser: true,
+                    connectTimeoutMS: 30000,
+                }),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
+                    { name: UserProduct.name, schema: UserProductSchema },
                 ]),
             ],
             controllers: [UserController],
@@ -24,7 +32,7 @@ describe('AppController', () => {
         userController = app.get<UserController>(UserController);
     });
 
-    describe('should return right JSON', () => {
+    describe('should inject rightly', () => {
         test('should be defined', () => {
             expect(userController).toBeDefined();
         });
