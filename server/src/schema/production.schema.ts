@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, ObjectId, SchemaTypes } from 'mongoose';
 import { User } from './user.schema';
 
 export type ReplayDocument = Reply & Document;
@@ -9,6 +9,7 @@ export type AnswerDocument = Answer & Document;
 export type QuestionDocument = Question & Document;
 export type VideoDocument = Video & Document;
 export type ActivityDocument = Activity & Document;
+export type ReplyDocument = Reply & Document;
 
 export enum productionName {
     Notification,
@@ -63,6 +64,8 @@ export class Reply {
 
 @Schema()
 export class Comment {
+    @Prop({ type: SchemaTypes.ObjectId })
+    Ref: ObjectId;
     @Prop()
     content: string;
     @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
@@ -71,9 +74,12 @@ export class Comment {
     answerTime: Date;
     @Prop()
     approval: number;
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }],
+        default: [],
+    })
     reply: Reply[];
-    @Prop()
+    @Prop({ default: 0 })
     disapproval: number;
 }
 
@@ -185,13 +191,16 @@ export class Video extends Production {
 
 @Schema()
 export class Activity extends Production {
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: User.name }] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        default: [],
+    })
     holder: User[];
     @Prop()
     form: string;
     @Prop()
     endTime: Date;
-    @Prop()
+    @Prop({ default: [] })
     tags: string[];
     @Prop()
     title: string;
@@ -199,11 +208,14 @@ export class Activity extends Production {
     startTime: Date;
     @Prop({})
     briefIntro: string;
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: User.name }] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        default: [],
+    })
     partner: User[];
     @Prop({ default: 0 })
     amount: number;
-    @Prop({})
+    @Prop({ default: 0 })
     max: number;
 }
 
@@ -213,3 +225,4 @@ export const VideoSchema = SchemaFactory.createForClass(Video);
 export const ActivitySchema = SchemaFactory.createForClass(Activity);
 export const CommentSchema = SchemaFactory.createForClass(Comment);
 export const ReplySchema = SchemaFactory.createForClass(Answer);
+export const AnswerSchema = SchemaFactory.createForClass(Answer);

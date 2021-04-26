@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Model, ObjectId } from 'mongoose';
+import { Model, ObjectId, SchemaTypes } from 'mongoose';
 import { User, UserDocument } from '../../schema/user.schema';
 import {
     Comment,
@@ -58,7 +58,15 @@ export class VideoService {
     ) {
         const video = await this.videoModel.findById(id).exec();
         const comment = await this.commentModel.create(c);
-        video.comments.push(comment);
+        video.comments.push(comment._id);
         return await video.save();
+    }
+    async getComment(id: string, skip = 0, limit = 20) {
+        const Ref = new SchemaTypes.ObjectId(id);
+        const comment = await this.commentModel
+            .find({ Ref })
+            .skip(skip)
+            .limit(limit);
+        return comment;
     }
 }
