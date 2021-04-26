@@ -68,7 +68,7 @@ export type FetchJson<T> = [
     () => Promise<void>,
     (e: any) => void,
 ];
-export type useFetchProps = { url: string; option: RequestInit };
+export type useFetchProps = { url: string; option?: RequestInit };
 
 export type useFetchJsonType = <T>({
     url,
@@ -77,10 +77,10 @@ export type useFetchJsonType = <T>({
 
 export function useFetchJson<T>({
     url,
-    option,
+    option = {},
 }: {
     url: string;
-    option: RequestInit;
+    option?: RequestInit;
 }): FetchJson<T> {
     const [res, setRes] = useState<T>();
     const [loading, setLoading] = useState<boolean>(false);

@@ -2,10 +2,10 @@ import { Button, Col, Row } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserDetail } from '../../auth';
+import EventSourceMessage from '../EventSourceMessage';
 import { MenuLink } from '../MenuLink';
 import Searcher from '../search';
 import UserLink from '../userLink';
-import { MessageOutlined } from '@ant-design/icons';
 
 import './NavBar.css';
 
@@ -49,7 +49,7 @@ export default function NavBar() {
             >
                 {info ? (
                     <>
-                        <MessageOutlined />
+                        <EventSourceMessage />
                         <UserLink user={info} />
                     </>
                 ) : (

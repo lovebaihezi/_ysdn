@@ -135,6 +135,8 @@ export class Article extends Production {
 
 @Schema()
 export class Answer {
+    @Prop({ type: SchemaTypes.ObjectId, ref: 'Question' })
+    Ref: ObjectId;
     @Prop()
     content: string;
     @Prop({ type: SchemaTypes.ObjectId, ref: User.name })

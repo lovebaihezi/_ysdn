@@ -8,7 +8,7 @@ import Info from './info';
 export default function User() {
     const { id } = useParams<{ id: string }>();
     const RequestInfo: useFetchProps = {
-        url: baseurl + `/user/getUser/${id}`,
+        url: baseurl + `/user/${id}`,
         option: {},
     };
     return <Ajax Request={RequestInfo} Component={Info} />;

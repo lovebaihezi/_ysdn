@@ -46,7 +46,8 @@ export class UserService {
         }
     }
     public async tokenLogin(token: string) {
-        const auth = await this.getUser({ id: token });
+        console.log(token)
+        return await this.getUser({ id: token });
     }
     async afterAuthGetUser(username: string) {
         const auth = await this.userModel.findOne({ username }).exec();

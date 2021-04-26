@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
 
 export type tag = Tag & Document;
@@ -11,10 +11,8 @@ export class Tag {
     createTime: Date;
     @Prop()
     clickTimes: number;
+    @Prop(raw({}))
+    production: Record<string, string>;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);
-// TagSchema.pre('save', function (next) {
-//     console.log(this);
-//     next();
-// });

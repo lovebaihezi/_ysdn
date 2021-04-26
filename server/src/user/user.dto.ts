@@ -21,7 +21,8 @@ export class UserDto implements AjaxJson.userDetail {
     activities: string[];
 }
 
-export class UserInfoDto {
+export class UserCreateDto {
     username: string;
     password: string;
+    'confirm-password': string;
 }

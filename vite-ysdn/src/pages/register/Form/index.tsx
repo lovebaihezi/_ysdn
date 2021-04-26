@@ -17,24 +17,25 @@ export default function RegisterForm() {
     const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
     const [regexp, setRegexp] = useState<string>('');
-    const login = async (v: any) => {
+    const login = async (v : any) => {
         if (!disable) {
             setDisable(true);
-            console.log(v);
             const res = await fetch(baseurl + '/user/register', {
                 method: 'POST',
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(v),
             });
-            if (res.status === 404) {
-                throw new Error('404 Not Found!');
+            if (res.status === 500) {
+                throw new Error(res.statusText);
             }
-            const json: AjaxJson.userDetail = await res.json();
-            if (check(json)) {
-                S(json);
-                localStorage.setItem('token', json.username);
-                location.href = `${url}/chooseTags`;
+            const json = await res.json();
+            if (!json.message) {
+                S(json as AjaxJson.userDetail);
+                localStorage.setItem('id', json.username);
+                History.push(`${url}/chooseTags`);
             } else {
+                const res = json as AjaxJson.responseMessage;
+                setError(`${res?.type} : ${res.message}`);
                 setDisable(false);
             }
         }

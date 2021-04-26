@@ -8,10 +8,8 @@ import Tags from './Tags';
 
 export default function ChooseTags() {
     const RequestInfo: useFetchProps = {
-        url: baseurl + '/tags/all',
-        option: {
-            method: 'POST',
-        },
+        url: baseurl + '/tag',
+        option: {},
     };
     return (
         <Row>

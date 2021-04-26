@@ -100,9 +100,9 @@ export class User {
 
     @Prop({
         required: true,
-        min: [8, 'username is less than 8'],
+        min: [4, 'username is less than 4'],
         max: [20, 'username is longer than 20'],
-        match: /[a-zA-Z0-9]{8,20}/g,
+        match: /^[a-zA-Z0-9]{4,20}$/g,
     })
     username: string; // this will simplify code when find
 
@@ -110,7 +110,7 @@ export class User {
         required: true,
         min: [8, 'password is less than 8'],
         max: [20, 'password is longer than 20'],
-        match: /[a-zA-Z0-9]{8,20}/g,
+        match: /^[a-zA-Z0-9]{8,20}$/g,
     })
     password: string;
 

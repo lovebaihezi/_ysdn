@@ -20,10 +20,10 @@ const Context: FC = ({ children }) => {
         (P: AjaxJson.userDetail) => void,
     ] = [userDetail, S];
     const f = async (token: string) => {
-        const res = await fetch(baseurl + '/tokenLogin', {
+        const res = await fetch(baseurl + '/user/tokenLogin', {
             method: 'POST',
-            // headers: new Headers({ token: token }),
-            body: token,
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ id: token }),
         });
         const json: AjaxJson.userDetail = await res.json();
         if (check(json)) {
@@ -31,8 +31,8 @@ const Context: FC = ({ children }) => {
         }
     };
     useEffect(() => {
-        console.log('context refresh!');
-        const token = localStorage.getItem('token');
+        // console.log('context refresh!');
+        const token = localStorage.getItem('id');
         if (token !== null) {
             f(token)
                 .then(() => {

@@ -31,7 +31,14 @@ export class QaService {
     async getQuestion(id: string) {
         return await this.questionModel.findById(id);
     }
-    async updateAnswer(id: string, answer: Answer) {}
+    async updateAnswer(id: string, answer: Answer) {
+        const Answer = await (await this.answerModel.create(answer)).save();
+        const AnswerId = Answer._id;
+        const Question = await this.questionModel.findById(id);
+        Question.answer.push(AnswerId);
+        await Question.save();
+        return await this.answerModel.find({}).exec();
+    }
     async commentAnswer(id: string, comment: {}) {}
     async replayComment(id: string, replay: {}) {}
     async replayReplay(id: string, replay: {}) {}
