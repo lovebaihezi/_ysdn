@@ -36,11 +36,11 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                             />,
                                             <CommentButton
                                                 amount={12}
-                                                link={''}
+                                                link={`/article/${article.id}/#comment`}
                                             />,
                                             <ReadButton
                                                 amount={12}
-                                                link={''}
+                                                link={`/article/${article.id}`}
                                             />,
                                         ]}
                                     />

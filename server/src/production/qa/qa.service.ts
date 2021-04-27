@@ -12,34 +12,44 @@ import {
     Reply,
 } from '../../schema/production.schema';
 import { User, UserDocument } from '../../schema/user.schema';
+import { Random } from 'mockjs';
+const y = () => {
+    const Response = () => ({
+        author: {
+            avatarUrl: 'https://dummyimage.com/100x100',
+            Account: {
+                createTime: new Date(),
+                auth: Random.name(),
+                email: Random.email(),
+                nickname: Random.string(),
+                telephone: Random.string(),
+            },
+        },
+        approval: 10,
+        createTime: new Date(),
+        tags: ['test'],
+        read: 12,
+        title: Random.title(),
+        id: Random.id(),
+        content: Random.paragraph(1, 20),
+    });
+    return new Array(8).fill(8).map(Response);
+};
 
 @Injectable()
 export class QaService {
-    constructor(
-        @InjectModel(Question.name)
-        private readonly questionModel: Model<QuestionDocument>,
-        @InjectModel(Answer.name)
-        private readonly answerModel: Model<AnswerDocument>,
-        @InjectModel(User.name)
-        private readonly userModel: Model<UserDocument>,
-        @InjectModel(Comment.name)
-        private readonly commentModel: Model<CommentDocument>,
-        @InjectModel(Reply.name)
-        private readonly replyModel: Model<ReplayDocument>,
-    ) {}
+    constructor() {}
     async updateQuestion(id, question: {}) {}
-    async getQuestion(id: string) {
-        return await this.questionModel.findById(id);
-    }
-    async updateAnswer(id: string, answer: Answer) {
-        const Answer = await (await this.answerModel.create(answer)).save();
-        const AnswerId = Answer._id;
-        const Question = await this.questionModel.findById(id);
-        Question.answer.push(AnswerId);
-        await Question.save();
-        return await this.answerModel.find({}).exec();
-    }
+    async getQuestion(id: string) {}
+    async updateAnswer(id: string, answer: Answer) {}
     async commentAnswer(id: string, comment: {}) {}
     async replayComment(id: string, replay: {}) {}
     async replayReplay(id: string, replay: {}) {}
+    findAllRank() {
+        return y().sort((a, b) => a.approval - b.approval);
+    }
+
+    findAllRecommend() {
+        return y();
+    }
 }

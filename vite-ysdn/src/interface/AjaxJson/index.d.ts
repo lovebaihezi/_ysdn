@@ -24,6 +24,18 @@ declare namespace AjaxJson {
         to: userInfo;
     }
 
+    interface userProduct {
+        _id: string;
+        id: string;
+        videos: _id[];
+        tags: string[];
+        answers: _id[];
+        articles: _id[];
+        questions: _id[];
+        activities: _id[];
+        comments: _id[];
+    }
+
     interface userDetail {
         id: string;
         username: string;
@@ -36,6 +48,7 @@ declare namespace AjaxJson {
         articles: _id[];
         questions: _id[];
         activities: _id[];
+        userProduct: userProduct;
         avatarUrl: string;
         follow: userInfo[];
         follower: userInfo[];
@@ -77,6 +90,7 @@ declare namespace AjaxJson {
         username: username;
         password: string;
     }
+
     type userInfo = Pick<userDetail, 'avatarUrl' | 'username' | 'nickname'>;
 
     type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
@@ -156,7 +170,7 @@ declare namespace AjaxJson {
         title: string;
         startTime: Date;
         briefIntro: string;
-        partner: userInfo;
+        partner: userInfo[];
         amount: amount;
         max: amount;
         status: activitiesStatus;

@@ -42,7 +42,8 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                         <h2>{article.title}</h2>
                         <Row>
                             <Col span={8}>
-                                <UserLink user={article.authors[0]} />
+                                {/* // fix this ! */}
+                                <UserLink user={(article as any).authors[0]} />
                             </Col>
                         </Row>
                     </Card>

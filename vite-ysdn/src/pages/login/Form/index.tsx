@@ -27,7 +27,7 @@ export default function LoginForm() {
                 body: JSON.stringify(v),
             });
             const json = await res.json();
-            if (check(json)) {
+            if (json.id) {
                 S(json as AjaxJson.userDetail);
                 localStorage.setItem('id', json.id);
                 History.goBack();

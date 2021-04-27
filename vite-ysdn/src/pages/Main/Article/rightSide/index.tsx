@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const f = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.stopPropagation();
-    const t = localStorage.getItem('token');
+    const t = localStorage.getItem('id');
     if (t === null) {
         e.preventDefault();
         message.info("you haven't login yet!");

@@ -12,36 +12,6 @@ import { UserService } from './user.service';
 
 describe('UserService', () => {
     let service: UserService;
-    let id: string;
-    let user: AjaxJson.userDetail;
-    const userDetail: AjaxJson.userDetail = {
-        id: '6085a037720e490a271f9a7d',
-        username: 'lqxclqxc',
-        nickname: 'anonymous',
-        tags: [],
-        marks: [],
-        liked: [],
-        videos: [],
-        answers: [],
-        articles: [],
-        questions: [],
-        activities: [],
-        avatarUrl: '',
-        follow: [],
-        follower: [],
-        notifications: [],
-        backgroundImage: '',
-        userProduct: {
-            _id: '6085a037720e490a271f9a7c',
-            videos: [],
-            tags: [],
-            answers: [],
-            articles: [],
-            questions: [],
-            activities: [],
-            comments: [],
-        },
-    };
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -59,12 +29,7 @@ describe('UserService', () => {
         }).compile();
         service = module.get<UserService>(UserService);
     });
-    // afterAll(async () => {
-    //     await service.deleteUserByUsername({ username: 'lqxclqxc' });
-    // });
-    it('should login successfully', async () => {
-        expect(
-            await service.userLogin('lqxclqxc', 'lqxclqxclqxc'),
-        ).toStrictEqual<AjaxJson.userDetail>(userDetail);
+    it('should be defined', async () => {
+        expect(service).toBeDefined();
     });
 });

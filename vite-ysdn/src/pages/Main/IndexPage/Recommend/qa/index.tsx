@@ -21,13 +21,11 @@ const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => (
 );
 
 const QARankRequest: useFetchProps = {
-    url: baseurl + '/index/QAs/rank',
-    option: { method: 'POST' },
+    url: baseurl + '/QA/rank',
 };
 
 const QADetailRequest: useFetchProps = {
-    url: baseurl + '/index/QAs/recommend',
-    option: { method: 'POST' },
+    url: baseurl + '/QA/recommend',
 };
 
 export default function IndexQA() {

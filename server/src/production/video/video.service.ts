@@ -9,6 +9,7 @@ import {
     VideoDocument,
 } from '../../schema/production.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { Random } from 'mockjs';
 
 type UpdateVideoInformation =
     | 'title'
@@ -17,6 +18,16 @@ type UpdateVideoInformation =
     | 'tags'
     | 'briefIntro'
     | 'coverImgUrl';
+
+const Videos = new Array(10).fill(0).map((_, i) => {
+    return {
+        ...f(i),
+        mark: [],
+        videoSrc: Random.url(),
+        briefIntro: Random.paragraph(),
+        coverImgUrl: Random.image('150x150'),
+    };
+});
 
 @Injectable()
 export class VideoService {
@@ -68,5 +79,11 @@ export class VideoService {
             .skip(skip)
             .limit(limit);
         return comment;
+    }
+    getAllRank() {
+        return Videos;
+    }
+    getAllRecommend() {
+        return Videos;
     }
 }

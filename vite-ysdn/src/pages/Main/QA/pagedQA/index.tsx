@@ -10,39 +10,38 @@ import {
 import Avatar from 'antd/lib/avatar/avatar';
 import { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
+import { AnswerButton, FollowButton, ReadButton, LikeButton } from '../../../../component/actionButton';
 
-import Action from '../../../../component/Action';
-
-const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
-    <Action tagPosition="right" tags={QA.tags}>
-        <Row>
-            <Col span={4}>
-                <Button type="primary" color="">
-                    <PlusOutlined />
-                    follow
-                </Button>
-            </Col>
-            <Col span={4} offset={1}>
-                <Button color="blue">{`${QA.answerAmount} answers`}</Button>
-            </Col>
-            <Col
-                offset={1}
-                style={{ display: 'flex', alignItems: 'center' }}
-                span={4}
-            >
-                <EyeOutlined />
-                <span style={{ padding: '0 4px' }}>{QA.read}</span>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
-                <LikeOutlined />{' '}
-                <span style={{ padding: '0 4px' }}>{QA.approval}</span>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
-                <StarOutlined />
-            </Col>
-        </Row>
-    </Action>
-);
+// const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
+//     <Action tagPosition="right" tags={QA.tags}>
+//         <Row>
+//             <Col span={4}>
+//                 <Button type="primary" color="">
+//                     <PlusOutlined />
+//                     follow
+//                 </Button>
+//             </Col>
+//             <Col span={4} offset={1}>
+//                 <Button color="blue">{`${QA.answerAmount} answers`}</Button>
+//             </Col>
+//             <Col
+//                 offset={1}
+//                 style={{ display: 'flex', alignItems: 'center' }}
+//                 span={4}
+//             >
+//                 <EyeOutlined />
+//                 <span style={{ padding: '0 4px' }}>{QA.read}</span>
+//             </Col>
+//             <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
+//                 <LikeOutlined />{' '}
+//                 <span style={{ padding: '0 4px' }}>{QA.approval}</span>
+//             </Col>
+//             <Col style={{ display: 'flex', alignItems: 'center' }} span={4}>
+//                 <StarOutlined />
+//             </Col>
+//         </Row>
+//     </Action>
+// );
 
 const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) =>
     useMemo(
@@ -54,19 +53,26 @@ const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) =>
                             <Card
                                 bordered={false}
                                 title={QA.title}
-                                actions={[]}
+                                actions={[
+                                    <AnswerButton amount={13} />,
+                                    <FollowButton
+                                        amount={17}
+                                        initial={false}
+                                    />,
+                                    <ReadButton amount={14} link={''} />,
+                                    <LikeButton amount={15} initial={false} />,
+                                ]}
                                 headStyle={{ padding: 0, border: 0 }}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <Card.Meta
-                                    title={QA.author.Account.nickname}
+                                    title={''}
                                     avatar={
                                         <Avatar src={QA.author.avatarUrl} />
                                     }
                                     description={QA.title}
                                 />
                             </Card>
-                            <Actions QA={QA} />
                             <Divider />
                         </Col>
                     ))}

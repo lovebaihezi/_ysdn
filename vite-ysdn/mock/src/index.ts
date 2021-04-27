@@ -105,7 +105,7 @@ router.post('/index/articles/rank', async (ctx) => {
 });
 
 router.post('/index/QAs/recommend', async (ctx) => {
-    const Response: () => AjaxJson.IndexDetailQA = () => ({
+    const Response = () => ({
         author: {
             avatarUrl: 'https://dummyimage.com/100x100',
             Account: {

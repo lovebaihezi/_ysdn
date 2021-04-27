@@ -3,27 +3,23 @@ import React, { useMemo } from 'react';
 import { FC } from 'react';
 import { baseurl } from '../../../auth';
 import Ajax from '../../../component/AjaxResponse';
-import TagSwitch, { useTag } from '../../../component/tagSwitch';
+import TagSwitch, { InnerTag, useTag } from '../../../component/tagSwitch';
 import { useFetchProps } from '../../../tools/hook/useFetch';
 
 import PagedActivities from './pagedActivities';
 
-const MainContain: FC = () => {
+const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const tag = useTag();
     const Request: useFetchProps = {
-        url: baseurl + `/activity/tags/${tag}`,
-        option: {
-            method: 'POST',
-        },
+        url: baseurl + `/activity/${OuterTag}/${tag}`,
     };
     return useMemo(
         () => <Ajax Request={Request} Component={PagedActivities} />,
-        [tag],
+        [tag, OuterTag],
     );
 };
 
-
-//todo : 
+//todo :
 export default function Activities() {
     return (
         <Row>
@@ -45,9 +41,10 @@ export default function Activities() {
                         'project',
                     ]}
                 >
-                    <TagSwitch tags={['Hottest', 'Newest']}>
-                        <MainContain />
-                    </TagSwitch>
+                    <InnerTag
+                        tags={['Hottest', 'Newest']}
+                        Component={MainContain}
+                    />
                 </TagSwitch>
             </Col>
         </Row>

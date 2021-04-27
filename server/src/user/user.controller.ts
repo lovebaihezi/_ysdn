@@ -32,7 +32,6 @@ export class UserController {
     @Post('tokenLogin')
     @Header('Content-Type', 'application/json')
     async tokenLogin(@Body() { id }: { id: string }) {
-        console.log(id);
         return this.UserService.tokenLogin(id);
     }
     @Get(':username')

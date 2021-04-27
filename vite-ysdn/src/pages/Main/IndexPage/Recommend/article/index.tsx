@@ -32,13 +32,11 @@ const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
 );
 
 const articleRankRequest: useFetchProps = {
-    url: baseurl + '/index/articles/rank',
-    option: { method: 'POST' },
+    url: baseurl + '/article/rank',
 };
 
 const articleDetailRequest: useFetchProps = {
-    url: baseurl + '/index/articles/recommend',
-    option: { method: 'POST' },
+    url: baseurl + '/article/recommend',
 };
 
 export default function IndexArticle() {

@@ -67,7 +67,7 @@ export class User {
     @Prop({ default: 'anonymous' })
     nickname: string;
 
-    @Prop({ default: '' })
+    @Prop({ default: 'https://dummyimage.com/50x50' })
     avatarUrl: string;
 
     @Prop({ required: false, default: '' })
@@ -122,13 +122,13 @@ export class User {
         type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
         default: [],
     })
-    articles: string[];
+    articles: ObjectId[];
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
         default: [],
     })
-    videos: string[];
+    videos: ObjectId[];
 
     @Prop({
         type: UserProductSchema,
@@ -149,32 +149,32 @@ export class User {
         type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
         default: [],
     })
-    tags: string[];
+    tags: ObjectId[];
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
         default: [],
     })
-    questions: string[];
+    questions: ObjectId[];
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
         default: [],
     })
-    answers: string[];
+    answers: ObjectId[];
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
         default: [],
     })
-    activities: string[];
+    activities: ObjectId[];
 
-    get liked() {
-        return undefined;
-    }
-    get id() {
-        return '';
-    }
+    // get liked() {
+    //     return undefined;
+    // }
+    // get id() {
+    //     return '';
+    // }
 }
 
 @Schema()

@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import AvatarLink from '../../../../../../component/avatarLink';
+import UserLink from '../../../../../../component/userLink';
 
 const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
     <Row>
@@ -30,8 +31,7 @@ const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
                             actions={[
                                 <Row>
                                     <Col span={12}>
-                                        <AvatarLink
-                                            to={`/user/${video.authors[0].Account.auth}`}
+                                        <UserLink
                                             src={video.authors[0].avatarUrl}
                                             name={
                                                 video.authors[0].Account.nickname

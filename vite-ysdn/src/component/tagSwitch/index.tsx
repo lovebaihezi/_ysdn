@@ -6,6 +6,18 @@ import { FC } from 'react';
 export const Tag = createContext<string>('');
 export const useTag = () => useContext(Tag);
 
+export const InnerTag: FC<{
+    Component: React.FC<{ OuterTag: string }>;
+    tags: string[];
+}> = ({ Component, tags }) => {
+    const tag = useTag();
+    return (
+        <TagSwitch tags={tags}>
+            <Component OuterTag={tag} />
+        </TagSwitch>
+    );
+};
+
 const TagSwitch: FC<{
     tags: string[];
     tabBarExtraContent?: React.ReactNode;

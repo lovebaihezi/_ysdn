@@ -21,13 +21,11 @@ const DetailVideo: Component<AjaxJson.video[]> = ({ Response }) => (
 );
 
 const videoRankRequest: useFetchProps = {
-    url: baseurl + '/index/videos/rank',
-    option: { method: 'POST' },
+    url: baseurl + '/video/rank',
 };
 
 const videoDetailRequest: useFetchProps = {
-    url: baseurl + '/index/videos/recommend',
-    option: { method: 'POST' },
+    url: baseurl + '/video/recommend',
 };
 
 export default function IndexVideo() {
@@ -36,7 +34,7 @@ export default function IndexVideo() {
             <Divider />
             <Col span={18}>
                 <Ajax Request={videoDetailRequest} Component={VD} />
-            </Col>                
+            </Col>
             <Col span={6}>
                 <Ajax Request={videoRankRequest} Component={VR} />
             </Col>

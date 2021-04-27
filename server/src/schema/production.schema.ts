@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
-import { User } from './user.schema';
+import { User, UserSchema } from './user.schema';
 
 export type ReplayDocument = Reply & Document;
 export type CommentDocument = Comment & Document;
@@ -22,35 +22,56 @@ export enum productionName {
     Question,
 }
 
-// mark, disapproval - approval, comment
+// change to subDocument!!!
 @Schema()
 export class Production {
-    get id() {
-        return undefined;
-    }
     @Prop()
     tags: string[];
+
     @Prop()
     read: number;
+
     @Prop()
     title: string;
+
     @Prop()
     createTime: Date;
+
     @Prop()
     approval: number;
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: User.name }] })
-    like: User[];
+
     @Prop()
     modifyTime: Date[];
+
     @Prop()
     markAmount: number;
+
     @Prop()
     disapproval: number;
+
     @Prop()
     comments: Comment[];
+
     @Prop()
     commentsAmount: number;
+
+    @Prop()
+    lastModifyTime: Date;
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        default: [],
+    })
+    likes: ObjectId[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        default: [],
+    })
+    marks: ObjectId[];
 }
+
+export const ProductionSchema = SchemaFactory.createForClass(Production);
 
 @Schema()
 export class Reply {
@@ -58,122 +79,147 @@ export class Reply {
     replay: Reply[];
     content: string;
     createTime: Date;
-    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+    @Prop({ type: UserSchema, ref: User.name })
     author: User;
 }
 
+export const ReplySchema = SchemaFactory.createForClass(Reply);
+
 @Schema()
 export class Comment {
+    // change to raw data
     @Prop({ type: SchemaTypes.ObjectId })
     Ref: ObjectId;
+
     @Prop()
     content: string;
-    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+
+    @Prop({ type: UserSchema, ref: User.name })
     author: User;
+
     @Prop()
     answerTime: Date;
+
     @Prop()
     approval: number;
+
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }],
+        type: [{ type: ReplySchema, ref: Reply.name }],
         default: [],
     })
     reply: Reply[];
+
     @Prop({ default: 0 })
     disapproval: number;
 }
 
+export const CommentSchema = SchemaFactory.createForClass(Comment);
+
 @Schema({})
 export class Article extends Production {
-    get id() {
-        return undefined;
-    }
     @Prop()
     tags: string[];
+
     @Prop()
     read: number;
+
     @Prop()
     title: string;
+
     @Prop()
     createTime: Date;
+
     @Prop()
     approval: number;
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: User.name }] })
-    like: User[];
+
     @Prop()
     modifyTime: Date[];
+
     @Prop()
     markAmount: number;
+
     @Prop()
     disapproval: number;
-    @Prop()
+
+    @Prop({ type: [{ type: CommentSchema, ref: Comment.name }], default: [] })
     comments: Comment[];
+
     @Prop()
     commentsAmount: number;
+
     @Prop()
     content: string;
+
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        type: [{ type: User, ref: User.name }],
         default: [],
     })
     authors: User[];
+
     @Prop()
     coverImgUrl: string;
-    @Prop()
-    lastModifyTime: Date;
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
-        default: [],
-    })
-    likes: User[];
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
-        default: [],
-    })
-    marks: User[];
 }
 
 @Schema()
 export class Answer {
     @Prop({ type: SchemaTypes.ObjectId, ref: 'Question' })
     Ref: ObjectId;
+
     @Prop()
     content: string;
-    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+
+    @Prop({ type: User, ref: User.name })
     author: User;
+
     @Prop()
     answerTime: Date;
+
     @Prop()
     approval: number;
+
     @Prop()
     disapproval: number;
-    @Prop({ type: SchemaTypes.ObjectId, ref: Comment.name })
+
+    @Prop({ type: CommentSchema, ref: Comment.name })
     comments: Comment[];
 }
+
+export const AnswerSchema = SchemaFactory.createForClass(Answer);
 
 @Schema()
 export class Question extends Production {
     @Prop()
     read: number;
+
     @Prop()
     title: string;
+
     @Prop()
     tags: string[];
+
     @Prop()
     content: string;
-    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+
+    @Prop({ type: UserSchema, ref: User.name })
     author: User;
+
     @Prop()
     createTime: Date;
+
     @Prop()
     approval: number;
+
     @Prop()
     disapproval: number;
+
     @Prop()
     answerAmount: number;
+
     @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: Answer.name }] })
     answer: Answer[];
 }
+
+export const QuestionSchema = SchemaFactory.createForClass(Question);
 
 @Schema()
 export class Video extends Production {
@@ -181,15 +227,21 @@ export class Video extends Production {
     title: string;
     @Prop()
     videoSrc: string;
-    @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+
+    @Prop({ type: UserSchema, ref: User.name })
     author: User;
+
     @Prop()
     tags: string[];
+
     @Prop()
     briefIntro: string;
+
     @Prop()
     coverImgUrl: string;
 }
+
+export const VideoSchema = SchemaFactory.createForClass(Video);
 
 @Schema()
 export class Activity extends Production {
@@ -198,33 +250,35 @@ export class Activity extends Production {
         default: [],
     })
     holder: User[];
+
     @Prop()
     form: string;
+
     @Prop()
     endTime: Date;
+
     @Prop({ default: [] })
     tags: string[];
+
     @Prop()
     title: string;
+
     @Prop()
     startTime: Date;
+
     @Prop({})
     briefIntro: string;
+
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    partner: User[];
+    partner: ObjectId[];
+
     @Prop({ default: 0 })
     amount: number;
+
     @Prop({ default: 0 })
     max: number;
 }
-
-export const QuestionSchema = SchemaFactory.createForClass(Question);
-export const ArticleSchema = SchemaFactory.createForClass(Article);
-export const VideoSchema = SchemaFactory.createForClass(Video);
 export const ActivitySchema = SchemaFactory.createForClass(Activity);
-export const CommentSchema = SchemaFactory.createForClass(Comment);
-export const ReplySchema = SchemaFactory.createForClass(Answer);
-export const AnswerSchema = SchemaFactory.createForClass(Answer);
