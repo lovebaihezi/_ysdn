@@ -12,14 +12,14 @@ export type ActivityDocument = Activity & Document;
 export type ReplyDocument = Reply & Document;
 
 export enum productionName {
-    Notification,
-    Reply,
-    Comment,
-    Article,
-    Video,
-    Activity,
-    Answer,
-    Question,
+    'Notification' = 'Notification',
+    'Reply' = 'Reply',
+    'Comment' = 'Comment',
+    'Article' = 'Article',
+    'Video' = 'Video',
+    'Activity' = 'Activity',
+    'Answer' = 'Answer',
+    'Question' = 'Question',
 }
 
 // change to subDocument!!!
@@ -100,7 +100,7 @@ export class Comment {
     @Prop()
     answerTime: Date;
 
-    @Prop()
+    @Prop({ default: 0 })
     approval: number;
 
     @Prop({
@@ -120,7 +120,7 @@ export class Article extends Production {
     @Prop()
     tags: string[];
 
-    @Prop()
+    @Prop({ default: 0 })
     read: number;
 
     @Prop()
@@ -129,36 +129,42 @@ export class Article extends Production {
     @Prop()
     createTime: Date;
 
-    @Prop()
+    @Prop({ default: 0 })
     approval: number;
 
     @Prop()
     modifyTime: Date[];
 
     @Prop()
+    @Prop({ default: 0 })
     markAmount: number;
 
-    @Prop()
+    @Prop({ default: 0 })
     disapproval: number;
 
-    @Prop({ type: [{ type: CommentSchema, ref: Comment.name }], default: [] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: Comment.name }],
+        default: [],
+    })
     comments: Comment[];
 
-    @Prop()
+    @Prop({ default: 0 })
     commentsAmount: number;
 
     @Prop()
     content: string;
 
     @Prop({
-        type: [{ type: User, ref: User.name }],
-        default: [],
+        required: true,
+        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
     })
     authors: User[];
 
-    @Prop()
+    @Prop({ default: '' })
     coverImgUrl: string;
 }
+
+export const ArticleSchema = SchemaFactory.createForClass(Article);
 
 @Schema()
 export class Answer {
@@ -168,7 +174,7 @@ export class Answer {
     @Prop()
     content: string;
 
-    @Prop({ type: User, ref: User.name })
+    @Prop({ type: UserSchema, ref: User.name })
     author: User;
 
     @Prop()
@@ -180,7 +186,7 @@ export class Answer {
     @Prop()
     disapproval: number;
 
-    @Prop({ type: CommentSchema, ref: Comment.name })
+    @Prop({ type: SchemaTypes.ObjectId, ref: Comment.name })
     comments: Comment[];
 }
 

@@ -18,7 +18,7 @@ export type UserProductDocument = UserProduct & Document;
 export class UserProduct {
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
-        default: [],
+        default: []
     })
     articles: Article[];
 
@@ -58,10 +58,54 @@ export class UserProduct {
     activities: Activity[];
 }
 
-export const UserProductSchema = SchemaFactory.createForClass(
-    UserProduct,
-).set('toObject', { getters: true, virtual: true });
+export const UserProductSchema = SchemaFactory.createForClass(UserProduct);
 
+@Schema()
+export class Like {
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
+        default: [],
+    })
+    articles: Article[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
+        default: [],
+    })
+    videos: Video[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
+        default: [],
+    })
+    comments: Comment[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
+        default: [],
+    })
+    tags: Tag[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
+        default: [],
+    })
+    questions: Question[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
+        default: [],
+    })
+    answers: Answer[];
+
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
+        default: [],
+    })
+    activities: Activity[];
+}
+
+export const LikeSchema = SchemaFactory.createForClass(Like);
 @Schema({})
 export class User {
     @Prop({ default: 'anonymous' })
@@ -74,12 +118,10 @@ export class User {
     backgroundImage: string;
 
     @Prop({
-        type: [
-            raw({ name: { type: String }, id: { type: SchemaTypes.ObjectId } }),
-        ],
+        type: [raw({ name: { type: String }, id: { type: String } })],
         default: [],
     })
-    marks: { name: productionName; id: ObjectId }[];
+    marks: { name: productionName; id: string }[];
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
@@ -119,18 +161,6 @@ export class User {
     email: string;
 
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
-        default: [],
-    })
-    articles: ObjectId[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
-        default: [],
-    })
-    videos: ObjectId[];
-
-    @Prop({
         type: UserProductSchema,
         ref: UserProduct.name,
         default: {
@@ -146,35 +176,19 @@ export class User {
     userProduct: UserProductDocument;
 
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
-        default: [],
+        type: LikeSchema,
+        ref: Like.name,
+        default: {
+            videos: [],
+            tags: [],
+            answers: [],
+            articles: [],
+            questions: [],
+            activities: [],
+            comments: [],
+        },
     })
-    tags: ObjectId[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
-        default: [],
-    })
-    questions: ObjectId[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
-        default: [],
-    })
-    answers: ObjectId[];
-
-    @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
-        default: [],
-    })
-    activities: ObjectId[];
-
-    // get liked() {
-    //     return undefined;
-    // }
-    // get id() {
-    //     return '';
-    // }
+    like: Like;
 }
 
 @Schema()
@@ -193,25 +207,14 @@ export class Notification {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.loadClass(
-    class {
-        articles: string[];
-        videos: string[];
-        comments: string[];
-        tags: string[];
-        questions: string[];
-        answers: string[];
-        activities: string[];
-        get liked() {
-            return [
-                ...this.videos,
-                ...this.articles,
-                ...this.activities,
-                ...this.answers,
-                ...this.questions,
-            ];
-        }
-    },
-);
+// UserSchema.loadClass(
+//     class {
+//         like: Like;
+//         get liked() {
+// ! this flat will call MaxS Stack(just do not use it...)
+//             return Object.values(this.like).flat();
+//         }
+//     },
+// );
 UserSchema.set('toObject', { getters: true, virtual: true });
 export const NotificationSchema = SchemaFactory.createForClass(Notification);

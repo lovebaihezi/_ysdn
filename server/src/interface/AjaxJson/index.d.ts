@@ -24,9 +24,17 @@ declare namespace AjaxJson {
         to: userInfo;
     }
 
+    interface like {
+        _id: string;
+        videos: _id[];
+        answers: _id[];
+        articles: _id[];
+        questions: _id[];
+        activities: _id[];
+    }
+
     interface userProduct {
         _id: string;
-        id: string;
         videos: _id[];
         tags: string[];
         answers: _id[];
@@ -42,12 +50,7 @@ declare namespace AjaxJson {
         nickname: string;
         tags: string[];
         marks: _id[];
-        liked: _id[];
-        videos: _id[];
-        answers: _id[];
-        articles: _id[];
-        questions: _id[];
-        activities: _id[];
+        like: like;
         userProduct: userProduct;
         avatarUrl: string;
         follow: userInfo[];

@@ -15,9 +15,12 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 export class ArticleController {
     constructor(private readonly articleService: ArticleService) {}
 
-    @Post()
-    create(@Body() createArticleDto: CreateArticleDto) {
-        return this.articleService.create(createArticleDto);
+    @Post(':userId')
+    create(
+        @Param('userId') userId: string,
+        @Body() createArticleDto: CreateArticleDto,
+    ) {
+        return this.articleService.createArticle(userId, createArticleDto);
     }
 
     @Get('rank')
@@ -40,11 +43,11 @@ export class ArticleController {
         @Param('id') id: string,
         @Body() updateArticleDto: UpdateArticleDto,
     ) {
-        return this.articleService.update(+id, updateArticleDto);
+        // return this.articleService.update(+id, updateArticleDto);
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.articleService.remove(+id);
+        // return this.articleService.remove(+id);
     }
 }

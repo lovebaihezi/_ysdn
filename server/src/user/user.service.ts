@@ -10,12 +10,12 @@ import {
 } from '../schema/user.schema';
 import { Remove, remove } from '../tools';
 import { assert } from 'console';
-import { AjaxJson } from 'src/interface';
+import { AjaxJson } from '../interface';
 import {
     productionName,
     Video,
     VideoDocument,
-} from 'src/schema/production.schema';
+} from '../schema/production.schema';
 
 //todo : finish user service
 @Injectable()
@@ -79,7 +79,7 @@ export class UserService {
         return {
             message: 'user already exist!',
             type: 'info',
-            from: 'client',
+            from: 'server',
         };
     }
     public async userTagChoose(id: string, tags: string[]) {

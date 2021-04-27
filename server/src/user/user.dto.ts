@@ -1,5 +1,6 @@
 import { AjaxJson } from 'src/interface';
 export class UserDto implements AjaxJson.userDetail {
+    like: AjaxJson.like;
     id: string;
     marks: string[];
     liked: string[];
