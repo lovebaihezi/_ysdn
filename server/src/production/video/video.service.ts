@@ -9,7 +9,7 @@ import {
     VideoDocument,
 } from '../../schema/production.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Random } from 'mockjs';
+import { Random } from 's';
 
 type UpdateVideoInformation =
     | 'title'
@@ -18,6 +18,36 @@ type UpdateVideoInformation =
     | 'tags'
     | 'briefIntro'
     | 'coverImgUrl';
+
+const f = (i: number) => ({
+    id: Random.integer(100, 10000).toString(16),
+    title: Random.title(i + 1),
+    content: Random.paragraph(i + 1),
+    authors: [
+        {
+            avatarUrl: Random.image(),
+            Account: {
+                auth: Random.name(),
+                nickname: Random.string(),
+                telephone: Random.string(),
+                email: Random.email(),
+                createTime: new Date(),
+            },
+        },
+    ],
+    createTime: new Date(),
+    comments: [],
+    commentsAmount: 0,
+    read: 0,
+    tags: [{ name: 'test', clickTimes: 0, createTime: new Date() }],
+    markAmount: Random.integer(0, 1000),
+    approval: Random.integer(0, 1000),
+    disapproval: Random.integer(0, 1000),
+    liked: false,
+    marked: false,
+    modifyTime: [new Date()],
+    like: [],
+});
 
 const Videos = new Array(10).fill(0).map((_, i) => {
     return {
