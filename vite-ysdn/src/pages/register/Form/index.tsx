@@ -17,7 +17,7 @@ export default function RegisterForm() {
     const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
     const [regexp, setRegexp] = useState<string>('');
-    const login = async (v : any) => {
+    const login = async (v: any) => {
         if (!disable) {
             setDisable(true);
             const res = await fetch(baseurl + '/user/register', {
@@ -30,8 +30,9 @@ export default function RegisterForm() {
             }
             const json = await res.json();
             if (!json.message) {
-                S(json as AjaxJson.userDetail);
-                localStorage.setItem('id', json.username);
+                const res = json as AjaxJson.userDetail;
+                S(res);
+                localStorage.setItem('id', res.id);
                 History.push(`${url}/chooseTags`);
             } else {
                 const res = json as AjaxJson.responseMessage;

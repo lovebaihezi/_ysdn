@@ -56,10 +56,11 @@ export class UserProduct {
         default: [],
     })
     activities: Activity[];
-    get id() {
-        return '';
-    }
 }
+
+export const UserProductSchema = SchemaFactory.createForClass(
+    UserProduct,
+).set('toObject', { getters: true, virtual: true });
 
 @Schema({})
 export class User {
@@ -130,10 +131,19 @@ export class User {
     videos: string[];
 
     @Prop({
-        type: SchemaTypes.ObjectId,
+        type: UserProductSchema,
         ref: UserProduct.name,
+        default: {
+            videos: [],
+            tags: [],
+            answers: [],
+            articles: [],
+            questions: [],
+            activities: [],
+            comments: [],
+        },
     })
-    userProduct: UserProduct;
+    userProduct: UserProductDocument;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
@@ -205,5 +215,3 @@ UserSchema.loadClass(
 );
 UserSchema.set('toObject', { getters: true, virtual: true });
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
-export const UserProductSchema = SchemaFactory.createForClass(UserProduct);
-UserProductSchema.set('toObject', { getter: true, virtual: true });

@@ -32,7 +32,7 @@ describe('UserService', () => {
         notifications: [],
         backgroundImage: '',
         userProduct: {
-            id: '6085a037720e490a271f9a7c',
+            _id: '6085a037720e490a271f9a7c',
             videos: [],
             tags: [],
             answers: [],

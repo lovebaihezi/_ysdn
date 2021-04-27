@@ -22,16 +22,9 @@ import {
 export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        @InjectModel(UserProduct.name)
-        private readonly userProductModel: Model<UserProductDocument>,
     ) {}
     private async createAccount(auth: { username: string; password: string }) {
-        const userProduct = (
-            await (await this.userProductModel.create({})).save()
-        ).toObject();
-        const user = await this.userModel.create(
-            Object.assign(auth, { userProduct: userProduct._id }),
-        );
+        const user = await this.userModel.create(auth);
         const result = (await user.save()).toObject();
         return remove(result, 'password', '__v', '_id');
     }
@@ -46,41 +39,17 @@ export class UserService {
         }
     }
     public async tokenLogin(token: string) {
-        console.log(token)
         return await this.getUser({ id: token });
     }
     async afterAuthGetUser(username: string) {
         const auth = await this.userModel.findOne({ username }).exec();
-        const result = await this.userProductModel
-            .findById(auth.userProduct)
-            .exec();
-        assert(result !== null, 'TypeError : result is null even call exec');
-        const { id } = result;
-        const userProduct = Remove('__v', '_id')({ ...result.toObject(), id });
-        return Remove(
-            '__v',
-            '_id',
-            'password',
-            'id',
-        )(Object.assign(auth.toObject(), { userProduct }));
+        return Remove('__v', '_id', 'password', 'id')(auth.toObject());
     }
     public async userLogin(username: string, password: string) {
         const auth = await this.userModel.findOne({ username });
         if (auth !== null) {
             if (auth.password === password) {
-                const result = await this.userProductModel
-                    .findById(auth.userProduct)
-                    .exec();
-                const { id } = result;
-                const userProduct = Remove(
-                    '__v',
-                    '_id',
-                )({ ...result.toObject(), id });
-                return Remove(
-                    '__v',
-                    '_id',
-                    'password',
-                )(Object.assign(auth.toObject(), { userProduct }));
+                return Remove('__v', '_id', 'password')(auth.toObject());
             }
             return {
                 message: 'incorrect password!',
@@ -124,8 +93,6 @@ export class UserService {
         return await this.userModel.findById(id, information);
     }
     async deleteUserByUsername({ username }: { username: string }) {
-        const { userProduct } = await this.userModel.findOne({ username });
         await this.userModel.deleteOne({ username });
-        await this.userProductModel.findByIdAndDelete(userProduct);
     }
 }

@@ -25,6 +25,7 @@ declare namespace AjaxJson {
     }
 
     interface userProduct {
+        _id: string;
         id: string;
         videos: _id[];
         tags: string[];

@@ -26,6 +26,7 @@ const Context: FC = ({ children }) => {
             body: JSON.stringify({ id: token }),
         });
         const json: AjaxJson.userDetail = await res.json();
+        console.log(json);
         if (check(json)) {
             setDetail(json);
         }
