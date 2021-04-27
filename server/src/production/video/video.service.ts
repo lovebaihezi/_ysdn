@@ -9,7 +9,7 @@ import {
     VideoDocument,
 } from '../../schema/production.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Random } from 's';
+import { Random } from 'mockjs';
 
 type UpdateVideoInformation =
     | 'title'
