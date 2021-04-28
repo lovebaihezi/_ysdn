@@ -171,7 +171,7 @@ declare namespace AjaxJson {
 
     interface activities {
         _id: string;
-        markAmount: number;// ? check this...
+        markAmount: number; // ? check this...
         holder: userInfo[];
         form: string;
         endTime: Date;
@@ -221,7 +221,7 @@ declare namespace AjaxJson {
 
     type IndexRankQA = Pick<
         QA,
-        'author' | 'title' | '_id' | 'approval' | 'read'
+        'author' | 'title' | '_id' | 'approval' | 'read' | 'disapproval'
     >;
 }
 

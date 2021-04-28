@@ -39,12 +39,25 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => {
                             bodyStyle={{ padding: 0 }}
                             headStyle={{ padding: 0 }}
                             actions={[
-                                <LikeButton
-                                    type={'article'}
-                                    amount={QA.approval - QA.disapproval}
+                                <FollowButton
+                                    amount={0}
                                     initial={
                                         user
-                                            ? user.like.articles.includes(
+                                            ? user.like.questions.includes(
+                                                  QA._id,
+                                              )
+                                            : false
+                                    }
+                                />,
+                                <AnswerButton amount={0} />,
+                                <LikeButton
+                                    type={'article'}
+                                    amount={
+                                        QA.approval - QA.disapproval ? 0 : 0
+                                    }
+                                    initial={
+                                        user
+                                            ? user.like.questions.includes(
                                                   QA._id,
                                               )
                                             : false

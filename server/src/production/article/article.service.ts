@@ -75,8 +75,8 @@ export class ArticleService {
         return articles;
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} article`;
+    findOne(id: string) {
+        return this.articleModel.findById(id).exec();
     }
 
     async updateMark(id: string, userId: string) {
@@ -123,6 +123,13 @@ export class ArticleService {
     async updateApproval(id: string, userId: string) {
         const article = await this.articleModel.findById(id);
         const user = await this.userModel.findById(userId);
+        if (user.like.articles.includes(article._id)) {
+            return {
+                message: 'you have already done this!',
+                type: 'info',
+                from: 'server',
+            };
+        }
         await article.updateOne({ $inc: { approval: 1 } });
         user.like.articles.push(article);
         await article.save();

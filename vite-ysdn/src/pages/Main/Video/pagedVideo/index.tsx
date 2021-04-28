@@ -1,12 +1,6 @@
 import { Row, Col, Card, Button, Tag } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 
-import {
-    EyeOutlined,
-    LikeOutlined,
-    CommentOutlined,
-    StarOutlined,
-} from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
@@ -19,29 +13,7 @@ import {
     ReadButton,
 } from '../../../../component/ActionButton';
 import { useUserDetail } from '../../../../auth';
-// const Actions: FC<{ video: AjaxJson.video }> = ({ video }) => (
-//     <Action>
-//         <Col flex="auto">
-//             <Row className="actionContain" justify="end">
-//                 <Col className="action">
-//                     <EyeOutlined />
-//                     {video.read}
-//                 </Col>
-//                 <Col className="action">
-//                     <LikeOutlined />
-//                     {video.approval}
-//                 </Col>
-//                 <Col className="action">
-//                     <CommentOutlined />
-//                     {video.commentsAmount}
-//                 </Col>
-//                 <Col className="action">
-//                     <StarOutlined />
-//                 </Col>
-//             </Row>
-//         </Col>
-//     </Action>
-// );
+
 
 const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) => {
     const [user] = useUserDetail();

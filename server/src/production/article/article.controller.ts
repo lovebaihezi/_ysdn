@@ -39,8 +39,13 @@ export class ArticleController {
         return this.articleService.findAllRecommend();
     }
 
+    @Get(':id')
+    findOneArticle(@Param('id') id: string) {
+        return this.articleService.findOne(id);
+    }
+
     @Get(':tag/:type')
-    findOne(@Param('tag') tag: string, @Param('type') type: string) {
+    findTagType(@Param('tag') tag: string, @Param('type') type: string) {
         return this.articleService.findAllRecommend();
     }
 

@@ -10,7 +10,7 @@ import { AjaxJson } from './interface';
 import { message, Result } from 'antd';
 import check from './tools/check';
 
-// todo : check user link!!! auth => nickname!
+// TODO : all like, mark data must fetch when in a new page(or just let all this button fetch...)
 
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);

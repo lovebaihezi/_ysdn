@@ -11,10 +11,11 @@ import {
     LikeButton,
     ReadButton,
 } from '../../../../../../component/ActionButton';
-
+import { useUserDetail } from '../../../../../../auth';
 
 //TODO : finish this!
 const QARank: Component<AjaxJson.IndexRankQA[]> = ({ Response }) => {
+    const [user] = useUserDetail();
     return (
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
@@ -31,6 +32,26 @@ const QARank: Component<AjaxJson.IndexRankQA[]> = ({ Response }) => {
                                         headStyle={{ padding: 0 }}
                                         actions={[
                                             <UserLink user={QA.author} />,
+                                            <LikeButton
+                                                type={'article'}
+                                                amount={
+                                                    QA.approval - QA.disapproval
+                                                        ? 0
+                                                        : 0
+                                                }
+                                                initial={
+                                                    user
+                                                        ? user.like.questions.includes(
+                                                              QA._id,
+                                                          )
+                                                        : false
+                                                }
+                                                id={QA._id}
+                                            />,
+                                            <ReadButton
+                                                amount={QA.read}
+                                                link={`/QA/${QA._id}`}
+                                            />,
                                         ]}
                                     />
                                 </Col>
