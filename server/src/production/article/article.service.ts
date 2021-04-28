@@ -9,42 +9,28 @@ import {
     productionName,
 } from '../../schema/production.schema';
 import { Random } from 'mockjs';
-import { Model, Schema, SchemaType, SchemaTypes } from 'mongoose';
+import {
+    Model,
+    Types,
+    Mongoose,
+    Schema,
+    SchemaType,
+    SchemaTypes,
+} from 'mongoose';
 import { User, UserDocument } from '../../schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { assert } from 'console';
+import { remove } from 'src/tools';
 
-const y = () =>
-    new Array(10).fill(0).map(() => ({
-        comments: [],
-        id: Random.id(),
-        createTime: new Date(),
-        title: Random.title(1),
-        content: Random.paragraph(3),
-        like: [],
-        read: Random.integer(0, 1000),
-        marked: false,
-        approval: Random.integer(0, 1000),
-        disapproval: 0,
-        markAmount: 0,
-        modifyTime: [new Date()],
-        tags: [{ name: 'test', createTime: new Date(), clickTimes: 0 }],
-        liked: false,
-        authors: [
-            {
-                Account: {
-                    createTime: new Date(),
-                    auth: Random.name(),
-                    email: Random.email(),
-                    nickname: Random.string(),
-                    telephone: Random.string(),
-                },
-                avatarUrl: Random.image(),
-            },
-        ],
-        lastModifyTime: new Date(),
-        coverImgUrl: Random.image('720x300'),
-        commentsAmount: 0,
-    }));
+import { Document } from 'mongoose';
+interface IChild extends Types.EmbeddedDocument {
+    name: string;
+}
+
+interface IParent extends Document {
+    name: string;
+    children: Types.DocumentArray<IChild>;
+}
 
 @Injectable()
 export class ArticleService {
@@ -54,18 +40,22 @@ export class ArticleService {
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     ) {}
     async createArticle(
-        id: string,
+        userID: string,
         createArticleDto: CreateArticleDto,
     ): Promise<AjaxJson.responseMessage> {
+        const user = await this.userModel.findById(userID).exec();
+        assert(user !== undefined, 'TypeError, user is null');
         const createTime = new Date();
         const lastModifyTime = new Date();
+        const modifyTime = [new Date()];
         const article = await this.articleModel.create({
             ...createArticleDto,
             createTime,
             lastModifyTime,
+            modifyTime,
+            author: user.toObject(),
         });
         const result = await article.save();
-        const user = await this.userModel.findById(id);
         user.userProduct.articles.push(result.id);
         await user.save();
         return {
@@ -75,12 +65,14 @@ export class ArticleService {
         };
     }
 
-    findAllRank() {
-        return y();
+    async findAllRank() {
+        const articles = await this.articleModel.find({}).limit(10);
+        return articles;
     }
 
-    findAllRecommend() {
-        return y();
+    async findAllRecommend() {
+        const articles = await this.articleModel.find({}).limit(10);
+        return articles;
     }
 
     findOne(id: number) {
@@ -90,8 +82,15 @@ export class ArticleService {
     async updateMark(id: string, userId: string) {
         const article = await this.articleModel.findById(id);
         const user = await this.userModel.findById(userId);
+        if (article.marks.includes(user._id)) {
+            return {
+                message: 'you have already done this!',
+                type: 'info',
+                from: 'server',
+            };
+        }
         await article.update({ $inc: { markAmount: 1 } });
-        article.marks.push(new SchemaTypes.ObjectId(userId));
+        article.marks.push(user._id);
         user.marks.push({
             name: productionName.Article,
             id: id,
@@ -105,10 +104,26 @@ export class ArticleService {
         };
     }
 
+    async removeMark(id: string, userId: string) {
+        const article = await this.articleModel.findById(id);
+        const user = await this.userModel.findById(userId);
+        //TODO  : add guard for minus 1
+        await article.updateOne({ $inc: { markAmount: -1 } });
+        user.marks = user.marks.filter((v) => v.id !== id);
+        article.marks.pull(userId);
+        await article.save();
+        await user.save();
+        return {
+            message: 'operation successfully!',
+            type: 'success',
+            from: 'server',
+        };
+    }
+
     async updateApproval(id: string, userId: string) {
         const article = await this.articleModel.findById(id);
         const user = await this.userModel.findById(userId);
-        await article.update({ $inc: { approval: 1 } });
+        await article.updateOne({ $inc: { approval: 1 } });
         user.like.articles.push(article);
         await article.save();
         await user.save();
@@ -119,24 +134,11 @@ export class ArticleService {
         };
     }
 
-    async removeMark(id: string, userId: string) {
-        const article = await this.articleModel.findById(id);
-        const user = await this.userModel.findById(userId);
-        await article.update({ $inc: { markAmount: -1 } });
-        user.marks = user.marks.filter((v) => v.id !== id);
-        await article.save();
-        await user.save();
-        return {
-            message: 'operation successfully!',
-            type: 'success',
-            from: 'server',
-        };
-    }
     async removeApproval(id: string, userId: string) {
         const article = await this.articleModel.findById(id);
         const user = await this.userModel.findById(userId);
-        await article.update({ $inc: { approval: -1 } });
-        console.log((user.like.articles as any).pull as any);
+        await article.updateOne({ $inc: { approval: -1 } });
+        user.like.articles.pull(article._id);
         await article.save();
         await user.save();
         return {

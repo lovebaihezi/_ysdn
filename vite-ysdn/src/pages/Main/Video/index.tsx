@@ -4,19 +4,27 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { baseurl } from '../../../auth';
 import Ajax from '../../../component/AjaxResponse';
-import TagSwitch, { useTag } from '../../../component/tagSwitch';
+import TagSwitch, { InnerTag, useTag } from '../../../component/TagSwitch';
 import { useFetchProps } from '../../../tools/hook/useFetch';
-import PagedArticles from './pagedVideo';
+import PagedVideo from './pagedVideo';
 
-const MainContain: FC = () => {
+// const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
+//     const tag = useTag();
+//     const Request: useFetchProps = {
+//         url: baseurl + `/article/${OuterTag}/${tag}`,
+//     };
+//     return useMemo(() => <Ajax Request={Request} Component={PagedArticles} />, [
+//         tag,
+//         OuterTag,
+//     ]);
+// };
+
+const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const tab = useTag();
     const Request: useFetchProps = {
-        url: baseurl + `/article/tags/${tab}`,
-        option: {
-            method: 'POST',
-        },
+        url: baseurl + `/video/${OuterTag}/${tab}`,
     };
-    return useMemo(() => <Ajax Request={Request} Component={PagedArticles} />, [
+    return useMemo(() => <Ajax Request={Request} Component={PagedVideo} />, [
         tab,
     ]);
 };
@@ -43,9 +51,10 @@ export default function Video() {
                     ]}
                     tabBarExtraContent={<Link to="/update/video">submit</Link>}
                 >
-                    <TagSwitch tags={['Hottest', 'Newest']}>
-                        <MainContain />
-                    </TagSwitch>
+                    <InnerTag
+                        Component={MainContain}
+                        tags={['Hottest', 'Newest']}
+                    />
                 </TagSwitch>
             </Col>
         </Row>

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { FC } from 'react';
 import { baseurl } from '../../../auth';
 import Ajax from '../../../component/AjaxResponse';
-import TagSwitch, { InnerTag, useTag } from '../../../component/tagSwitch';
+import TagSwitch, { InnerTag, useTag } from '../../../component/TagSwitch';
 import { useFetchProps } from '../../../tools/hook/useFetch';
 
 import PagedActivities from './pagedActivities';

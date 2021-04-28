@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 
 import './editor.css';
 
-export default function Editor({ onInput }: { onInput: CallableFunction }) {
+export default function Editor({ onInput }: { onInput: (v: string) => void }) {
     const [value, setValue] = useState<string>('');
     return (
         <Row>

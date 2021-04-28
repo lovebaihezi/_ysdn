@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row } from 'antd';
 import React from 'react';
 import { Component } from '../../../../component/AjaxResponse';
-import AvatarLink from '../../../../component/avatarLink';
+import AvatarLink from '../../../../component/AvatarLink';
 import TagLink from '../../../../component/Tag';
 import { AjaxJson } from '../../../../interface';
 import MarkdownView from 'react-showdown';
@@ -12,7 +12,8 @@ import {
     DislikeFilled,
     LikeFilled,
 } from '@ant-design/icons';
-
+import UserLink from '../../../../component/UserLink';
+//TODO : fix this
 const Render: Component<AjaxJson.QA> = ({ Response }) => {
     return (
         <Row>
@@ -30,18 +31,14 @@ const Render: Component<AjaxJson.QA> = ({ Response }) => {
                                         display: 'flex',
                                     }}
                                 >
-                                    <AvatarLink
-                                        name={Response.author.Account.nickname}
-                                        style={{ color: 'blue' }}
-                                        to={`/user/${Response.author.Account.nickname}`}
-                                    />
+                                    <UserLink user={Response.author} />
                                 </Col>
                                 <Col offset={1}>
                                     {Response.createTime.toLocaleString()}
                                 </Col>
                                 <Col offset={1}>
                                     {Response.tags.map((name) => (
-                                        <TagLink to={`/tags/${name}`}>
+                                        <TagLink link={`/tags/${name}`}>
                                             {name}
                                         </TagLink>
                                     ))}

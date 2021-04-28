@@ -10,7 +10,15 @@ import {
 import Avatar from 'antd/lib/avatar/avatar';
 import { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
-import { AnswerButton, FollowButton, ReadButton, LikeButton } from '../../../../component/actionButton';
+import {
+    AnswerButton,
+    FollowButton,
+    ReadButton,
+    LikeButton,
+    CommentButton,
+    MarkButton,
+} from '../../../../component/ActionButton';
+import { useUserDetail } from '../../../../auth';
 
 // const Actions: FC<{ QA: AjaxJson.QA }> = ({ QA }) => (
 //     <Action tagPosition="right" tags={QA.tags}>
@@ -43,24 +51,48 @@ import { AnswerButton, FollowButton, ReadButton, LikeButton } from '../../../../
 //     </Action>
 // );
 
-const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) =>
-    useMemo(
+const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) => {
+    const [user] = useUserDetail();
+    return useMemo(
         () => (
             <>
                 <Row>
                     {Response.map((QA) => (
-                        <Col span={24} key={QA.id}>
+                        <Col span={24} key={QA._id}>
                             <Card
                                 bordered={false}
                                 title={QA.title}
                                 actions={[
-                                    <AnswerButton amount={13} />,
-                                    <FollowButton
-                                        amount={17}
-                                        initial={false}
+                                    <LikeButton
+                                        type="QA"
+                                        amount={QA.approval - QA.disapproval}
+                                        initial={
+                                            user
+                                                ? user.like.questions.includes(
+                                                      QA._id,
+                                                  )
+                                                : false
+                                        }
+                                        id={QA._id}
                                     />,
-                                    <ReadButton amount={14} link={''} />,
-                                    <LikeButton amount={15} initial={false} />,
+                                    <MarkButton
+                                        amount={QA.markAmount}
+                                        type="QA"
+                                        initial={
+                                            user
+                                                ? user.marks.includes(QA._id)
+                                                : false
+                                        }
+                                        id={QA._id}
+                                    />,
+                                    <CommentButton
+                                        amount={QA.commentsAmount}
+                                        link={`/QA/${QA._id}/#comment`}
+                                    />,
+                                    <ReadButton
+                                        amount={QA.read}
+                                        link={`/QA/${QA._id}`}
+                                    />,
                                 ]}
                                 headStyle={{ padding: 0, border: 0 }}
                                 style={{ cursor: 'pointer' }}
@@ -79,7 +111,8 @@ const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) =>
                 </Row>
             </>
         ),
-        [Response],
+        [Response, user],
     );
+};
 
 export default PagedQAs;

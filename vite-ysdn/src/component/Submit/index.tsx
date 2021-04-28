@@ -2,7 +2,7 @@ import { Button, Col, Input, Row } from 'antd';
 import React, { FC, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { LeftOutlined } from '@ant-design/icons';
-import Editor from '../editor';
+import Editor from '../Editor';
 
 const BackButton: FC = () => {
     const History = useHistory();
@@ -27,13 +27,16 @@ const BackButton: FC = () => {
 //todo : add submit action
 
 export default function Submit({
+    onSubmit,
     placeholder,
     tips,
 }: {
+    onSubmit: (context: { title: string; content: string }) => void;
     placeholder?: string;
     tips?: string;
 }) {
     const [title, setTitle] = useState('no title');
+    const [content, setContent] = useState('');
     return (
         <Row>
             <Col span={22} offset={1}>
@@ -70,7 +73,14 @@ export default function Submit({
                                     alignItems: 'center',
                                 }}
                             >
-                                <Button type="primary">submit</Button>
+                                <Button
+                                    onClick={(e) => {
+                                        onSubmit({ title, content });
+                                    }}
+                                    type="primary"
+                                >
+                                    submit
+                                </Button>
                             </Col>
                         </Row>
                     </Col>
@@ -83,7 +93,9 @@ export default function Submit({
                         />
                     </Col>
                     <Col span={24}>
-                        <Editor onInput={console.log} />
+                        <Editor onInput={(v) => {
+                            setContent(v)
+                        }} />
                     </Col>
                 </Row>
             </Col>

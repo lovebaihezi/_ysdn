@@ -35,7 +35,6 @@ const y = () => {
     });
     return new Array(8).fill(8).map(Response);
 };
-
 @Injectable()
 export class QaService {
     constructor() {}

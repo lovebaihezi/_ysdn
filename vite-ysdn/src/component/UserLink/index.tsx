@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import AvatarLink from '../avatarLink';
+import AvatarLink from '../AvatarLink';
 
 const UserLink: FC<{
     user: { username: string; avatarUrl?: string; nickname: string };

@@ -32,7 +32,7 @@ export default function RegisterForm() {
             if (!json.message) {
                 const res = json as AjaxJson.userDetail;
                 S(res);
-                localStorage.setItem('id', res.id);
+                localStorage.setItem('id', res._id);
                 History.push(`${url}/chooseTags`);
             } else {
                 const res = json as AjaxJson.responseMessage;

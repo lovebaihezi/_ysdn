@@ -18,7 +18,7 @@ const MonographCard: Component<AjaxJson.monographic[]> = ({ Response }) => {
                     {Response.map((monograph) => (
                         <Col
                             span={8}
-                            key={monograph.id}
+                            key={monograph._id}
                             style={{ padding: 10 }}
                         >
                             <Card
@@ -31,7 +31,7 @@ const MonographCard: Component<AjaxJson.monographic[]> = ({ Response }) => {
                                     />
                                 }
                                 onClick={(e) => {
-                                    H.push(`/monograph/${monograph.id}`);
+                                    H.push(`/monograph/${monograph._id}`);
                                 }}
                             >
                                 <Row>

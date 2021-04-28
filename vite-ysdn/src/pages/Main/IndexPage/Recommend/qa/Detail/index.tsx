@@ -11,59 +11,76 @@ import {
 } from '@ant-design/icons';
 import { FC } from 'react';
 import './Detail.css';
-import AvatarLink from '../../../../../../component/avatarLink';
+import AvatarLink from '../../../../../../component/AvatarLink';
 import { Link } from 'react-router-dom';
-import UserLink from '../../../../../../component/userLink';
+import UserLink from '../../../../../../component/UserLink';
 import {
     AnswerButton,
     FollowButton,
     LikeButton,
     ReadButton,
-} from '../../../../../../component/actionButton';
+} from '../../../../../../component/ActionButton';
+import { useUserDetail } from '../../../../../../auth';
 
-const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => (
-    <Col span={22} offset={1} style={{ margin: '2px 0' }} className="Detail">
-        <Link to={`/QA/${QA.id}`}>
-            <Row>
-                <Col span={24}>
-                    <Card
-                        bordered={false}
-                        bodyStyle={{ padding: 0 }}
-                        headStyle={{ padding: 0 }}
-                        actions={[
-                            <AnswerButton amount={13} />,
-                            <FollowButton amount={17} initial={false} />,
-                            <ReadButton amount={14} link={''} />,
-                            <LikeButton amount={15} initial={false} />,
-                        ]}
-                    >
-                        <Row className="actionContain">
-                            <Col span={24} className="title action">
-                                {QA.title}
-                            </Col>
-                            <Col
-                                span={24}
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                }}
-                            >
-                                <UserLink user={QA.author} />
-                            </Col>
-                            <Col
-                                span={24}
-                                style={{ height: 60, overflow: 'hidden' }}
-                            >
-                                {QA.content}
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-            </Row>
-        </Link>
-    </Col>
-);
-
+const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => {
+    const [user] = useUserDetail();
+    return (
+        <Col
+            span={22}
+            offset={1}
+            style={{ margin: '2px 0' }}
+            className="Detail"
+        >
+            <Link to={`/QA/${QA._id}`}>
+                <Row>
+                    <Col span={24}>
+                        <Card
+                            bordered={false}
+                            bodyStyle={{ padding: 0 }}
+                            headStyle={{ padding: 0 }}
+                            actions={[
+                                <LikeButton
+                                    type={'article'}
+                                    amount={QA.approval - QA.disapproval}
+                                    initial={
+                                        user
+                                            ? user.like.articles.includes(
+                                                  QA._id,
+                                              )
+                                            : false
+                                    }
+                                    id={QA._id}
+                                />,
+                            ]}
+                        >
+                            <Row className="actionContain">
+                                <Col span={24} className="title action">
+                                    {QA.title}
+                                </Col>
+                                <Col
+                                    span={24}
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'flex-start',
+                                    }}
+                                >
+                                    <UserLink user={QA.author} />
+                                </Col>
+                                <Col
+                                    span={24}
+                                    style={{ height: 60, overflow: 'hidden' }}
+                                >
+                                    {QA.content}
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                </Row>
+            </Link>
+        </Col>
+    );
+};
+//TODO : finish this!
 const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => {
     return (
         <Row>
@@ -80,7 +97,7 @@ const DetailQA: Component<AjaxJson.IndexDetailQA[]> = ({ Response }) => {
                 >
                     <Row>
                         {Response.map((QA) => (
-                            <QACard key={QA.id} QA={QA} />
+                            <QACard key={QA._id} QA={QA} />
                         ))}
                     </Row>
                 </Card>

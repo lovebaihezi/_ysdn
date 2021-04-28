@@ -9,7 +9,8 @@ import {
     MarkButton,
     CommentButton,
     ReadButton,
-} from '../../../../component/actionButton';
+} from '../../../../component/ActionButton';
+import { useUserDetail } from '../../../../auth';
 
 const time = (S: Date, E: Date) => {
     const now = new Date();
@@ -22,6 +23,7 @@ const time = (S: Date, E: Date) => {
     }
 };
 const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
+    const [user] = useUserDetail();
     return (
         <Row>
             {Response.map((activity) => (
@@ -44,8 +46,30 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                                 </>
                             }
                             actions={[
-                                <LikeButton amount={12} initial={true} />,
-                                <MarkButton amount={12} initial={true} />,
+                                <LikeButton
+                                    type="activity"
+                                    amount={
+                                        activity.approval - activity.disapproval
+                                    }
+                                    initial={
+                                        user
+                                            ? user.like.activities.includes(
+                                                activity._id,
+                                              )
+                                            : false
+                                    }
+                                    id={activity._id}
+                                />,
+                                <MarkButton
+                                    amount={activity.markAmount}
+                                    type="activity"
+                                    initial={
+                                        user
+                                            ? user.marks.includes(activity._id)
+                                            : false
+                                    }
+                                    id={activity._id}
+                                />,
                                 <CommentButton amount={12} link={''} />,
                                 <ReadButton amount={12} link={''} />,
                                 <Button

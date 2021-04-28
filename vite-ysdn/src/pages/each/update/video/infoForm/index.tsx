@@ -20,9 +20,9 @@ const AuthorOptions: Component<AjaxJson.userInfo[]> = ({ Response }) => {
         <Select>
             {Response.map((u) => (
                 <Select.Option
-                    key={u.Account.nickname}
-                    children={u.Account.nickname}
-                    value={u.Account.nickname}
+                    key={u.nickname}
+                    children={u.nickname}
+                    value={u.nickname}
                 />
             ))}
         </Select>

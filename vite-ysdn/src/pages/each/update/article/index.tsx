@@ -2,5 +2,5 @@ import React from 'react';
 import Submit from '../../../../component/Submit';
 
 export default function UpdateArticle() {
-    return <Submit />;
+    return <Submit onSubmit={console.log} />;
 }

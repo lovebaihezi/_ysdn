@@ -10,7 +10,7 @@ const VideoRank: Component<AjaxJson.video[]> = ({ Response }) => {
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
                 {Response.slice(0, 4).map((video, index) => (
-                    <Col key={video.id} span={24}>
+                    <Col key={video._id} span={24}>
                         <Row>
                             <Col span={6}></Col>
                             <Col

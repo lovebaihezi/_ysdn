@@ -1,5 +1,5 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId, SchemaTypes } from 'mongoose';
+import { Document, ObjectId, SchemaTypes, Types } from 'mongoose';
 import {
     Activity,
     Answer,
@@ -15,99 +15,99 @@ export type UserDocument = User & Document;
 export type NotificationDocument = Notification & Document;
 export type UserProductDocument = UserProduct & Document;
 @Schema()
-export class UserProduct {
+export class UserProduct extends Types.Subdocument {
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
-        default: []
+        default: [],
     })
-    articles: Article[];
+    articles: Types.Array<Article>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
         default: [],
     })
-    videos: Video[];
+    videos: Types.Array<Video>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
         default: [],
     })
-    comments: Comment[];
+    comments: Types.Array<Comment>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
         default: [],
     })
-    tags: Tag[];
+    tags: Types.Array<Tag>;
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
         default: [],
     })
-    questions: Question[];
+    questions: Types.Array<Question>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
         default: [],
     })
-    answers: Answer[];
+    answers: Types.Array<Answer>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
         default: [],
     })
-    activities: Activity[];
+    activities: Types.Array<Activity>;
 }
 
 export const UserProductSchema = SchemaFactory.createForClass(UserProduct);
 
 @Schema()
-export class Like {
+export class Like extends Types.Subdocument {
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }],
         default: [],
     })
-    articles: Article[];
+    articles: Types.Array<Article>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Video' }],
         default: [],
     })
-    videos: Video[];
+    videos: Types.Array<Video>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Comment' }],
         default: [],
     })
-    comments: Comment[];
+    comments: Types.Array<Comment>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Tag' }],
         default: [],
     })
-    tags: Tag[];
+    tags: Types.Array<Tag>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Question' }],
         default: [],
     })
-    questions: Question[];
+    questions: Types.Array<Question>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Answer' }],
         default: [],
     })
-    answers: Answer[];
+    answers: Types.Array<Answer>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Activity' }],
         default: [],
     })
-    activities: Activity[];
+    activities: Types.Array<Activity>;
 }
 
 export const LikeSchema = SchemaFactory.createForClass(Like);
 @Schema({})
-export class User {
+export class User extends Types.Subdocument {
     @Prop({ default: 'anonymous' })
     nickname: string;
 
@@ -127,19 +127,19 @@ export class User {
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    follow: User[];
+    follow: Types.Array<User>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    follower: User[];
+    follower: Types.Array<User>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Notification' }],
         default: [],
     })
-    notifications: Notification[];
+    notifications: Types.Array<Notification>;
 
     @Prop({
         required: true,
@@ -192,7 +192,7 @@ export class User {
 }
 
 @Schema()
-export class Notification {
+export class Notification extends Types.Subdocument {
     @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
     sender: ObjectId;
 

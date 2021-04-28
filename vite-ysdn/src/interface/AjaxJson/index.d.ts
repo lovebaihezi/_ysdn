@@ -24,9 +24,17 @@ declare namespace AjaxJson {
         to: userInfo;
     }
 
+    interface like {
+        _id: string;
+        videos: _id[];
+        answers: _id[];
+        articles: _id[];
+        questions: _id[];
+        activities: _id[];
+    }
+
     interface userProduct {
         _id: string;
-        id: string;
         videos: _id[];
         tags: string[];
         answers: _id[];
@@ -37,17 +45,12 @@ declare namespace AjaxJson {
     }
 
     interface userDetail {
-        id: string;
+        _id: string;
         username: string;
         nickname: string;
         tags: string[];
         marks: _id[];
-        liked: _id[];
-        videos: _id[];
-        answers: _id[];
-        articles: _id[];
-        questions: _id[];
-        activities: _id[];
+        like: like;
         userProduct: userProduct;
         avatarUrl: string;
         follow: userInfo[];
@@ -57,7 +60,7 @@ declare namespace AjaxJson {
     }
 
     interface production {
-        id: _id;
+        _id: _id;
         tags: tag[];
         read: number;
         title: string;
@@ -120,12 +123,15 @@ declare namespace AjaxJson {
     }
 
     interface QA extends question {
+        markAmount: number;
+        commentsAmount: number;
         answerAmount: number;
-        id: string;
+        _id: string;
         answer: answer[];
     }
 
     interface question {
+        _id: string;
         read: number;
         title: string;
         tags: string[];
@@ -146,6 +152,7 @@ declare namespace AjaxJson {
     }
 
     interface video extends production {
+        author: userInfo;
         videoSrc: string;
         mark: userInfo[];
         briefIntro: string;
@@ -163,6 +170,8 @@ declare namespace AjaxJson {
     }
 
     interface activities {
+        _id: string;
+        markAmount: number;// ? check this...
         holder: userInfo[];
         form: string;
         endTime: Date;
@@ -174,6 +183,8 @@ declare namespace AjaxJson {
         amount: amount;
         max: amount;
         status: activitiesStatus;
+        approval: number;
+        disapproval: number;
     }
 
     type IndexDetailArticle = Pick<
@@ -182,26 +193,35 @@ declare namespace AjaxJson {
         | 'commentsAmount'
         | 'title'
         | 'createTime'
-        | 'id'
         | 'approval'
         | 'read'
         | 'coverImgUrl'
         | 'tags'
+        | 'markAmount'
+        | 'disapproval'
+        | '_id'
     >;
 
     type IndexRankArticle = Pick<
         article,
-        'author' | 'title' | 'id' | 'approval' | 'read'
+        'author' | 'title' | '_id' | 'approval' | 'read' | 'disapproval'
     >;
 
     type IndexDetailQA = Pick<
         QA,
-        'author' | 'title' | 'id' | 'approval' | 'read' | 'tags' | 'content'
+        | 'author'
+        | 'title'
+        | '_id'
+        | 'approval'
+        | 'read'
+        | 'tags'
+        | 'content'
+        | 'disapproval'
     >;
 
     type IndexRankQA = Pick<
         QA,
-        'author' | 'title' | 'id' | 'approval' | 'read'
+        'author' | 'title' | '_id' | 'approval' | 'read'
     >;
 }
 

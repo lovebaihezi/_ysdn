@@ -10,15 +10,15 @@ import {
     CommentOutlined,
 } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
-import AvatarLink from '../../../../../../component/avatarLink';
-import UserLink from '../../../../../../component/userLink';
+import AvatarLink from '../../../../../../component/AvatarLink';
+import UserLink from '../../../../../../component/UserLink';
 
 const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
     <Row>
         <Col span={24} style={{ overflow: 'hidden' }}>
             <Row wrap={false}>
                 {Response.map((video) => (
-                    <Col span={8} key={video.id} style={{ padding: 10 }}>
+                    <Col span={8} key={video._id} style={{ padding: 10 }}>
                         <Card
                             className="monographCard"
                             cover={
@@ -32,10 +32,7 @@ const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => (
                                 <Row>
                                     <Col span={12}>
                                         <UserLink
-                                            src={video.authors[0].avatarUrl}
-                                            name={
-                                                video.authors[0].Account.nickname
-                                            }
+                                            user={video.author}
                                         />
                                     </Col>
                                     <Col span={12}>

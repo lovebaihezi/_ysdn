@@ -10,49 +10,80 @@ import {
     MarkButton,
     CommentButton,
     ReadButton,
-} from '../../../../component/actionButton';
+} from '../../../../component/ActionButton';
 import Tags from '../../../../component/ActionTags';
+import { useUserDetail } from '../../../../auth';
 
-const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
-    useMemo(
+const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
+    const [user] = useUserDetail();
+    return useMemo(
         () => (
             <>
                 <Row>
                     {Response.map((article) => (
-                        <Col span={24} key={article.id}>
-                            <Link to={`/article/${article.id}`}>
+                        <Col span={24} key={article._id}>
+                            <Link to={`/article/${article._id}`}>
                                 <Card
                                     bordered={false}
                                     title={article.title}
                                     actions={[
-                                        <Tags tags={['test']} />,
+                                        <Tags
+                                            tags={article.tags.map(
+                                                (v) => v.name,
+                                            )}
+                                        />,
                                         <LikeButton
-                                            amount={12}
-                                            initial={true}
+                                            type={'article'}
+                                            amount={
+                                                article.approval -
+                                                article.disapproval
+                                            }
+                                            initial={
+                                                user
+                                                    ? user.like.articles.includes(
+                                                          article._id,
+                                                      )
+                                                    : false
+                                            }
+                                            id={article._id}
                                         />,
                                         <MarkButton
-                                            amount={12}
-                                            initial={true}
+                                            amount={article.markAmount}
+                                            type={'article'}
+                                            initial={
+                                                user
+                                                    ? user.marks.includes(
+                                                          article._id,
+                                                      )
+                                                    : false
+                                            }
+                                            id={article._id}
                                         />,
-                                        <CommentButton amount={12} link={''} />,
-                                        <ReadButton amount={12} link={''} />,
+                                        <CommentButton
+                                            amount={article.commentsAmount}
+                                            link={`/article/${article._id}/#comment`}
+                                        />,
+                                        <ReadButton
+                                            amount={article.read}
+                                            link={`/article/${article._id}`}
+                                        />,
                                     ]}
                                     headStyle={{ padding: 0, border: 0 }}
                                 >
                                     <Card.Meta
-                                        title={article.authors[0].toString()}
+                                        title={article.author.nickname}
                                         avatar={
                                             <Avatar
-                                                src={
-                                                    article.authors[0].avatarUrl
-                                                }
+                                                src={article.author.avatarUrl}
                                             />
                                         }
-                                        description={article.content}
+                                        description={article.content.slice(
+                                            0,
+                                            200,
+                                        )}
                                     />
                                 </Card>
                             </Link>
-                            <Divider />
                         </Col>
                     ))}
                 </Row>
@@ -60,5 +91,6 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) =>
         ),
         [Response],
     );
+};
 
 export default PagedArticles;

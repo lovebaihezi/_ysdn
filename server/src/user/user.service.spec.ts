@@ -29,14 +29,14 @@ describe('UserService', () => {
         service = module.get<UserService>(UserService);
     });
     afterEach(async () => {
-        service.deleteUserByUsername({ username: 'lqxclqxc' });
+        service.deleteUserByUsername({ username: 'lqxclqxc1' });
     });
     it('should be defined', async () => {
         expect(service).toBeDefined();
     });
     it('should register', async () => {
         const { username } = (await service.userRegister({
-            username: 'lqxclqxc',
+            username: 'lqxclqxc1',
             password: 'lqxclqxclqxc',
         })) as { username: string };
         expect(username).toBeDefined();

@@ -9,7 +9,7 @@ const Magazine: Component<{}> = ({ Response }) => {
 
 export default function Periodicals({ name }: { name: string }) {
     const RequestInfo: useFetchProps = {
-        url: `/periodicals/${name}`,
+        url: `/${name}/periodicals/`,
         option: {
             method: 'POST',
         },

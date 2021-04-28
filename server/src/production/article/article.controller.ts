@@ -6,21 +6,27 @@ import {
     Patch,
     Param,
     Delete,
+    Req,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { Request } from 'express';
+
+class I {
+    id: string;
+}
 
 @Controller('article')
 export class ArticleController {
     constructor(private readonly articleService: ArticleService) {}
 
-    @Post(':userId')
+    @Post(':userID')
     create(
-        @Param('userId') userId: string,
+        @Param('userID') userID: string,
         @Body() createArticleDto: CreateArticleDto,
     ) {
-        return this.articleService.createArticle(userId, createArticleDto);
+        return this.articleService.createArticle(userID, createArticleDto);
     }
 
     @Get('rank')
@@ -33,21 +39,39 @@ export class ArticleController {
         return this.articleService.findAllRecommend();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.articleService.findOne(+id);
+    @Get(':tag/:type')
+    findOne(@Param('tag') tag: string, @Param('type') type: string) {
+        return this.articleService.findAllRecommend();
     }
 
-    @Patch(':id')
-    update(
-        @Param('id') id: string,
-        @Body() updateArticleDto: UpdateArticleDto,
+    @Patch('/approval/:articleId')
+    updateApproval(@Param('articleId') articleId: string, @Body() { id }: I) {
+        return this.articleService.updateApproval(articleId, id);
+    }
+
+    @Patch('/mark/:articleId')
+    updateMark(@Param('articleId') articleId, @Body() body: I) {
+        console.log(body);
+        return this.articleService.updateMark(articleId, body.id);
+    }
+
+    @Delete('/approval/:articleId')
+    removeApproval(
+        @Param('articleId')
+        articleId: string,
+        @Body()
+        { id }: I,
     ) {
-        // return this.articleService.update(+id, updateArticleDto);
+        return this.articleService.removeApproval(articleId, id);
     }
 
-    @Delete(':id')
-    remove(@Param('id') id: string) {
-        // return this.articleService.remove(+id);
+    @Delete('/mark/:articleId')
+    removeMark(
+        @Param('articleId')
+        articleId: string,
+        @Body()
+        { id }: I,
+    ) {
+        return this.articleService.removeMark(articleId, id);
     }
 }

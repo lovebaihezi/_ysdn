@@ -8,15 +8,17 @@ import {
     MarkButton,
     CommentButton,
     ReadButton,
-} from '../../../../../../component/actionButton';
+} from '../../../../../../component/ActionButton';
+import { useUserDetail } from '../../../../../../auth';
 
 const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
+    const [user] = useUserDetail();
     return (
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
-                {Response.slice(0, 10).map((article) => (
-                    <Col key={article.id} span={24}>
-                        <Link to={`/article/${article.id}`}>
+                {Response.slice(0, 5).map((article) => (
+                    <Col key={article._id} span={24}>
+                        <Link to={`/article/${article._id}`}>
                             <Row>
                                 <Col span={6}></Col>
                                 <Col span={18} style={{ cursor: 'pointer' }}>
@@ -27,20 +29,23 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                         headStyle={{ padding: 0 }}
                                         actions={[
                                             <LikeButton
-                                                amount={12}
-                                                initial={true}
-                                            />,
-                                            <MarkButton
-                                                amount={12}
-                                                initial={true}
-                                            />,
-                                            <CommentButton
-                                                amount={12}
-                                                link={`/article/${article.id}/#comment`}
+                                            type={"article"}
+                                                amount={
+                                                    article.approval -
+                                                    article.disapproval
+                                                }
+                                                initial={
+                                                    user
+                                                        ? user.like.articles.includes(
+                                                              article._id,
+                                                          )
+                                                        : false
+                                                }
+                                                id={article._id}
                                             />,
                                             <ReadButton
-                                                amount={12}
-                                                link={`/article/${article.id}`}
+                                                amount={article.read}
+                                                link={`/article/${article._id}`}
                                             />,
                                         ]}
                                     />

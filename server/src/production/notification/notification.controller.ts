@@ -18,9 +18,9 @@ export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
     @Sse(':username')
-    //: Observable<MessageEvent<{ data: string }>>
-    sse(@Param('username') username: string) {
-        return interval(10000000).pipe(map(() => ({ data: { hello: '123' } })));
+    @Get()
+    sse(): Observable<{ data: { hello: string } }> {
+        return interval(100000).pipe(map(() => ({ data: { hello: '123' } })));
     }
 
     @Post()

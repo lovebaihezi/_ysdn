@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId, SchemaTypes } from 'mongoose';
+import { Document, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { User, UserSchema } from './user.schema';
 
 export type ReplayDocument = Reply & Document;
@@ -28,7 +28,7 @@ export class Production {
     @Prop()
     tags: string[];
 
-    @Prop()
+    @Prop({ default: 0 })
     read: number;
 
     @Prop()
@@ -37,18 +37,18 @@ export class Production {
     @Prop()
     createTime: Date;
 
-    @Prop()
+    @Prop({ default: 0 })
     approval: number;
 
     @Prop()
     modifyTime: Date[];
 
-    @Prop()
+    @Prop({ default: 0 })
     markAmount: number;
 
-    @Prop()
+    @Prop({ default: 0 })
     disapproval: number;
-
+    // todo : bug : fix this
     @Prop()
     comments: Comment[];
 
@@ -62,13 +62,13 @@ export class Production {
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    likes: ObjectId[];
+    likes: Types.Array<ObjectId>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    marks: ObjectId[];
+    marks: Types.Array<ObjectId>;
 }
 
 export const ProductionSchema = SchemaFactory.createForClass(Production);
@@ -76,7 +76,7 @@ export const ProductionSchema = SchemaFactory.createForClass(Production);
 @Schema()
 export class Reply {
     @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }] })
-    replay: Reply[];
+    replay: Types.Array<Reply>;
     content: string;
     createTime: Date;
     @Prop({ type: UserSchema, ref: User.name })
@@ -156,9 +156,11 @@ export class Article extends Production {
 
     @Prop({
         required: true,
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        type: UserSchema,
+        ref: User.name,
     })
-    authors: User[];
+    //TODO  : this will show all the information of user...remove them(with remove or nestjs way, ) or use middle tool to fix this
+    author: User;
 
     @Prop({ default: '' })
     coverImgUrl: string;
@@ -279,7 +281,7 @@ export class Activity extends Production {
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    partner: ObjectId[];
+    partner: Types.Array<ObjectId>;
 
     @Prop({ default: 0 })
     amount: number;
@@ -287,4 +289,5 @@ export class Activity extends Production {
     @Prop({ default: 0 })
     max: number;
 }
+
 export const ActivitySchema = SchemaFactory.createForClass(Activity);

@@ -1,18 +1,20 @@
 import { Tag } from 'antd';
 import React, { FC } from 'react';
-import { Link, LinkProps } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
-const TagLink: FC<
-    LinkProps<unknown> &
-        React.RefAttributes<HTMLAnchorElement>
-> = (prop) => {
-    function f(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+const TagLink: FC<{
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+    link: string;
+}> = (prop) => {
+    const H = useHistory();
+    function f(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         e.stopPropagation();
+        H.push(prop.link);
     }
     return (
-        <Link onClick={f} {...prop}>
+        <div onClick={prop.onClick ?? f}>
             <Tag color="#108ee9">{prop.children}</Tag>
-        </Link>
+        </div>
     );
 };
 
