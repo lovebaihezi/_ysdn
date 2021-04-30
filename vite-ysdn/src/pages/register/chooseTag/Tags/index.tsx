@@ -5,6 +5,7 @@ import { Component } from '../../../../component/AjaxResponse';
 import { HeartOutlined, SendOutlined } from '@ant-design/icons';
 import { useFetchJson } from '../../../../tools/hook/useFetch';
 import { baseurl, useUserDetail } from '../../../../auth';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
     name,
@@ -38,6 +39,8 @@ const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
 
 const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
     const [D] = useUserDetail();
+    const H = useHistory();
+    const { url, path } = useRouteMatch();
     const [[r, l, e], f, c] = useFetchJson<{}>({
         url: baseurl + `/${D?.username}/addTag`,
         option: {
@@ -50,10 +53,10 @@ const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
             message.loading('loading');
         } else if (e) {
             message.error('error!, skip...');
-            location.href = '/';
+            H.push(`/register/completeInformation`);
         } else if (r) {
-            message.success('');
-            location.href = '/';
+            message.success('enjoy yourself!');
+            H.push(`/register/completeInformation`);
         }
     }, [l, e]);
     return (
@@ -87,20 +90,6 @@ const Tags: Component<string[]> = ({ Response }) => {
                 }}
             >
                 <SubmitButton container={C} />
-                <Button
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                    }}
-                    onClick={(e) => {
-                        message.info('skip this for you');
-                        location.href = '/';
-                    }}
-                >
-                    skip
-                </Button>
             </Col>
         </Row>
     );

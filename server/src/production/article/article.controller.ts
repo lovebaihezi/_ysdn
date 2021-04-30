@@ -7,11 +7,15 @@ import {
     Param,
     Delete,
     Req,
+    UseInterceptors,
+    UploadedFiles,
+    Res,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
-import { Request } from 'express';
+import { Express, Request, Response } from 'express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 class I {
     id: string;
@@ -21,7 +25,7 @@ class I {
 export class ArticleController {
     constructor(private readonly articleService: ArticleService) {}
 
-    @Post(':userID')
+    @Post('/create/:userID')
     create(
         @Param('userID') userID: string,
         @Body() createArticleDto: CreateArticleDto,
@@ -39,12 +43,34 @@ export class ArticleController {
         return this.articleService.findAllRecommend();
     }
 
-    @Get(':id')
+    @Get(':pictureName')
+    async findImage(
+        @Param('pictureName') pictureName: string,
+        @Res() res: Response,
+    ) {
+        return res.sendFile(
+            await this.articleService.findOnePicture(pictureName),
+        );
+    }
+
+    @Post('upload/picture')
+    @UseInterceptors(FilesInterceptor('file'))
+    async updateImage(@UploadedFiles() files: Express.Multer.File[]) {
+        return this.articleService.saveImages(files);
+    }
+
+    @Delete('delete/picture')
+    async deleteImage(@Body() { id }: { id: string }) {
+        return this.articleService.deleteImages(id);
+    }
+
+    @Get('article/:id')
     findOneArticle(@Param('id') id: string) {
         return this.articleService.findOne(id);
     }
 
     @Get(':tag/:type')
+    //TODO : finish this!
     findTagType(@Param('tag') tag: string, @Param('type') type: string) {
         return this.articleService.findAllRecommend();
     }
@@ -56,7 +82,6 @@ export class ArticleController {
 
     @Patch('/mark/:articleId')
     updateMark(@Param('articleId') articleId, @Body() body: I) {
-        console.log(body);
         return this.articleService.updateMark(articleId, body.id);
     }
 

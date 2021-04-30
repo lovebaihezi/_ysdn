@@ -17,12 +17,6 @@ import { map } from 'rxjs/operators';
 export class NotificationController {
     constructor(private readonly notificationService: NotificationService) {}
 
-    @Sse(':username')
-    @Get()
-    sse(): Observable<{ data: { hello: string } }> {
-        return interval(100000).pipe(map(() => ({ data: { hello: '123' } })));
-    }
-
     @Post()
     create(@Body() createNotificationDto: CreateNotificationDto) {
         return this.notificationService.create(createNotificationDto);

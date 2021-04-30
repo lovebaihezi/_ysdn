@@ -135,9 +135,11 @@ export class Article extends Production {
     @Prop()
     modifyTime: Date[];
 
-    @Prop()
     @Prop({ default: 0 })
     markAmount: number;
+
+    @Prop()
+    imageUrls: string[];
 
     @Prop({ default: 0 })
     disapproval: number;

@@ -36,26 +36,29 @@ describe('ArticleService', () => {
     //     });
     //     expect(res.message).toBeDefined();
     // });
-    describe('article operation: mark, approval', () => {
-        it('should mark the article', async () => {
-            const res = await service.updateMark(articleId, userId);
-            expect(res.message).toBeDefined();
-            expect(res.message).toBe('operation successfully!');
-        });
-        it('should cancel mark the article', async () => {
-            const res = await service.removeMark(articleId, userId);
-            expect(res.message).toBeDefined();
-            expect(res.message).toBe('operation successfully!');
-        });
-        it('should approval the article', async () => {
-            const res = await service.updateApproval(articleId, userId);
-            expect(res.message).toBeDefined();
-            expect(res.message).toBe('operation successfully!');
-        });
-        it('should disapproval the article', async () => {
-            const res = await service.removeApproval(articleId, userId);
-            expect(res.message).toBeDefined();
-            expect(res.message).toBe('operation successfully!');
-        });
-    });
+    // describe('article operation: mark, approval', () => {
+    //     it('should mark the article', async () => {
+    //         const res = await service.updateMark(articleId, userId);
+    //         expect(res.message).toBeDefined();
+    //         expect(res.message).toBe('operation successfully!');
+    //     });
+    //     it('should cancel mark the article', async () => {
+    //         const res = await service.removeMark(articleId, userId);
+    //         expect(res.message).toBeDefined();
+    //         expect(res.message).toBe('operation successfully!');
+    //     });
+    //     it('should approval the article', async () => {
+    //         const res = await service.updateApproval(articleId, userId);
+    //         expect(res.message).toBeDefined();
+    //         expect(res.message).toBe('operation successfully!');
+    //     });
+    //     it('should disapproval the article', async () => {
+    //         const res = await service.removeApproval(articleId, userId);
+    //         expect(res.message).toBeDefined();
+    //         expect(res.message).toBe('operation successfully!');
+    //     });
+    // });
+    // describe('upload file',() => {
+    //     it('should ')
+    // })
 });

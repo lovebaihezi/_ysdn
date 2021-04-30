@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 
 describe('UserService', () => {
     let service: UserService;
-
+    let id: string;
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
@@ -29,50 +29,16 @@ describe('UserService', () => {
         service = module.get<UserService>(UserService);
     });
     afterEach(async () => {
-        service.deleteUserByUsername({ username: 'lqxclqxc1' });
+        await service.deleteUserByUsername({ username: 'test123' });
     });
     it('should be defined', async () => {
         expect(service).toBeDefined();
     });
     it('should register', async () => {
-        const { username } = (await service.userRegister({
+        const { username } = await service.userRegister({
             username: 'lqxclqxc1',
             password: 'lqxclqxclqxc',
-        })) as { username: string };
+        });
         expect(username).toBeDefined();
     });
 });
-/*
- {
-    "like": {
-        "activities": [],
-        "answers": [],
-        "questions": [],
-        "tags": [],
-        "comments": [],
-        "videos": [],
-        "articles": [],
-        "_id": "6088344a0713ac71e5fcc789"
-    },
-    "userProduct": {
-        "activities": [],
-        "answers": [],
-        "questions": [],
-        "tags": [],
-        "comments": [],
-        "videos": [],
-        "articles": [],
-        "_id": "6088344a0713ac71e5fcc78a",
-        "id": "6088344a0713ac71e5fcc78a"
-    },
-    "notifications": [],
-    "follower": [],
-    "follow": [],
-    "backgroundImage": "",
-    "avatarUrl": "https://dummyimage.com/50x50",
-    "nickname": "anonymous",
-    "username": "lqxclqxc",
-    "marks": [],
-    "id": "6088344a0713ac71e5fcc78b"
-}
-*/

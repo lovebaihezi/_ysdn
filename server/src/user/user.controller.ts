@@ -3,20 +3,27 @@ import {
     Controller,
     Get,
     Header,
-    HttpCode,
     Param,
     Post,
-    Res,
+    UploadedFiles,
+    UseInterceptors,
 } from '@nestjs/common';
-import { Response } from 'express';
-import { AjaxJson } from 'src/interface';
 import { UserCreateDto } from './user.dto';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UserService } from './user.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+
+export class UpdateUserDto {
+    avatarUrl: string;
+    backgroundImage: string;
+    email: string;
+    nickname: string;
+}
 
 @Controller('user')
 export class UserController {
     constructor(private readonly UserService: UserService) {}
+
     @Post('login')
     //: Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     async login(
@@ -24,20 +31,38 @@ export class UserController {
     ) {
         return await this.UserService.userLogin(username, password);
     }
+
+    @Post('update/:userID/avatar')
+    @UseInterceptors(FilesInterceptor('avatar'))
+    updateImage(
+        @Param('userID') userID: string,
+        @UploadedFiles() files: Express.Multer.File,
+    ) {
+        return files;
+    }
+
     @Post('register')
     //: Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     async register(@Body() userInfo: UserCreateDto) {
         return this.UserService.userRegister(userInfo);
     }
+
     @Post('tokenLogin')
     @Header('Content-Type', 'application/json')
     async tokenLogin(@Body() { id }: { id: string }) {
         return this.UserService.tokenLogin(id);
     }
+
     @Get(':username')
     async getUser(@Param('username') username: string) {
         return this.UserService.afterAuthGetUser(username);
     }
-    // @Post('completeInformation')
-    // async completeInformation(): Promise<AjaxJson.responseMessage> {}
+
+    @Post('completeInformation/:username')
+    async completeInformation(
+        @Param('username') username: string,
+        @Body() updateUserDto: UpdateUserDto,
+    ) {
+        return this.userModel.updateUser(username, updateUserDto);
+    }
 }

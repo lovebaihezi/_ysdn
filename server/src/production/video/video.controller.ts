@@ -1,6 +1,18 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    UseInterceptors,
+    UploadedFiles,
+    UploadedFile,
+} from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dot/create-video.dto';
+import { Express } from 'express';
+import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
+const assert = require('assert');
 
 @Controller('video')
 export class VideoController {
@@ -19,6 +31,15 @@ export class VideoController {
     @Get(':tag/:type')
     findOne(@Param('tag') tag: string, @Param('type') type: string) {
         return this.videoService.hotVideo();
+    }
+
+    @Post('update/:userID')
+    @UseInterceptors(FilesInterceptor('file'))
+    updateVideo(
+        @Param('userID') userID: string,
+        @UploadedFiles() files: Express.Multer.File,
+    ) {
+        console.log(files);
     }
 
     @Post(':userID')

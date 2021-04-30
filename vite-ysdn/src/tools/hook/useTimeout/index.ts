@@ -20,8 +20,6 @@ export const PromiseTimeout = <restProp extends Array<any> = []>(
             ...rest
         );
     });
-
-// TODO :  redesign it !!!
 export default function useTimeout(): [
     boolean,
     Error | undefined,

@@ -14,7 +14,7 @@ import check from './tools/check';
 
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
-    const S = useCallback((t: AjaxJson.userDetail) => setDetail(t), []);
+    const S = (t: AjaxJson.userDetail) => setDetail(t);
     const value: [
         AjaxJson.userDetail | null,
         (P: AjaxJson.userDetail) => void,
@@ -25,10 +25,13 @@ const Context: FC = ({ children }) => {
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify({ id: token }),
         });
-        const json: AjaxJson.userDetail = await res.json();
-        console.log(json);
-        if (check(json)) {
-            setDetail(json);
+        const json = await res.json();
+        // | AjaxJson.userDetail
+        // | { statusCode: number; message: string }
+        if (json.message && json.statusCode) {
+            throw new Error(json.message);
+        } else {
+            setDetail(json as AjaxJson.userDetail);
         }
     };
     useEffect(() => {

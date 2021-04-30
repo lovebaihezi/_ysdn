@@ -1,36 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { AjaxJson } from '../../interface';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
 import {
     Article,
     ArticleDocument,
-    ArticleSchema,
     productionName,
 } from '../../schema/production.schema';
-import { Random } from 'mockjs';
-import {
-    Model,
-    Types,
-    Mongoose,
-    Schema,
-    SchemaType,
-    SchemaTypes,
-} from 'mongoose';
+import { Model } from 'mongoose';
 import { User, UserDocument } from '../../schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { assert } from 'console';
-import { remove } from 'src/tools';
-
-import { Document } from 'mongoose';
-interface IChild extends Types.EmbeddedDocument {
-    name: string;
-}
-
-interface IParent extends Document {
-    name: string;
-    children: Types.DocumentArray<IChild>;
-}
+import * as fs from 'fs/promises';
+import { homedir } from 'os';
+import { getHashes } from 'crypto';
+import { createHash } from 'node:crypto';
 
 @Injectable()
 export class ArticleService {
@@ -39,6 +22,7 @@ export class ArticleService {
         private readonly articleModel: Model<ArticleDocument>,
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     ) {}
+
     async createArticle(
         userID: string,
         createArticleDto: CreateArticleDto,
@@ -153,5 +137,36 @@ export class ArticleService {
             type: 'success',
             from: 'server',
         };
+    }
+
+    async deleteImages(pictureName: string) {
+        const home = homedir();
+        const fileName = createHash('md5').update(pictureName).digest('hex');
+        await fs.rm(`${home}/upload/pictures/${fileName}`);
+        return { message: 'delete success!' };
+    }
+
+    async findOnePicture(pictureName: string) {
+        const home = homedir();
+        const fileName = createHash('md5').update(pictureName).digest('hex');
+        return `${home}/upload/pictures/${fileName}`;
+    }
+
+    async saveImages(images: Express.Multer.File[]) {
+        const home = homedir();
+        const dir = await fs
+            .opendir(`${home}/upload/pictures`)
+            .catch(async () => await fs.mkdir(`${home}/upload/pictures`))
+            .then(async () => await fs.opendir(`${home}/upload/pictures`));
+        await dir.close();
+        const path = dir.path;
+        for (const i of images) {
+            const fileName = createHash('md5')
+                .update(i.originalname)
+                .digest('hex');
+            const file = await fs.open(`${path}/${fileName}`, 'w+');
+            await file.write(i.buffer);
+            await file.close();
+        }
     }
 }

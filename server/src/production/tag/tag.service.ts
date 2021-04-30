@@ -9,7 +9,19 @@ export class TagService {
     }
 
     findAll() {
-        return `This action returns all tag`;
+        return [
+            'front-end',
+            'client-side',
+            'server-side',
+            'QA',
+            'media',
+            'algorithm',
+            'data',
+            'common',
+            'product',
+            'security',
+            'project',
+        ];
     }
 
     findOne(id: number) {

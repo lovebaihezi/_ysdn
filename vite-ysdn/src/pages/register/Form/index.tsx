@@ -17,7 +17,7 @@ export default function RegisterForm() {
     const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
     const [regexp, setRegexp] = useState<string>('');
-    const login = async (v: any) => {
+    const register = async (v: any) => {
         if (!disable) {
             setDisable(true);
             const res = await fetch(baseurl + '/user/register', {
@@ -46,15 +46,15 @@ export default function RegisterForm() {
     }, [E]);
     return (
         <Form
-            className="loginForm"
+            className="registerForm"
             onFinish={(v) => {
-                login(v).catch((e) => {
+                register(v).catch((e) => {
                     setDisable(false);
                     setError(e);
                 });
             }}
             form={form}
-            name="login"
+            name="register"
         >
             <Form.Item
                 name="username"
@@ -73,23 +73,40 @@ export default function RegisterForm() {
             </Form.Item>
             <Divider />
             <Form.Item
-                name="password"
+                name="nickname"
                 rules={[
                     {
                         required: true,
-                        message: 'need your password',
-                        pattern: /\w{8,20}/g,
+                        message: 'need your nickname',
+                        pattern: /^\w{8,20}$/g,
                     },
                 ]}
             >
                 <Input
-                    onChange={console.log}
+                    // onChange={console.log}
+                    // prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="text"
+                    placeholder="nickname"
+                />
+            </Form.Item>
+            <Divider />
+            <Form.Item
+                name="password"
+                rules={[
+                    {
+                        required: true,
+                        message: 'password should only contain 0-9 a-z A-Z',
+                        pattern: /[0-9a-zA-Z]{8,20}/g,
+                    },
+                ]}
+            >
+                <Input
+                    // onChange={console.log}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
                     placeholder="Password"
                     onInput={(e) => {
                         setRegexp(`^${e.currentTarget.value}\$`);
-                        console.log(new RegExp(`^${e.currentTarget.value}$`));
                     }}
                 />
             </Form.Item>
