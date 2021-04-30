@@ -30,7 +30,7 @@ const UploadButton: FC<{ loading: boolean }> = ({ loading }) => (
     </div>
 );
 
-const UploadAvatar: FC<{success: (url: string) => void}> = ({success}) => {
+const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImgUrl] = useState('');
     const [user] = useUserDetail();
@@ -147,8 +147,15 @@ const CompleteInformation: FC = () => {
             form={form}
             name="CompleteInformation"
         >
-            <Form.Item name="avatarFile">
-                <UploadAvatar success={(url: string) =>setUrl(url)} />
+            <Form.Item
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                name="avatarFile"
+            >
+                <UploadAvatar success={(url: string) => setUrl(url)} />
             </Form.Item>
             <Divider />
             <Form.Item name="nickname">
@@ -160,11 +167,7 @@ const CompleteInformation: FC = () => {
             </Form.Item>
             <Divider />
             <Form.Item name="email">
-                <Input
-                    type="text"
-                    defaultValue={D.email}
-                    placeholder="email"
-                />
+                <Input type="text" defaultValue={D.email} placeholder="email" />
             </Form.Item>
             <Divider />
             <Form.Item>
