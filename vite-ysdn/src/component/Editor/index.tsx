@@ -6,7 +6,7 @@ import './editor.css';
 import { baseurl, useUserDetail } from '../../auth';
 import { Redirect } from 'react-router';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
-
+//TODO : feature not complete, first time up, generate an article, then submit it to database
 export default function Editor({ onInput }: { onInput: (v: string) => void }) {
     const [value, setValue] = useState<string>('');
     return (
@@ -21,6 +21,9 @@ export default function Editor({ onInput }: { onInput: (v: string) => void }) {
                                 onInput={(e) => {
                                     onInput(e.currentTarget.innerText);
                                     setValue(e.currentTarget.innerText);
+                                }}
+                                onPaste={(e) => {
+                                    onInput(e.currentTarget.innerText);
                                 }}
                             ></div>
                         </Card>

@@ -13,7 +13,7 @@ const Middle: FC = ({ children }) => (
             justifyContent: 'center',
             alignItems: 'center',
             height: 'calc(100vh - 260px)',
-            minHeight: 900,
+            minHeight: 500,
         }}
         span={24}
     >

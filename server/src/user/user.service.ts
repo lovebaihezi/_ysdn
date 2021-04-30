@@ -5,6 +5,9 @@ import { UserDto } from './user.dto';
 import { User, UserDocument } from '../schema/user.schema';
 import { Remove, remove } from '../tools';
 import { UpdateUserDto } from './user.controller';
+import { createHash } from 'crypto';
+import { homedir } from 'os';
+import * as fs from 'fs/promises';
 
 //TODO : finish user service
 @Injectable()
@@ -20,7 +23,7 @@ export class UserService {
     }) {
         const user = await this.userModel.create(auth);
         const result = (await user.save()).toObject();
-        return remove(result, 'password', '__v', '_id');
+        return remove(result, 'password', '__v');
     }
 
     private async getUser({
@@ -40,14 +43,14 @@ export class UserService {
 
     async afterAuthGetUser(username: string) {
         const auth = await this.userModel.findOne({ username }).exec();
-        return Remove('__v', '_id', 'password', 'id')(auth.toObject());
+        return Remove('__v', 'password', 'id')(auth.toObject());
     }
 
     public async userLogin(username: string, password: string) {
         const auth = await this.userModel.findOne({ username });
         if (auth !== null) {
             if (auth.password === password) {
-                return Remove('__v', '_id', 'password')(auth.toObject());
+                return Remove('__v', 'password')(auth.toObject());
             }
             return {
                 message: 'incorrect password!',
@@ -88,11 +91,48 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(id, { tags });
     }
 
-    public completeInformation(id: string, information: UpdateUserDto) {
+    public async updateAvatar(username: string, file: Express.Multer.File) {
+        const home = homedir();
+        const fileName = createHash('md5')
+            .update(file.originalname)
+            .digest('hex');
+        const dir = await fs
+            .opendir(`${home}/upload/${username}`)
+            .catch(async () => {
+                await fs.mkdir(`${home}/upload/${username}`);
+            })
+            .then(async () => await fs.opendir(`${home}/upload/${username}`));
+        await dir.close();
+        const fileHandle = await fs.open(
+            `${home}/upload/${username}/${fileName}`,
+            'w+',
+        );
+        await fileHandle.write(file.buffer);
+        const user = await this.userModel.findOne({ username }).exec();
+        user.avatarUrl = file.originalname;
+        await user.save();
+        return {
+            message: 'upload avatar success!',
+        };
+    }
+
+    public async findUserAvatar(username: string, avatar: string) {
+        const home = homedir();
+        const fileName = createHash('md5').update(avatar).digest('hex');
+        return `${home}/upload/${username}/${fileName}`;
+    }
+
+    public async completeInformation(id: string, information: UpdateUserDto) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        information = remove(information, 'password', 'username');
-        return this.userModel.findById(id).updateOne({ information });
+        information = remove(information, 'password', 'username', '_id', 'id');
+        // return this.userModel.findById(id).updateOne({ information });
+        const user = await this.userModel.findById(id);
+        user.avatarUrl = information.avatarUrl;
+        user.backgroundImage = information.backgroundImage ?? '';
+        user.email = information.email ?? '';
+        user.nickname = information.nickname;
+        return (await user.save()).toObject();
     }
 
     async deleteUserByUsername({ username }: { username: string }) {

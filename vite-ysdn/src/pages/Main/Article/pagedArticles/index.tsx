@@ -13,6 +13,7 @@ import {
 } from '../../../../component/ActionButton';
 import Tags from '../../../../component/ActionTags';
 import { useUserDetail } from '../../../../auth';
+import UserLink from '../../../../component/UserLink';
 
 const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
     const [user] = useUserDetail();
@@ -73,9 +74,7 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
                                     <Card.Meta
                                         title={article.author.nickname}
                                         avatar={
-                                            <Avatar
-                                                src={article.author.avatarUrl}
-                                            />
+                                            <UserLink user={article.author} />
                                         }
                                         description={article.content.slice(
                                             0,

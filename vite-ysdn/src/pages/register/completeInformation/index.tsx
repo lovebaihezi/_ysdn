@@ -11,38 +11,119 @@ import {
 } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { FC, useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router';
 import { useUserDetail, baseurl, ImageFallback } from '../../../auth';
 import { AjaxJson } from '../../../interface';
 import useError from '../../../tools/hook/useError';
-import { useFetchJson } from '../../../tools/hook/useFetch';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    RcFile,
+    UploadChangeParam,
+    UploadFile,
+} from 'antd/lib/upload/interface';
 import './completeInformation.css';
+
+const UploadButton: FC<{ loading: boolean }> = ({ loading }) => (
+    <div>
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+);
+
+const UploadAvatar: FC<{success: (url: string) => void}> = ({success}) => {
+    const [loading, setLoading] = useState(false);
+    const [imageUrl, setImgUrl] = useState('');
+    const [user] = useUserDetail();
+    function onChange(info: UploadChangeParam) {
+        if (info.file.status === 'error') {
+            setLoading(false);
+            message.error(info.file.response.message);
+        }
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+        }
+        if (info.file.status === 'done') {
+            setLoading(false);
+            setImgUrl(
+                baseurl +
+                    '/user/avatar/' +
+                    user?.username +
+                    '/' +
+                    info.file.name,
+            );
+            success(info.file.name);
+        }
+    }
+    function beforeUpload(
+        file: RcFile,
+        FileList: RcFile[],
+    ): boolean | {} | Promise<void | File | Blob> {
+        const isJpgOrPng = /^image\/\w+$/g.test(file.type);
+        if (!isJpgOrPng) {
+            message.error('You can only upload image file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 10;
+        if (!isLt2M) {
+            message.error('Image must smaller than 10MB!');
+        }
+        return isJpgOrPng && isLt2M;
+    }
+    return (
+        <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            method="post"
+            action={baseurl + `/user/update/${user?.username}/avatar`}
+            beforeUpload={beforeUpload}
+            onChange={onChange}
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                justifyItems: 'center',
+            }}
+        >
+            {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+            ) : (
+                <UploadButton loading={loading} />
+            )}
+        </Upload>
+    );
+};
 
 const CompleteInformation: FC = () => {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
+    if (!D) {
+        return <Redirect to="/login" />;
+    }
     const History = useHistory();
     const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
-    const [url, setUrl] = useState('');
+    const [url, setUrl] = useState(D.avatarUrl);
+    const [file, setFile] = useState<UploadFile<any>[]>([]);
     const CompleteInformation = async (v: any) => {
         if (!disable) {
-            const res = await fetch(baseurl + '/user/completeInformation', {
-                method: 'POST',
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(v),
-            });
+            const res = await fetch(
+                baseurl + `/user/completeInformation/${D._id}`,
+                {
+                    method: 'POST',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({ ...v, avatarUrl: url }),
+                },
+            );
             if (res.status === 500) {
                 throw new Error(res.statusText);
             }
             const json = await res.json();
             if (!json.message) {
                 const res = json as AjaxJson.userDetail;
+                console.log(res);
                 S(res);
-                localStorage.setItem('id', res._id);
                 History.push(`/`);
             } else {
                 const res = json as AjaxJson.responseMessage;
@@ -66,60 +147,24 @@ const CompleteInformation: FC = () => {
             form={form}
             name="CompleteInformation"
         >
-            <Row>
-                <Col
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                    }}
-                    span={24}
-                >
-                    <Upload
-                        onChange={(info) => {
-                            if (info.event?.percent === 100) {
-                                console.log(info);
-                                // setUrl(info.file.thumbUrl);
-                            }
-                        }}
-                        action={baseurl + '/article/picture'}
-                        maxCount={1}
-                    >
-                        <Button>upload Avatar</Button>
-                    </Upload>
-                </Col>
-            </Row>
-            <Row>
-                <Col
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                    }}
-                    span={24}
-                >
-                    <Image
-                        width={100}
-                        height={100}
-                        src={url && 'https://dummyimage.com/100x100'}
-                    />
-                </Col>
-            </Row>
-            <Divider />
-            <Form.Item name="username">
-                <Input />
+            <Form.Item name="avatarFile">
+                <UploadAvatar success={(url: string) =>setUrl(url)} />
             </Form.Item>
             <Divider />
             <Form.Item name="nickname">
-                <Input type="text" placeholder="nickname" />
+                <Input
+                    type="text"
+                    defaultValue={D?.nickname ?? ''}
+                    placeholder="nickname"
+                />
             </Form.Item>
             <Divider />
-            <Form.Item name="password">
-                <Input />
-            </Form.Item>
-            <Divider />
-            <Form.Item name="confirm-password">
-                <Input />
+            <Form.Item name="email">
+                <Input
+                    type="text"
+                    defaultValue={D.email}
+                    placeholder="email"
+                />
             </Form.Item>
             <Divider />
             <Form.Item>

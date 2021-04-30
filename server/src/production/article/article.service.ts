@@ -32,11 +32,13 @@ export class ArticleService {
         const createTime = new Date();
         const lastModifyTime = new Date();
         const modifyTime = [new Date()];
+        console.log(createArticleDto);
         const article = await this.articleModel.create({
             ...createArticleDto,
             createTime,
             lastModifyTime,
             modifyTime,
+            ...createArticleDto,
             author: user.toObject(),
         });
         const result = await article.save();
@@ -59,6 +61,7 @@ export class ArticleService {
         return articles;
     }
 
+    //TODO : remove user info in side...
     findOne(id: string) {
         return this.articleModel.findById(id).exec();
     }

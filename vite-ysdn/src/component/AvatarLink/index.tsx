@@ -1,14 +1,14 @@
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { FC } from 'react';
-import { Link, LinkProps, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import './avatarLink.css';
 
 const AvatarLink: FC<
     { onClick?: React.MouseEventHandler<HTMLDivElement> } & {
         src?: string;
-    } & {
         name: string;
+        nickname: string;
     }
 > = (prop) => {
     const H = useHistory();
@@ -24,7 +24,7 @@ const AvatarLink: FC<
             {...prop}
         >
             {prop.src !== undefined ? <Avatar src={prop.src} /> : null}
-            <span className="avatarLinkSpan">{prop.name}</span>
+            <span className="avatarLinkSpan">{prop.nickname}</span>
         </div>
     );
 };

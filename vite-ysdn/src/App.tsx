@@ -35,7 +35,6 @@ const Context: FC = ({ children }) => {
         }
     };
     useEffect(() => {
-        // console.log('context refresh!');
         const token = localStorage.getItem('id');
         if (token !== null) {
             f(token)

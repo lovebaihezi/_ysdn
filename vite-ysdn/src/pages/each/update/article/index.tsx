@@ -14,8 +14,8 @@ const BackButton: FC = () => {
         <Button
             type="text"
             style={{
-                width: 'max-content',
-                height: 'max-content',
+                width: 'max-body',
+                height: 'max-body',
                 marginRight: 10,
             }}
             onClick={(e) => {
@@ -31,16 +31,17 @@ const BackButton: FC = () => {
 export default function UpdateArticle() {
     const H = useHistory();
     const [title, setTitle] = useState('no title');
-    const [content, setContent] = useState('');
+    const [content, setBody] = useState('');
     const [user] = useUserDetail();
     const [imageList, setImageList] = useState<any[]>([]);
     if (!user) {
         return <Redirect to="/login" />;
     }
     const [[response, loading, error], Fetch, Catch] = useFetchJson({
-        url: baseurl + `/create/${user._id}`,
+        url: baseurl + `/article/create/${user._id}`,
         option: {
             method: 'POST',
+            headers: new Headers({'Content-type':'application/json'}),
             body: JSON.stringify({ title, content }),
         },
     });
@@ -92,7 +93,8 @@ export default function UpdateArticle() {
                             >
                                 <Button
                                     onClick={(e) => {
-                                        // onSubmit({ title, content });
+                                        // onSubmit({ title, body });
+                                        Fetch().catch(Catch);
                                     }}
                                     type="primary"
                                 >
@@ -114,10 +116,10 @@ export default function UpdateArticle() {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <Row>
+                        <Row wrap={false}>
                             <Col
                                 style={{
-                                    width: 'max-content',
+                                    width: 'max-body',
                                     maxWidth: 197.61,
                                 }}
                             >
@@ -140,7 +142,7 @@ export default function UpdateArticle() {
                             <Col flex="auto">
                                 <Editor
                                     onInput={(v) => {
-                                        setContent(v);
+                                        setBody(v);
                                     }}
                                 />
                             </Col>

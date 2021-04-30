@@ -49,7 +49,7 @@ export default function NavBar() {
             >
                 {info ? (
                     <>
-                        <EventSourceMessage />
+                        {/* <EventSourceMessage /> */}
                         <UserLink user={info} />
                     </>
                 ) : (

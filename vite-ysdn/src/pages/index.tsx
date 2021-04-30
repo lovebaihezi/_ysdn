@@ -5,6 +5,7 @@ import { Col, Row, Spin } from 'antd';
 import NavBar from '../component/NavBar';
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { useUserDetail } from '../auth';
 
 const QA = lazy(() => import('./Main/QA'));
 const User = lazy(() => import('./each/user'));
@@ -46,8 +47,9 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
 // todo : your logic!!!, write it down!
 
 export default function Pages() {
+    const [userDetail] = useUserDetail();
     useEffect(() => {
-        console.log('!');
+        console.log(userDetail);
     });
     return (
         <>

@@ -5,13 +5,14 @@ import {
     Header,
     Param,
     Post,
+    Res,
     UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
 import { UserCreateDto } from './user.dto';
 import { UserService } from './user.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Express } from 'express';
+import { Express, Response } from 'express';
 
 export class UpdateUserDto {
     avatarUrl: string;
@@ -22,40 +23,49 @@ export class UpdateUserDto {
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly UserService: UserService) {}
+    constructor(private readonly userService: UserService) {}
 
     @Post('login')
     //: Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     async login(
         @Body() { username, password }: { username: string; password: string },
     ) {
-        return await this.UserService.userLogin(username, password);
+        return await this.userService.userLogin(username, password);
     }
 
-    @Post('update/:userID/avatar')
-    @UseInterceptors(FilesInterceptor('avatar'))
-    updateImage(
-        @Param('userID') userID: string,
-        @UploadedFiles() files: Express.Multer.File,
+    @Post('update/:username/avatar')
+    @UseInterceptors(FilesInterceptor('avatar', 1))
+    async updateImage(
+        @Param('username') username: string,
+        @UploadedFiles() [file]: Express.Multer.File[],
     ) {
-        return files;
+        await this.userService.updateAvatar(username, file);
+    }
+
+    @Get('avatar/:username/:avatar')
+    async getUserAvatar(
+        @Param('username') username: string,
+        @Param('avatar') avatar: string,
+        @Res() res: Response,
+    ) {
+        res.sendFile(await this.userService.findUserAvatar(username, avatar));
     }
 
     @Post('register')
     //: Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     async register(@Body() userInfo: UserCreateDto) {
-        return this.UserService.userRegister(userInfo);
+        return this.userService.userRegister(userInfo);
     }
 
     @Post('tokenLogin')
     @Header('Content-Type', 'application/json')
     async tokenLogin(@Body() { id }: { id: string }) {
-        return this.UserService.tokenLogin(id);
+        return this.userService.tokenLogin(id);
     }
 
     @Get(':username')
     async getUser(@Param('username') username: string) {
-        return this.UserService.afterAuthGetUser(username);
+        return this.userService.afterAuthGetUser(username);
     }
 
     @Post('completeInformation/:username')
@@ -63,6 +73,6 @@ export class UserController {
         @Param('username') username: string,
         @Body() updateUserDto: UpdateUserDto,
     ) {
-        return this.userModel.updateUser(username, updateUserDto);
+        return this.userService.completeInformation(username, updateUserDto);
     }
 }
