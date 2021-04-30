@@ -12,7 +12,6 @@ import { VideoService } from './video.service';
 import { CreateVideoDto } from './dot/create-video.dto';
 import { Express } from 'express';
 import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
-const assert = require('assert');
 
 @Controller('video')
 export class VideoController {

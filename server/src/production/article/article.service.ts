@@ -13,7 +13,7 @@ import { assert } from 'console';
 import * as fs from 'fs/promises';
 import { homedir } from 'os';
 import { getHashes } from 'crypto';
-import { createHash } from 'node:crypto';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class ArticleService {
