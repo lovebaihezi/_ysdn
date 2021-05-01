@@ -143,11 +143,11 @@ export default function Submit({
                                 </Card>
                             </Col>
                             <Col flex="auto">
-                                <Editor
+                                {/* <Editor
                                     onInput={(v) => {
                                         setContent(v);
                                     }}
-                                />
+                                /> */}
                             </Col>
                         </Row>
                     </Col>
