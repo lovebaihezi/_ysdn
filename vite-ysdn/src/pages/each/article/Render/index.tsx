@@ -57,9 +57,7 @@ const Render: Component<AjaxJson.article> = ({ Response }) => {
                     <Row>
                         <Col span={8}></Col>
                         <Col span={16}>
-                            <MarkdownView
-                                markdown={Response.content.repeat(12)}
-                            />
+                            <MarkdownView markdown={Response.content} />
                         </Col>
                     </Row>
                 </Col>
@@ -131,7 +129,9 @@ const Render: Component<AjaxJson.article> = ({ Response }) => {
                     right: 10,
                 }}
             >
-                <Button type="primary">top</Button>
+                <Button type="primary">
+                    <a href="#">top</a>
+                </Button>
             </div>
         </>
     );

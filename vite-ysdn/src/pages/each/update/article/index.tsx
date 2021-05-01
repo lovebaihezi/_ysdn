@@ -27,7 +27,8 @@ const BackButton: FC = () => {
         </Button>
     );
 };
-
+//TODO : create an article in database when mount, 
+//TODO : a list show all my article(optional)
 export default function UpdateArticle() {
     const H = useHistory();
     const [title, setTitle] = useState('no title');
@@ -144,6 +145,7 @@ export default function UpdateArticle() {
                                     onInput={(v) => {
                                         setBody(v);
                                     }}
+                                    transformImageUri={(url) => baseurl + `/article/${url}`}
                                 />
                             </Col>
                         </Row>
