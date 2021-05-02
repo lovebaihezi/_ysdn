@@ -6,9 +6,9 @@ import { useFetchProps } from '../../../tools/hook/useFetch';
 import Info from './info';
 
 export default function User() {
-    const { id } = useParams<{ id: string }>();
+    const { username } = useParams<{ username: string }>();
     const RequestInfo: useFetchProps = {
-        url: baseurl + `/user/${id}`,
+        url: baseurl + `/user/${username}`,
         option: {},
     };
     return <Ajax Request={RequestInfo} Component={Info} />;

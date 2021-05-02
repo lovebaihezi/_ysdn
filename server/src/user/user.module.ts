@@ -8,11 +8,22 @@ import {
     UserSchema,
 } from '../schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import {
+    Article,
+    ArticleSchema,
+    Comment,
+    CommentSchema,
+    Video,
+    VideoSchema,
+} from '../schema/production.schema';
 @Module({
     imports: [
         MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
             { name: UserProduct.name, schema: UserProductSchema },
+            { name: Video.name, schema: VideoSchema },
+            { name: Article.name, schema: ArticleSchema },
+            { name: Comment.name, schema: CommentSchema },
         ]),
     ],
     controllers: [UserController],

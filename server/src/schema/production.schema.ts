@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes, Types } from 'mongoose';
-import { User, UserSchema } from './user.schema';
+import { User } from './user.schema';
 
 export type ReplayDocument = Reply & Document;
 export type CommentDocument = Comment & Document;
@@ -74,12 +74,24 @@ export class Production {
 export const ProductionSchema = SchemaFactory.createForClass(Production);
 
 @Schema()
+export class UserInfo {
+    @Prop()
+    username: string;
+    @Prop()
+    nickname: string;
+    @Prop()
+    avatarUrl: string;
+}
+
+export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
+
+@Schema()
 export class Reply {
     @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }] })
     replay: Types.Array<Reply>;
     content: string;
     createTime: Date;
-    @Prop({ type: UserSchema, ref: User.name })
+    @Prop({ type: UserInfoSchema, ref: User.name })
     author: User;
 }
 
@@ -94,7 +106,7 @@ export class Comment {
     @Prop()
     content: string;
 
-    @Prop({ type: UserSchema, ref: User.name })
+    @Prop({ type: UserInfoSchema, ref: User.name })
     author: User;
 
     @Prop()
@@ -158,7 +170,7 @@ export class Article extends Production {
 
     @Prop({
         required: true,
-        type: UserSchema,
+        type: UserInfoSchema,
         ref: User.name,
     })
     //TODO  : this will show all the information of user...remove them(with remove or nestjs way, ) or use middle tool to fix this
@@ -178,7 +190,7 @@ export class Answer {
     @Prop()
     content: string;
 
-    @Prop({ type: UserSchema, ref: User.name })
+    @Prop({ type: UserInfoSchema, ref: User.name })
     author: User;
 
     @Prop()
@@ -210,7 +222,7 @@ export class Question extends Production {
     @Prop()
     content: string;
 
-    @Prop({ type: UserSchema, ref: User.name })
+    @Prop({ type: UserInfoSchema, ref: User.name })
     author: User;
 
     @Prop()
@@ -238,7 +250,7 @@ export class Video extends Production {
     @Prop()
     videoSrc: string;
 
-    @Prop({ type: UserSchema, ref: User.name })
+    @Prop({ type: UserInfoSchema, ref: User.name })
     author: User;
 
     @Prop()

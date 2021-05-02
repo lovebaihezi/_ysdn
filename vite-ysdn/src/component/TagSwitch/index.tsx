@@ -24,7 +24,7 @@ const TagSwitch: FC<{
     RightSideContent?: React.ReactNode;
 }> = ({ tags, tabBarExtraContent, children, RightSideContent }) => {
     const [state, setState] = useState<string>(tags[0]);
-    const App = useMemo(() => children, [state]);
+    // const App = useMemo(() => children, [state]);
     return (
         <Row>
             <Col span={24}>
@@ -40,7 +40,7 @@ const TagSwitch: FC<{
                             <Row wrap={false}>
                                 <Col flex="auto">
                                     <Tag.Provider value={state}>
-                                        {App}
+                                        {children}
                                     </Tag.Provider>
                                 </Col>
                                 {RightSideContent && (

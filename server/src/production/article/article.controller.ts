@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     Req,
     UseInterceptors,
     UploadedFiles,
@@ -13,8 +14,7 @@ import {
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { Express, Request, Response } from 'express';
+import { Express, Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 class I {

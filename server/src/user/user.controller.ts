@@ -42,6 +42,11 @@ export class UserController {
         await this.userService.updateAvatar(username, file);
     }
 
+    @Get(':id/userProduct/:tag')
+    async userProduct(@Param('id') id: string, @Param('tag') tag: string) {
+        return this.userService.getUserProduction(id, tag);
+    }
+
     @Get('avatar/:username/:avatar')
     async getUserAvatar(
         @Param('username') username: string,

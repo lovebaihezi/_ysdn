@@ -8,12 +8,26 @@ import { UpdateUserDto } from './user.controller';
 import { createHash } from 'crypto';
 import { homedir } from 'os';
 import * as fs from 'fs/promises';
+import {
+    Article,
+    ArticleDocument,
+    Comment,
+    CommentDocument,
+    Video,
+    VideoDocument,
+} from '../schema/production.schema';
 
 //TODO : finish user service
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @InjectModel(Article.name)
+        private readonly articleModel: Model<ArticleDocument>,
+        @InjectModel(Video.name)
+        private readonly videoModel: Model<VideoDocument>,
+        @InjectModel(Comment.name)
+        private readonly commentModel: Model<CommentDocument>,
     ) {}
 
     private async createAccount(auth: {
@@ -137,5 +151,29 @@ export class UserService {
 
     async deleteUserByUsername({ username }: { username: string }) {
         await this.userModel.deleteOne({ username });
+    }
+
+    async getUserProduction(id: string, tag: string) {
+        const user = await this.userModel.findById(id).exec();
+        const tags = ['article', 'video', 'comment'];
+        if (!tags.includes(tag)) {
+            return {
+                message: 'invalid operation',
+                type: 'error',
+                from: 'server',
+            };
+        }
+        const model = [this.articleModel, this.videoModel, this.commentModel];
+        const result = tags.indexOf(tag);
+        if (result > model.length) {
+            return {
+                message: 'invalid operation',
+                type: 'error',
+                from: 'server',
+            };
+        }
+        const Map = Object.fromEntries(tags.map((v) => [v, v + 's']));
+        const product = [];
+        const all = user.userProduct[Map['tag']];
     }
 }

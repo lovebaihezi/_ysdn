@@ -93,19 +93,33 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
     );
 };
 
+const NickNameInput: FC<{ defaultValue: string }> = ({ defaultValue }) => {
+    const [nickname, setNickName] = useState<string>(defaultValue);
+    return (
+        <Input
+            type="text"
+            placeholder={defaultValue}
+            // defaultValue={defaultValue}
+            value={nickname}
+            onChange={(e) => setNickName(e.currentTarget.value)}
+        />
+    );
+};
+// TODO bug : input default value not in Input
 const CompleteInformation: FC = () => {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
-    if (!D) {
+    if (D === null) {
         return <Redirect to="/login" />;
     }
     const History = useHistory();
     const [E, setError] = useError();
     const [disable, setDisable] = useState<boolean>(false);
     const [url, setUrl] = useState(D.avatarUrl);
-    const [file, setFile] = useState<UploadFile<any>[]>([]);
     const CompleteInformation = async (v: any) => {
         if (!disable) {
+            console.log(v);
+            return;
             const res = await fetch(
                 baseurl + `/user/completeInformation/${D._id}`,
                 {
@@ -158,16 +172,24 @@ const CompleteInformation: FC = () => {
                 <UploadAvatar success={(url: string) => setUrl(url)} />
             </Form.Item>
             <Divider />
-            <Form.Item name="nickname">
+            <Form.Item name="nickname" initialValue={D.nickname}>
                 <Input
                     type="text"
-                    defaultValue={D?.nickname ?? ''}
+                    defaultValue={D.nickname}
                     placeholder="nickname"
                 />
             </Form.Item>
             <Divider />
-            <Form.Item name="email">
-                <Input type="text" defaultValue={D.email} placeholder="email" />
+            <Form.Item name="email" initialValue={D.email}>
+                <Input
+                    type="text"
+                    defaultValue={D.email}
+                    onInput={(e) => {
+                        e.currentTarget.value;
+                    }}
+                    value={''}
+                    placeholder="email"
+                />
             </Form.Item>
             <Divider />
             <Form.Item>

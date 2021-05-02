@@ -12,8 +12,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { assert } from 'console';
 import * as fs from 'fs/promises';
 import { homedir } from 'os';
-import { getHashes } from 'crypto';
 import { createHash } from 'crypto';
+import { get } from '../../tools';
 
 @Injectable()
 export class ArticleService {
@@ -32,14 +32,12 @@ export class ArticleService {
         const createTime = new Date();
         const lastModifyTime = new Date();
         const modifyTime = [new Date()];
-        console.log(createArticleDto);
         const article = await this.articleModel.create({
-            ...createArticleDto,
             createTime,
             lastModifyTime,
             modifyTime,
             ...createArticleDto,
-            author: user.toObject(),
+            author: get(user.toObject(), 'nickname', 'username', 'avatarUrl'),
         });
         const result = await article.save();
         user.userProduct.articles.push(result.id);
@@ -52,13 +50,11 @@ export class ArticleService {
     }
 
     async findAllRank() {
-        const articles = await this.articleModel.find({}).limit(10);
-        return articles;
+        return this.articleModel.find({}).limit(10);
     }
 
     async findAllRecommend() {
-        const articles = await this.articleModel.find({}).limit(10);
-        return articles;
+        return this.articleModel.find({}).limit(10);
     }
 
     //TODO : remove user info in side...

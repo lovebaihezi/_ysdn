@@ -78,7 +78,7 @@ export default function Pages() {
                         <Route path="/QA/:id">
                             <Render Lazy={QAPage} />
                         </Route>
-                        <Route path="/user/:id">
+                        <Route path="/user/:username">
                             <Render Lazy={User} />
                         </Route>
                         <Route path="/update/:name">
