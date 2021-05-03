@@ -22,7 +22,7 @@ const AvatarLink: FC<
             style={{ color: 'unset' }}
             onClick={(e) => {
                 e.stopPropagation();
-                prop.onClick ?? f;
+                prop.onClick ? prop.onClick(e) : f(e);
             }}
             {...prop}
         >
