@@ -152,7 +152,7 @@ export default function UpdateArticle() {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <TagChoose set={tags} />
+                        <TagChoose />
                     </Col>
                 </Row>
                 <Row>
