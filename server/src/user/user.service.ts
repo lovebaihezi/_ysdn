@@ -100,7 +100,7 @@ export class UserService {
 
     public async userTagChoose(username: string, tags: string[]) {
         const user = await this.userModel.findOne({ username }).exec();
-        user.like.tags.remove({});
+        user.like.tags = null;
         for (const i of tags) {
             user.like.tags.push(await this.tagModel.find({ name: i }));
         }

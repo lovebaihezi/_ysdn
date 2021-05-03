@@ -1,12 +1,13 @@
-import { message, Row, Col, Button, Input, Card, Upload } from 'antd';
+import { message, Row, Col, Button, Input, Card, Upload, Tag } from 'antd';
 import { UploadChangeParam, RcFile } from 'antd/lib/upload';
-import React, { FC, useState } from 'react';
+import React, { createContext, FC, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { useUserDetail, baseurl } from '../../../../auth';
 import { LeftOutlined } from '@ant-design/icons';
 import { useFetchJson } from '../../../../tools/hook/useFetch';
 import Editor from '../../../../component/Editor';
+import Ajax, { Component } from '../../../../component/AjaxResponse';
 
 const BackButton: FC = () => {
     const History = useHistory();
@@ -27,7 +28,32 @@ const BackButton: FC = () => {
         </Button>
     );
 };
-//TODO : create an article in database when mount, 
+
+const tags = new Set<string>();
+
+const Each: FC<{name: string}> = ({name}) => {
+    const [choose, setChoose] = useState(false);
+    useEffect(() => {
+        if(choose) {
+            tags.add(name);
+        } else {
+            tags.delete(name);
+        }
+    },[choose]);
+    return <Tag title={name} onClick={() => setChoose(!choose)} />
+}
+
+const AllTag: Component<string[]> = ({ Response }) => {
+    return <>{Response.map((name) => <Each key={name} name={name} />)}</>
+}
+
+const TagChoose: FC = () => {
+    return (
+            <Ajax Request={{ url: baseurl + `/tag` }} Component={AllTag} />
+    );
+};
+
+//TODO : create an article in database when mount,
 //TODO : a list show all my article(optional)
 export default function UpdateArticle() {
     const H = useHistory();
@@ -38,11 +64,11 @@ export default function UpdateArticle() {
     if (!user) {
         return <Redirect to="/login" />;
     }
-    const [[response, loading, error], Fetch, Catch] = useFetchJson({
+    const [[response, loading, error], Fetch, Catch] = useFetchJson<any>({
         url: baseurl + `/article/create/${user._id}`,
         option: {
             method: 'POST',
-            headers: new Headers({'Content-type':'application/json'}),
+            headers: new Headers({ 'Content-type': 'application/json' }),
             body: JSON.stringify({ title, content }),
         },
     });
@@ -56,6 +82,15 @@ export default function UpdateArticle() {
         console.log(file);
         return baseurl + `/article/update/picture`;
     }
+    useEffect(() => {
+        if (loading) {
+            message.loading('uploading');
+        } else if (error || response?.message) {
+            message.error(error?.message ?? response?.message ?? 'error!');
+        } else {
+            message.success('upload success!');
+        }
+    }, [response, loading, error]);
     return (
         <Row>
             <Col span={22} offset={1}>
@@ -117,6 +152,11 @@ export default function UpdateArticle() {
                 </Row>
                 <Row>
                     <Col span={24}>
+                        <TagChoose set={tags} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
                         <Row wrap={false}>
                             <Col
                                 style={{
@@ -145,7 +185,9 @@ export default function UpdateArticle() {
                                     onInput={(v) => {
                                         setBody(v);
                                     }}
-                                    transformImageUri={(url) => baseurl + `/article/${url}`}
+                                    transformImageUri={(url) =>
+                                        baseurl + `/article/${url}`
+                                    }
                                 />
                             </Col>
                         </Row>
