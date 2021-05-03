@@ -2,7 +2,7 @@ export function remove<
     T extends Record<string | number | symbol, unknown>,
     U extends keyof T | '' = ''
 >(target: T, ...rest: (keyof T)[]): Omit<T, U> {
-    return Object.fromEntires(
+    return Object.fromEntries(
         Object.entries(target).filter(([n]) => !rest.includes(n)),
     ) as Omit<T, U>;
 }
@@ -11,7 +11,7 @@ export function get<
     T extends Record<string | number | symbol, unknown>,
     U extends keyof T | '' = ''
 >(target: T, ...rest: (keyof T)[]): Omit<T, U> {
-    return Object.fromEntires(
+    return Object.fromEntries(
         Object.entries(target).filter(([n]) => rest.includes(n)),
     ) as Omit<T, U>;
 }

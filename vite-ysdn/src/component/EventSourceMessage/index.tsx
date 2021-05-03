@@ -1,31 +1,31 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { MessageOutlined } from '@ant-design/icons';
 import { Card, Dropdown, message } from 'antd';
 import { baseurl, useUserDetail } from '../../auth';
 
-const EventSourceMessage: FC = () => {
-    const [detail] = useUserDetail();
+export type ESProp<T> = FC<{
+    message: MessageEvent<T> | undefined;
+    error: Event | undefined;
+}>;
+
+const EventSourceMessage = function <T>(Prop: {
+    url: string;
+    eventSourceInitDict?: EventSourceInit;
+    MessageComponent: ESProp<T>;
+}) {
+    const [message, setMessage] = useState<MessageEvent>();
+    const [error, setError] = useState<Event>();
+    // const ES = useRef(new EventSource(Prop.url, Prop.eventSourceInitDict));
     useEffect(() => {
-        if (detail) {
-            const { username } = detail;
-            const eventSource = new EventSource(
-                baseurl + `/notification/${username}`,
-            );
-            eventSource.addEventListener('message', ({ data }) => {
-                message.info(data);
-            });
-            eventSource.addEventListener('error', (...rest) => {
-                message.error(JSON.stringify(rest));
-            });
-            // return eventSource.close();
+        const ES = new EventSource(Prop.url, Prop.eventSourceInitDict);
+        ES.onmessage = (Message) => setMessage(Message);
+        ES.onerror = (Event) => setError(Event);
+        if (error) {
+            ES.close();
         }
-        return () => {};
+        return () => ES.close();
     }, []);
-    return (
-        // <Dropdown>
-            <MessageOutlined size={24} />
-        // </Dropdown>
-    );
+    return <Prop.MessageComponent message={message} error={error} />;
 };
 
 export default EventSourceMessage;

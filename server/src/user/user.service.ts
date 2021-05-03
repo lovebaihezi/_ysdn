@@ -153,10 +153,17 @@ export class UserService {
         await this.userModel.deleteOne({ username });
     }
 
-    async getUserProduction(id: string, tag: string) {
-        const user = await this.userModel.findById(id).exec();
-        const tags = ['article', 'video', 'comment'];
-        if (!tags.includes(tag)) {
+    async getUserProduct(username: string, name: string) {
+        const user = await this.userModel.findOne({ username }).exec();
+        const names = [
+            'articles',
+            'videos',
+            'comments',
+            'questions',
+            'answers',
+            'activities',
+        ];
+        if (!names.includes(name)) {
             return {
                 message: 'invalid operation',
                 type: 'error',
@@ -164,7 +171,7 @@ export class UserService {
             };
         }
         const model = [this.articleModel, this.videoModel, this.commentModel];
-        const result = tags.indexOf(tag);
+        const result = names.indexOf(name);
         if (result > model.length) {
             return {
                 message: 'invalid operation',
@@ -172,8 +179,19 @@ export class UserService {
                 from: 'server',
             };
         }
-        const Map = Object.fromEntries(tags.map((v) => [v, v + 's']));
         const product = [];
-        const all = user.userProduct[Map['tag']];
+        const all = user.userProduct[names[result]];
+        for (const i of all) {
+            product.push((await model[result].findById(i).exec()).toObject());
+        }
+        return product;
+    }
+
+    async getUserInfo(username: string, info: string) {
+        const filter = ['follow', 'follower'];
+        const user = await this.userModel.findOne({ username }).exec();
+        if (filter.includes(info)) {
+            return { amount: user[info].length };
+        }
     }
 }

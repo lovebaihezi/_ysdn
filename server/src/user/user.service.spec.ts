@@ -9,6 +9,14 @@ import {
 } from '../schema/user.schema';
 import { UserModule } from './user.module';
 import { UserService } from './user.service';
+import {
+    Article,
+    ArticleSchema,
+    Comment,
+    CommentSchema,
+    Video,
+    VideoSchema,
+} from '../schema/production.schema';
 
 describe('UserService', () => {
     let service: UserService;
@@ -22,6 +30,10 @@ describe('UserService', () => {
                 }),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
+                    { name: UserProduct.name, schema: UserProductSchema },
+                    { name: Video.name, schema: VideoSchema },
+                    { name: Article.name, schema: ArticleSchema },
+                    { name: Comment.name, schema: CommentSchema },
                 ]),
             ],
             providers: [UserService],
@@ -34,11 +46,15 @@ describe('UserService', () => {
     it('should be defined', async () => {
         expect(service).toBeDefined();
     });
-    it('should register', async () => {
-        const { username } = await service.userRegister({
-            username: 'lqxclqxc1',
-            password: 'lqxclqxclqxc',
-        });
-        expect(username).toBeDefined();
+    // it('should register', async () => {
+    //     const { username } = await service.userRegister({
+    //         username: 'lqxclqxc1',
+    //         password: 'lqxclqxclqxc',
+    //     });
+    //     expect(username).toBeDefined();
+    // });
+    it('should find user product', async () => {
+        const res = await service.getUserProduct('lqxclqxc', 'video');
+        expect(res).toBeDefined();
     });
 });

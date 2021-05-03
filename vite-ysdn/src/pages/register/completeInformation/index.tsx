@@ -119,7 +119,7 @@ const CompleteInformation: FC = () => {
     const CompleteInformation = async (v: any) => {
         if (!disable) {
             console.log(v);
-            return;
+            // return;
             const res = await fetch(
                 baseurl + `/user/completeInformation/${D._id}`,
                 {

@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Res,
+    Sse,
     UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
@@ -13,6 +14,8 @@ import { UserCreateDto } from './user.dto';
 import { UserService } from './user.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Express, Response } from 'express';
+import { map } from 'rxjs/operators';
+import { interval } from 'rxjs';
 
 export class UpdateUserDto {
     avatarUrl: string;
@@ -42,9 +45,12 @@ export class UserController {
         await this.userService.updateAvatar(username, file);
     }
 
-    @Get(':id/userProduct/:tag')
-    async userProduct(@Param('id') id: string, @Param('tag') tag: string) {
-        return this.userService.getUserProduction(id, tag);
+    @Get('userInfo/:username/:tag')
+    async userProduct(
+        @Param('username') username: string,
+        @Param('tag') tag: string,
+    ) {
+        return this.userService.getUserInfo(username, tag);
     }
 
     @Get('avatar/:username/:avatar')
@@ -80,4 +86,10 @@ export class UserController {
     ) {
         return this.userService.completeInformation(username, updateUserDto);
     }
+
+    @Get('/:username/userProduct/:name')
+    async getUserUserProductByName(@Param('username')username: string, @Param('name')name: string) {
+        return this.userService.getUserProduct(username, name);
+    }
+
 }

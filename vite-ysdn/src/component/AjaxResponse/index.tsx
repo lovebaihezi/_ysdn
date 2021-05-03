@@ -1,5 +1,5 @@
 import { Skeleton } from 'antd';
-import React, { useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect, useMemo } from 'react';
 import { FC } from 'react';
 import { useFetchJson, useFetchProps } from '../../tools/hook/useFetch';
 import AjaxError from '../Result';
