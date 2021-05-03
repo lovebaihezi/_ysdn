@@ -72,13 +72,13 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
                                     headStyle={{ padding: 0, border: 0 }}
                                 >
                                     <Card.Meta
-                                        title={article.author.nickname}
+                                        title={article.title}
                                         avatar={
                                             <UserLink user={article.author} />
                                         }
                                         description={article.content.slice(
                                             0,
-                                            200,
+                                            100,
                                         )}
                                     />
                                 </Card>

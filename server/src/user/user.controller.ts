@@ -36,6 +36,14 @@ export class UserController {
         return await this.userService.userLogin(username, password);
     }
 
+    @Post('/update/:username/tags')
+    async updateUserTag(
+        @Param('username') username: string,
+        @Body() tags: string[],
+    ) {
+        return this.userService.userTagChoose(username, tags);
+    }
+
     @Post('update/:username/avatar')
     @UseInterceptors(FilesInterceptor('avatar', 1))
     async updateImage(
@@ -88,8 +96,10 @@ export class UserController {
     }
 
     @Get('/:username/userProduct/:name')
-    async getUserUserProductByName(@Param('username')username: string, @Param('name')name: string) {
+    async getUserUserProductByName(
+        @Param('username') username: string,
+        @Param('name') name: string,
+    ) {
         return this.userService.getUserProduct(username, name);
     }
-
 }

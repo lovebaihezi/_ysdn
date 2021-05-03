@@ -1,20 +1,10 @@
-import { Button, Card, Col, Image, Row, Statistic, Tabs } from 'antd';
+import { Button, Card, Col, Row, Statistic, Tabs } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
-import React, { FC, useEffect } from 'react';
-import {
-    Route,
-    Switch,
-    useHistory,
-    useParams,
-    useRouteMatch,
-} from 'react-router-dom';
-import { baseurl, ImageFallback, useUserDetail } from '../../../../auth';
+import React, { FC, ReactNode } from 'react';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { baseurl, useUserDetail } from '../../../../auth';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
-import EventSourceMessage, {
-    ESProp,
-} from '../../../../component/EventSourceMessage';
-import TagSwitch, { useTag } from '../../../../component/TagSwitch';
 import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
 import PagedArticles from '../../../Main/Article/pagedArticles';
@@ -28,24 +18,6 @@ const Video: Component<AjaxJson.video[]> = ({ Response }) => (
 
 const Comment: Component<AjaxJson.comment[]> = ({ Response }) => {
     return <></>;
-};
-
-const Product: FC = () => {
-    const { tag } = useParams<{ tag: string }>();
-    const [user] = useUserDetail();
-    const filter = ['article', 'video', 'comment'];
-    const Component = [Article, Video, Comment];
-    if (!user) {
-        return null;
-    }
-    const Request: useFetchProps = {
-        url: baseurl + `/user/${user._id}/userProduct/${tag}/`,
-    };
-    //TODO type not complete, or change another way(Map?);
-    return Ajax<any>({
-        Request: Request,
-        Component: Component[filter.indexOf(tag)],
-    });
 };
 
 const config: name[] = [
@@ -65,40 +37,52 @@ const Follower: Component<{ amount: number }> = ({ Response }) => {
     return <Statistic title="follower" value={Response.amount} />;
 };
 
+const LeftRight: FC<{ Component: [ReactNode, ReactNode] }> = ({
+    Component: [Left, Right],
+}) => {
+    return (
+        <Card style={{ width: '100%' }}>
+            <Row>
+                <Col span={12}>
+                    <Card>{Left}</Card>
+                </Col>
+                <Col span={12}>
+                    <Card>{Right}</Card>
+                </Col>
+            </Row>
+        </Card>
+    );
+};
+
 const UserAllInfo: FC = () => {
     const [user] = useUserDetail();
     if (!user) {
         return null;
     }
     return (
-        <Card style={{ width: '100%' }}>
-            <Row>
-                <Col span={12}>
-                    <Card>
-                        <Ajax
-                            Request={{
-                                url:
-                                    baseurl +
-                                    `/user/userInfo/${user.username}/follower`,
-                            }}
-                            Component={Follower}
-                        />
-                    </Card>
-                </Col>
-                <Col span={12}>
-                    <Card>
-                        <Ajax
-                            Request={{
-                                url:
-                                    baseurl +
-                                    `/user/userInfo/${user.username}/follow`,
-                            }}
-                            Component={Follow}
-                        />
-                    </Card>
-                </Col>
-            </Row>
-        </Card>
+        <>
+            <LeftRight
+                Component={[
+                    <Ajax
+                        Request={{
+                            url:
+                                baseurl +
+                                `/user/userInfo/${user.username}/follower`,
+                        }}
+                        Component={Follower}
+                    />,
+                    <Ajax
+                        Request={{
+                            url:
+                                baseurl +
+                                `/user/userInfo/${user.username}/follow`,
+                        }}
+                        Component={Follow}
+                    />,
+                ]}
+            />
+            <Card style={{ width: '100%' }}></Card>
+        </>
     );
 };
 
@@ -150,9 +134,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                     <Row>
                         <Col span={8}>
                             <Card
-                                style={{
-                                    height: 162,
-                                }}
+                                style={{ height: '100%' }}
                                 // cover={
                                 //     <Image
                                 //         src={`${baseurl}/user/avatar/${Response.username}/${Response.avatarUrl}`}

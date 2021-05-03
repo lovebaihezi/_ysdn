@@ -16,6 +16,7 @@ import {
     Video,
     VideoDocument,
 } from '../schema/production.schema';
+import { Tag, TagDocument } from '../schema/tags.schema';
 
 //TODO : finish user service
 @Injectable()
@@ -28,13 +29,11 @@ export class UserService {
         private readonly videoModel: Model<VideoDocument>,
         @InjectModel(Comment.name)
         private readonly commentModel: Model<CommentDocument>,
+        @InjectModel(Tag.name)
+        private readonly tagModel: Model<TagDocument>,
     ) {}
 
-    private async createAccount(auth: {
-        username: string;
-        password: string;
-        nickname: string;
-    }) {
+    private async createAccount(auth: { username: string; password: string }) {
         const user = await this.userModel.create(auth);
         const result = (await user.save()).toObject();
         return remove(result, 'password', '__v');
@@ -83,16 +82,14 @@ export class UserService {
         {
             username,
             password,
-            nickname,
         }: Readonly<{
             username: string;
             password: string;
-            nickname: string;
         }>, // : Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     ) {
         const user = await this.userModel.find({ username }).exec();
         if (user.length === 0) {
-            return await this.createAccount({ username, password, nickname });
+            return await this.createAccount({ username, password });
         }
         return {
             message: 'user already exist!',
@@ -101,8 +98,13 @@ export class UserService {
         };
     }
 
-    public userTagChoose(id: string, tags: string[]) {
-        return this.userModel.findByIdAndUpdate(id, { tags });
+    public async userTagChoose(username: string, tags: string[]) {
+        const user = await this.userModel.findOne({ username }).exec();
+        user.like.tags.remove({});
+        for (const i of tags) {
+            user.like.tags.push(await this.tagModel.find({ name: i }));
+        }
+        return await user.save();
     }
 
     public async updateAvatar(username: string, file: Express.Multer.File) {

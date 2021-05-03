@@ -2,10 +2,11 @@ import { Button, Card, Col, message, Row } from 'antd';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Component } from '../../../../component/AjaxResponse';
 
-import { HeartOutlined, SendOutlined } from '@ant-design/icons';
+import { HeartFilled, SendOutlined, HeartOutlined } from '@ant-design/icons';
 import { useFetchJson } from '../../../../tools/hook/useFetch';
 import { baseurl, useUserDetail } from '../../../../auth';
-import { useHistory, useRouteMatch } from 'react-router';
+import { Redirect, useHistory, useRouteMatch } from 'react-router';
+import { AjaxJson } from '../../../../interface';
 
 const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
     name,
@@ -30,7 +31,7 @@ const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
                     container.delete(name);
                 }
             }}
-            actions={[state ? <HeartOutlined /> : null]}
+            actions={[state ? <HeartFilled /> : <HeartOutlined />]}
         >
             {name}
         </Card>
@@ -38,24 +39,28 @@ const Tag: FC<{ name: string; src?: string; container: Set<string> }> = ({
 };
 
 const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
-    const [D] = useUserDetail();
+    const [D, R] = useUserDetail();
     const H = useHistory();
     const { url, path } = useRouteMatch();
-    const [[r, l, e], f, c] = useFetchJson<{}>({
-        url: baseurl + `/${D?.username}/addTag`,
+    if (!D) {
+        return <Redirect to="/register" />
+    }
+    const [[r, l, e], f, c] = useFetchJson<AjaxJson.userDetail>({
+        url: baseurl + `/user/update/${D.username}/tags`,
         option: {
             method: 'post',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify([...container.values()]),
         },
     });
     useEffect(() => {
         if (l) {
             message.loading('loading');
-        } else if (e) {
+        } else if (e || (r && r._id == undefined)) {
             message.error('error!, skip...');
             H.push(`/register/completeInformation`);
         } else if (r) {
-            message.success('enjoy yourself!');
+            R(r);
             H.push(`/register/completeInformation`);
         }
     }, [l, e]);

@@ -175,7 +175,6 @@ const CompleteInformation: FC = () => {
             <Form.Item name="nickname" initialValue={D.nickname}>
                 <Input
                     type="text"
-                    defaultValue={D.nickname}
                     placeholder="nickname"
                 />
             </Form.Item>
@@ -183,7 +182,6 @@ const CompleteInformation: FC = () => {
             <Form.Item name="email" initialValue={D.email}>
                 <Input
                     type="text"
-                    defaultValue={D.email}
                     onInput={(e) => {
                         e.currentTarget.value;
                     }}

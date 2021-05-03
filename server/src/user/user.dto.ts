@@ -25,6 +25,5 @@ export class UserDto implements AjaxJson.userDetail {
 export class UserCreateDto {
     username: string;
     password: string;
-    nickname: string;
     'confirm-password': string;
 }

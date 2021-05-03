@@ -73,24 +73,6 @@ export default function RegisterForm() {
             </Form.Item>
             <Divider />
             <Form.Item
-                name="nickname"
-                rules={[
-                    {
-                        required: true,
-                        message: 'need your nickname',
-                        pattern: /^\w{8,20}$/g,
-                    },
-                ]}
-            >
-                <Input
-                    // onChange={console.log}
-                    // prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="text"
-                    placeholder="nickname"
-                />
-            </Form.Item>
-            <Divider />
-            <Form.Item
                 name="password"
                 rules={[
                     {

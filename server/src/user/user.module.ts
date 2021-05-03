@@ -16,6 +16,7 @@ import {
     Video,
     VideoSchema,
 } from '../schema/production.schema';
+import { Tag, TagSchema } from '../schema/tags.schema';
 @Module({
     imports: [
         MongooseModule.forFeature([
@@ -24,6 +25,7 @@ import {
             { name: Video.name, schema: VideoSchema },
             { name: Article.name, schema: ArticleSchema },
             { name: Comment.name, schema: CommentSchema },
+            { name: Tag.name, schema: TagSchema },
         ]),
     ],
     controllers: [UserController],

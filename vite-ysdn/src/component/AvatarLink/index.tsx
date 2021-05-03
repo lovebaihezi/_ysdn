@@ -20,7 +20,10 @@ const AvatarLink: FC<
         <div
             className="avatarLink"
             style={{ color: 'unset' }}
-            onClick={prop.onClick ?? f}
+            onClick={(e) => {
+                e.stopPropagation();
+                prop.onClick ?? f;
+            }}
             {...prop}
         >
             {prop.src !== undefined ? <Avatar src={prop.src} /> : null}

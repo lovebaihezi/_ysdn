@@ -17,6 +17,8 @@ import {
     Video,
     VideoSchema,
 } from '../schema/production.schema';
+import { Tag, TagSchema } from '../schema/tags.schema';
+import { Server } from 'node:http';
 
 describe('UserService', () => {
     let service: UserService;
@@ -34,14 +36,19 @@ describe('UserService', () => {
                     { name: Video.name, schema: VideoSchema },
                     { name: Article.name, schema: ArticleSchema },
                     { name: Comment.name, schema: CommentSchema },
+                    { name: Tag.name, schema: TagSchema },
                 ]),
             ],
             providers: [UserService],
         }).compile();
         service = module.get<UserService>(UserService);
+        await service.userRegister({
+            username: 'testtest',
+            password: 'testtest',
+        });
     });
     afterEach(async () => {
-        await service.deleteUserByUsername({ username: 'test123' });
+        await service.deleteUserByUsername({ username: 'testtest' });
     });
     it('should be defined', async () => {
         expect(service).toBeDefined();
@@ -54,7 +61,12 @@ describe('UserService', () => {
     //     expect(username).toBeDefined();
     // });
     it('should find user product', async () => {
-        const res = await service.getUserProduct('lqxclqxc', 'video');
+        const res = await service.getUserProduct('testtest', 'video');
         expect(res).toBeDefined();
+    });
+
+    it('should update user tags', async () => {
+        const res = await service.userTagChoose('testtest', []);
+        expect(res._id).toBeDefined();
     });
 });

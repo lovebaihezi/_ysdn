@@ -9,7 +9,6 @@ import Tags from './Tags';
 export default function ChooseTags() {
     const RequestInfo: useFetchProps = {
         url: baseurl + '/tag',
-        option: {},
     };
     return (
         <Row>

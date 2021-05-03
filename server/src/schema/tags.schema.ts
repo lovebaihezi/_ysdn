@@ -1,7 +1,7 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
 
-export type tag = Tag & Document;
+export type TagDocument = Tag & Document;
 
 @Schema()
 export class Tag {
@@ -9,10 +9,8 @@ export class Tag {
     name: string;
     @Prop()
     createTime: Date;
-    @Prop()
+    @Prop({ default: 0 })
     clickTimes: number;
-    @Prop(raw({}))
-    production: Record<string, string>;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);
