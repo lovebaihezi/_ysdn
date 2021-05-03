@@ -49,10 +49,10 @@ export class ArticleService {
         };
     }
 
-    async updateArticle(userID: string, updateArticleDto: UpdateActivityDto) {
-        const user = await this.userModel.findById(userID).exec();
+    // async updateArticle(userID: string, updateArticleDto: UpdateActivityDto) {
+    //     const user = await this.userModel.findById(userID).exec();
         
-    }
+    // }
 
     async findAllRank() {
         return this.articleModel.find({}).limit(10);
