@@ -7,7 +7,7 @@ const UserLink: FC<{
 }> = ({ user }) => (
     <AvatarLink
         src={baseurl + `/user/avatar/${user.username}/${user.avatarUrl}`}
-        name={user?.username}
+        name={user.username}
         nickname={user.nickname}
     />
 );

@@ -1,6 +1,12 @@
 import { message, Row, Col, Button, Input, Card, Upload, Tag } from 'antd';
 import { UploadChangeParam, RcFile } from 'antd/lib/upload';
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, {
+    createContext,
+    FC,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { useUserDetail, baseurl } from '../../../../auth';
@@ -31,26 +37,30 @@ const BackButton: FC = () => {
 
 const tags = new Set<string>();
 
-const Each: FC<{name: string}> = ({name}) => {
+const Each: FC<{ name: string }> = ({ name }) => {
     const [choose, setChoose] = useState(false);
     useEffect(() => {
-        if(choose) {
+        if (choose) {
             tags.add(name);
         } else {
             tags.delete(name);
         }
-    },[choose]);
-    return <Tag title={name} onClick={() => setChoose(!choose)} />
-}
+    }, [choose]);
+    return <Tag title={name} onClick={() => setChoose(!choose)} />;
+};
 
 const AllTag: Component<string[]> = ({ Response }) => {
-    return <>{Response.map((name) => <Each key={name} name={name} />)}</>
-}
+    return (
+        <>
+            {Response.map((name) => (
+                <Each key={name} name={name} />
+            ))}
+        </>
+    );
+};
 
 const TagChoose: FC = () => {
-    return (
-            <Ajax Request={{ url: baseurl + `/tag` }} Component={AllTag} />
-    );
+    return <Ajax Request={{ url: baseurl + `/tag` }} Component={AllTag} />;
 };
 
 //TODO : create an article in database when mount,
@@ -185,9 +195,10 @@ export default function UpdateArticle() {
                                     onInput={(v) => {
                                         setBody(v);
                                     }}
-                                    transformImageUri={(url) =>
-                                        baseurl + `/article/${url}`
-                                    }
+                                    transformImageUri={(url) => {
+                                        if (/^https?/g.test(url)) return url;
+                                        return baseurl + `/article/${url}`;
+                                    }}
                                 />
                             </Col>
                         </Row>

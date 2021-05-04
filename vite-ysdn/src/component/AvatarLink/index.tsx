@@ -13,7 +13,6 @@ const AvatarLink: FC<
 > = (prop) => {
     const H = useHistory();
     function f(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        e.stopPropagation();
         H.push(`/user/${prop.name}`);
     }
     return (
@@ -22,7 +21,8 @@ const AvatarLink: FC<
             style={{ color: 'unset' }}
             onClick={(e) => {
                 e.stopPropagation();
-                prop.onClick ?? f;
+                e.preventDefault();
+                prop.onClick ? prop.onClick(e) : f(e);
             }}
             {...prop}
         >

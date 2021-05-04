@@ -1,9 +1,9 @@
-import { Button, Card, Col, Row, Statistic, Tabs } from 'antd';
+import { Button, Card, Col, message, Row, Statistic, Tabs } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
-import { baseurl, useUserDetail } from '../../../../auth';
+import { baseurl, ImageFallback, useUserDetail } from '../../../../auth';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
@@ -12,9 +12,9 @@ import PagedVideos from '../../../Main/Video/pagedVideo';
 
 const Article: Component<AjaxJson.article[]> = PagedArticles;
 
-const Video: Component<AjaxJson.video[]> = ({ Response }) => (
-    <PagedVideos Response={Response} />
-);
+const Video: Component<AjaxJson.video[]> = ({ Response }) => {
+    return <PagedVideos Response={Response} />;
+};
 
 const Comment: Component<AjaxJson.comment[]> = ({ Response }) => {
     return <></>;
@@ -54,11 +54,7 @@ const LeftRight: FC<{ Component: [ReactNode, ReactNode] }> = ({
     );
 };
 
-const UserAllInfo: FC = () => {
-    const [user] = useUserDetail();
-    if (!user) {
-        return null;
-    }
+const UserAllInfo: FC<{ username: string }> = ({ username }) => {
     return (
         <>
             <LeftRight
@@ -66,16 +62,13 @@ const UserAllInfo: FC = () => {
                     <Ajax
                         Request={{
                             url:
-                                baseurl +
-                                `/user/userInfo/${user.username}/follower`,
+                                baseurl + `/user/userInfo/${username}/follower`,
                         }}
                         Component={Follower}
                     />,
                     <Ajax
                         Request={{
-                            url:
-                                baseurl +
-                                `/user/userInfo/${user.username}/follow`,
+                            url: baseurl + `/user/userInfo/${username}/follow`,
                         }}
                         Component={Follow}
                     />,
@@ -101,11 +94,8 @@ Components.set('comments', Comment);
 
 const Each: FC<{
     name: name;
-}> = ({ name }) => {
-    const [user] = useUserDetail();
-    if (!user) {
-        return null;
-    }
+    username: string;
+}> = ({ name, username }) => {
     if (Components.has(name)) {
         const X = Components.get(name);
         if (!X) {
@@ -114,7 +104,7 @@ const Each: FC<{
         return (
             <Ajax
                 Request={{
-                    url: baseurl + `/user/${user.username}/userProduct/${name}`,
+                    url: baseurl + `/user/${username}/userProduct/${name}`,
                 }}
                 Component={X}
             />
@@ -122,11 +112,17 @@ const Each: FC<{
     }
     return null;
 };
-
+//
 const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
-    const [user] = useUserDetail();
     const History = useHistory();
+    useEffect(() => {
+        if (!Response.username) {
+            message.error('user not found!');
+            History.goBack();
+        }
+    }, []);
     const { path } = useRouteMatch();
+    const [user] = useUserDetail();
     return (
         <>
             <Row>
@@ -154,9 +150,6 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                               >
                                                   completeInformation
                                               </Button>,
-                                              <Button onClick={(e) => {}}>
-                                                  log out
-                                              </Button>,
                                           ]
                                         : undefined
                                 }
@@ -172,7 +165,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                             </Card>
                         </Col>
                         <Col span={16}>
-                            <UserAllInfo />
+                            <UserAllInfo username={Response.username} />
                         </Col>
                     </Row>
                 </Col>
@@ -182,7 +175,10 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                     <Tabs defaultActiveKey="1">
                         {config.map((name, key) => (
                             <Tabs.TabPane key={name} tab={name}>
-                                <Each name={name} />
+                                <Each
+                                    name={name}
+                                    username={Response.username}
+                                />
                             </Tabs.TabPane>
                         ))}
                     </Tabs>
