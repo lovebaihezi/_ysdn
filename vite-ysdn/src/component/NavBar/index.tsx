@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Popover, Row } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserDetail } from '../../auth';
@@ -50,7 +50,21 @@ export default function NavBar() {
                 {info ? (
                     <>
                         {/* <EventSourceMessage /> */}
-                        <UserLink user={info} />
+                        <Popover
+                            content={
+                                <Button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        localStorage.clear();
+                                    }}
+                                >
+                                    log out
+                                </Button>
+                            }
+                        >
+                            <UserLink user={info} />
+                        </Popover>
                     </>
                 ) : (
                     <Link to="/login">
