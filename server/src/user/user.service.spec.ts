@@ -1,13 +1,11 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AjaxJson } from 'src/interface';
 import {
     User,
     UserProduct,
     UserProductSchema,
     UserSchema,
 } from '../schema/user.schema';
-import { UserModule } from './user.module';
 import { UserService } from './user.service';
 import {
     Article,
@@ -18,12 +16,13 @@ import {
     VideoSchema,
 } from '../schema/production.schema';
 import { Tag, TagSchema } from '../schema/tags.schema';
-import { Server } from 'node:http';
+import { ArticleService } from '../production/article/article.service';
+import { checkServerIdentity } from 'node:tls';
 
 describe('UserService', () => {
     let service: UserService;
-    let id: string;
-    beforeEach(async () => {
+    let articleService: ArticleService;
+    beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 MongooseModule.forRoot('mongodb://localhost:27017/server', {
@@ -39,34 +38,41 @@ describe('UserService', () => {
                     { name: Tag.name, schema: TagSchema },
                 ]),
             ],
-            providers: [UserService],
+            providers: [UserService, ArticleService],
         }).compile();
         service = module.get<UserService>(UserService);
         await service.userRegister({
-            username: 'testtest',
-            password: 'testtest',
+            username: 'testTest',
+            password: 'testTest',
         });
     });
-    afterEach(async () => {
-        await service.deleteUserByUsername({ username: 'testtest' });
+    afterAll(async () => {
+        await service.deleteUserByUsername({ username: 'testTest' });
     });
     it('should be defined', async () => {
         expect(service).toBeDefined();
     });
-    // it('should register', async () => {
-    //     const { username } = await service.userRegister({
-    //         username: 'lqxclqxc1',
-    //         password: 'lqxclqxclqxc',
-    //     });
-    //     expect(username).toBeDefined();
-    // });
+    it('should choose tag success', async () => {
+        const res = await service.userTagChoose('testTest', [
+            'front-end',
+            'client-side',
+            'server-side',
+        ]);
+        expect(res.like).toBeDefined();
+        expect(res.like.tags).toBeDefined();
+        expect(res.like.tags.length).toBe(3);
+        for (const i of res.like.tags) {
+            expect(typeof i).toBe('object');
+        }
+        expect(res.password).toBeUndefined();
+    });
     it('should find user product', async () => {
-        const res = await service.getUserProduct('testtest', 'video');
+        const res = await service.getUserProduct('testTest', 'video');
         expect(res).toBeDefined();
     });
 
     it('should update user tags', async () => {
-        const res = await service.userTagChoose('testtest', []);
+        const res = await service.userTagChoose('testTest', []);
         expect(res._id).toBeDefined();
     });
 });

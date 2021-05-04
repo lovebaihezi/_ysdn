@@ -6,13 +6,10 @@ import { ArticleService } from './article.service';
 
 describe('ArticleService', () => {
     let service: ArticleService;
-    //TODO :  need add user service to check user data!!!
-    const articleId = '6088d59030a96806c057bc1d';
-    const userId = '6088d56730a96806c057bc14';
-    beforeEach(async () => {
+    beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot('mongodb://localhost:27017/server'),
+                MongooseModule.forRoot('mongodb://localhost:27017/test'),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
                     { name: Article.name, schema: ArticleSchema },

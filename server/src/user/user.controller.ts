@@ -14,8 +14,6 @@ import { UserCreateDto } from './user.dto';
 import { UserService } from './user.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Express, Response } from 'express';
-import { map } from 'rxjs/operators';
-import { interval } from 'rxjs';
 
 export class UpdateUserDto {
     avatarUrl: string;

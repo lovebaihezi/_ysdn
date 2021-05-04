@@ -7,6 +7,7 @@ import {
     productionName,
     Question,
     Video,
+    Comment,
 } from './production.schema';
 import { Tag } from './tags.schema';
 // import { UserDto } from 'src/user/user.dto';

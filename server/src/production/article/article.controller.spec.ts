@@ -11,7 +11,7 @@ describe('ArticleController', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot('mongodb://localhost:27017'),
+                MongooseModule.forRoot('mongodb://localhost:27017/test'),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
                     { name: Article.name, schema: ArticleSchema },
