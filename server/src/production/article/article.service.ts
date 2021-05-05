@@ -4,16 +4,28 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import {
     Article,
     ArticleDocument,
+    Comment,
+    CommentDocument,
     productionName,
+    Reply,
+    ReplyDocument,
 } from '../../schema/production.schema';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../../schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { assert } from 'console';
 import * as fs from 'fs/promises';
 import { homedir } from 'os';
 import { createHash } from 'crypto';
 import { get } from '../../tools';
+
+export class CreateCommentDto {
+    author: {
+        username: string;
+        nickname: string;
+        avatarUrl: string;
+    };
+    content: string;
+}
 
 @Injectable()
 export class ArticleService {
@@ -21,6 +33,10 @@ export class ArticleService {
         @InjectModel(Article.name)
         private readonly articleModel: Model<ArticleDocument>,
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+        @InjectModel(Comment.name)
+        private readonly commentModel: Model<CommentDocument>,
+        @InjectModel(Reply.name)
+        private readonly replyComment: Model<ReplyDocument>,
     ) {}
 
     async createArticle(
@@ -28,7 +44,6 @@ export class ArticleService {
         createArticleDto: CreateArticleDto,
     ): Promise<AjaxJson.responseMessage> {
         const user = await this.userModel.findById(userID).exec();
-        assert(user !== undefined, 'TypeError, user is null');
         const createTime = new Date();
         const lastModifyTime = new Date();
         const modifyTime = [new Date()];
@@ -51,7 +66,7 @@ export class ArticleService {
 
     // async updateArticle(userID: string, updateArticleDto: UpdateActivityDto) {
     //     const user = await this.userModel.findById(userID).exec();
-        
+
     // }
 
     async findAllRank() {
@@ -172,5 +187,38 @@ export class ArticleService {
             await file.write(i.buffer);
             await file.close();
         }
+    }
+
+    async updateOneComment(id: string, createCommentDto: CreateCommentDto) {
+        const comment = await this.commentModel.create({
+            ...createCommentDto,
+            answerTime: new Date(),
+        });
+        const article = await this.articleModel.findById(id).exec();
+        const user = await this.userModel
+            .findOne({ username: createCommentDto.author.username })
+            .exec();
+        article.comments.push(comment._id);
+        article.update({ $inc: { commentsAmount: 1 } });
+        // article.commentsAmount += 1;
+        user.userProduct.comments.push(comment._id);
+        await user.save();
+        await comment.save();
+        await article.save();
+        return {
+            message: 'operation success!',
+            type: 'success',
+            from: 'server',
+        };
+    }
+
+    async findOneComment(id: string) {
+        const { comments } = await this.articleModel.findById(id).exec();
+        const result = [];
+        for (const i of comments) {
+            const comment = await this.commentModel.findById(i).exec();
+            result.push(comment.toObject());
+        }
+        return result;
     }
 }

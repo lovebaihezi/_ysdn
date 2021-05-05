@@ -1,0 +1,14 @@
+.show-markdown {
+    max-width: 100%;
+    height: max-content;
+    min-height: calc(100vh - 60px);
+}
+
+.show-markdown img {
+    max-width: 100%;
+    display: flex;
+}
+
+.show-markdown p {
+    word-wrap: break-word;
+}

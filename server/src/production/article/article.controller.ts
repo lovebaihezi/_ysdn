@@ -11,11 +11,14 @@ import {
     UseInterceptors,
     UploadedFiles,
     Res,
+    Sse,
 } from '@nestjs/common';
-import { ArticleService } from './article.service';
+import { ArticleService, CreateCommentDto } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { Express, Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { interval, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 class I {
     id: string;
@@ -53,6 +56,14 @@ export class ArticleController {
         );
     }
 
+    @Post('update/:id/comment')
+    updateArticleComment(
+        @Param('id') id: string,
+        @Body() comment: CreateCommentDto,
+    ) {
+        return this.articleService.updateOneComment(id, comment);
+    }
+
     @Post('upload/picture')
     @UseInterceptors(FilesInterceptor('file'))
     async updateImage(@UploadedFiles() files: Express.Multer.File[]) {
@@ -67,6 +78,11 @@ export class ArticleController {
     @Get('article/:id')
     findOneArticle(@Param('id') id: string) {
         return this.articleService.findOne(id);
+    }
+
+    @Get(':id/comment')
+    findArticleComment(@Param('id') id: string) {
+        return this.articleService.findOneComment(id);
     }
 
     @Get(':tag/:type')

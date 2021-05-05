@@ -87,12 +87,20 @@ export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
 
 @Schema()
 export class Reply {
-    @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }] })
+    @Prop({
+        type: [{ type: SchemaTypes.ObjectId, ref: Reply.name }],
+        default: [],
+    })
     replay: Types.Array<Reply>;
+
+    @Prop()
     content: string;
+
+    @Prop()
     createTime: Date;
+
     @Prop({ type: UserInfoSchema, ref: User.name })
-    author: User;
+    author: UserInfo;
 }
 
 export const ReplySchema = SchemaFactory.createForClass(Reply);
@@ -107,7 +115,7 @@ export class Comment {
     content: string;
 
     @Prop({ type: UserInfoSchema, ref: User.name })
-    author: User;
+    author: UserInfo;
 
     @Prop()
     answerTime: Date;

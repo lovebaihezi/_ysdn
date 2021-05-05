@@ -1,0 +1,4 @@
+.tag-chose :hover {
+    background-color: rgb(94, 94, 255);
+    cursor: pointer;
+}

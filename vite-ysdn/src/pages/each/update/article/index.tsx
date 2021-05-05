@@ -15,6 +15,9 @@ import { useFetchJson } from '../../../../tools/hook/useFetch';
 import Editor from '../../../../component/Editor';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
 
+import './index.css';
+import { UploadFile } from 'antd/lib/upload/interface';
+
 const BackButton: FC = () => {
     const History = useHistory();
     return (
@@ -46,16 +49,33 @@ const Each: FC<{ name: string }> = ({ name }) => {
             tags.delete(name);
         }
     }, [choose]);
-    return <Tag title={name} onClick={() => setChoose(!choose)} />;
+    return (
+        <Tag.CheckableTag
+            className="tag-chose"
+            checked={tags.has(name)}
+            onChange={() => {
+                setChoose(!choose);
+                if (tags.has(name)) {
+                    tags.delete(name);
+                } else {
+                    tags.add(name);
+                }
+            }}
+        >
+            {name}
+        </Tag.CheckableTag>
+    );
 };
 
 const AllTag: Component<string[]> = ({ Response }) => {
     return (
-        <>
+        <Row>
             {Response.map((name) => (
-                <Each key={name} name={name} />
+                <Col key={name} span={24 / Response.length}>
+                    <Each name={name} />
+                </Col>
             ))}
-        </>
+        </Row>
     );
 };
 
@@ -70,7 +90,10 @@ export default function UpdateArticle() {
     const [title, setTitle] = useState('no title');
     const [content, setBody] = useState('');
     const [user] = useUserDetail();
-    const [imageList, setImageList] = useState<any[]>([]);
+    const [imageList, setImageList] = useState<UploadFile[]>([]);
+    useEffect(() => {
+        console.log(imageList);
+    }, [imageList]);
     if (!user) {
         return <Redirect to="/login" />;
     }
@@ -79,25 +102,28 @@ export default function UpdateArticle() {
         option: {
             method: 'POST',
             headers: new Headers({ 'Content-type': 'application/json' }),
-            body: JSON.stringify({ title, content }),
+            body: JSON.stringify({
+                title,
+                content,
+                coverImgUrl: `${baseurl}/article/${imageList[0]?.name}`,
+            }),
         },
     });
     function onChange(info: UploadChangeParam) {
         if (info.event?.percent === 100) {
             message.success('operation success!');
         }
-        setImageList([...info.fileList]);
+        setImageList(info.fileList);
     }
     async function action(file: RcFile): Promise<string> {
-        console.log(file);
-        return baseurl + `/article/update/picture`;
+        return baseurl + `/article/upload/picture`;
     }
     useEffect(() => {
         if (loading) {
             message.loading('uploading');
-        } else if (error || response?.message) {
+        } else if (error || response?.type === 'error') {
             message.error(error?.message ?? response?.message ?? 'error!');
-        } else {
+        } else if (response) {
             message.success('upload success!');
         }
     }, [response, loading, error]);
@@ -196,7 +222,8 @@ export default function UpdateArticle() {
                                         setBody(v);
                                     }}
                                     transformImageUri={(url) => {
-                                        if (/^https?/g.test(url)) return url;
+                                        if (/^https?:\/\//g.test(url))
+                                            return url;
                                         return baseurl + `/article/${url}`;
                                     }}
                                 />

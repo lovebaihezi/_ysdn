@@ -100,6 +100,7 @@ declare namespace AjaxJson {
     type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
 
     interface comment {
+        _id: string;
         content: string;
         author: userInfo;
         answerTime: Date;
