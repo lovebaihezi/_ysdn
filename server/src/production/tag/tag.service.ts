@@ -39,19 +39,19 @@ export class TagService {
     }
 
     async findAll() {
-        return [
-            'front-end',
-            'client-side',
-            'server-side',
-            'QA',
-            'media',
-            'algorithm',
-            'data',
-            'common',
-            'product',
-            'security',
-            'project',
-        ];
+        // return [
+        //     'front-end',
+        //     'client-side',
+        //     'server-side',
+        //     'QA',
+        //     'media',
+        //     'algorithm',
+        //     'data',
+        //     'common',
+        //     'product',
+        //     'security',
+        //     'project',
+        // ];
         return (await this.tagModel.find({}).limit(12).exec()).map(
             ({ name }) => name,
         );
