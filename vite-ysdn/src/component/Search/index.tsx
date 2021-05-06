@@ -1,6 +1,7 @@
 import { AutoComplete, Col, Row, SelectProps } from 'antd';
 import Search from 'antd/lib/input/Search';
 import React, { FC, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { baseurl } from '../../auth';
 import { AjaxJson } from '../../interface';
 import { useFetchJson } from '../../tools/hook/useFetch';
@@ -45,9 +46,15 @@ export default function Searcher() {
     const [searchHistory, setSearchHistory] = useState<
         SelectProps<object>['options']
     >([]);
+    const H = useHistory();
+    const [[response, l, error], f, c] = useFetchJson<{
+        article: AjaxJson.article[];
+        user: AjaxJson.userInfo[];
+    }>({ url: baseurl + `/search?q=${value}` });
     if (searchHistory === undefined) {
         return null;
     }
+    useEffect(() => {}, [value]);
     useEffect(() => {
         const result = ((sh: string | null) =>
             sh === null ? [] : JSON.parse(sh))(
@@ -55,7 +62,7 @@ export default function Searcher() {
         );
         if (
             result instanceof Array &&
-            result.every((v) => typeof v === 'string')
+            result.every((v) => typeof v === 'string') 
         ) {
             setSearchHistory(result);
         }
@@ -72,15 +79,20 @@ export default function Searcher() {
         };
     }, []);
     return (
-        <AutoComplete options={searchHistory} onSearch={(value) => {
-            
-        }}>
+        <AutoComplete
+            options={searchHistory}
+            onSearch={(value) => {
+                H.push(`/search?q=${value}`);
+            }}
+        >
             <Search
                 placeholder="what you want"
                 allowClear
                 enterButton="Search"
                 size="middle"
-                // onSearch={(value) => setValue(value)}
+                onChange={(value) => {
+                    setValue(value.currentTarget.value);
+                }}
             ></Search>
         </AutoComplete>
     );

@@ -253,21 +253,21 @@ export const QuestionSchema = SchemaFactory.createForClass(Question);
 
 @Schema()
 export class Video extends Production {
-    @Prop()
+    @Prop({ required: true })
     title: string;
-    @Prop()
-    videoSrc: string;
+    @Prop({ default: [] })
+    videoSrc: string[];
 
     @Prop({ type: UserInfoSchema, ref: User.name })
-    author: User;
+    author: UserInfo;
 
-    @Prop()
+    @Prop({ default: [] })
     tags: string[];
 
-    @Prop()
+    @Prop({ default: '' })
     briefIntro: string;
 
-    @Prop()
+    @Prop({ default: '' })
     coverImgUrl: string;
 }
 
@@ -279,7 +279,7 @@ export class Activity extends Production {
         type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
         default: [],
     })
-    holder: User[];
+    holder: UserInfo[];
 
     @Prop()
     form: string;

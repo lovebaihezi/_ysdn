@@ -155,7 +155,7 @@ declare namespace AjaxJson {
 
     interface video extends production {
         author: userInfo;
-        videoSrc: string;
+        videoSrc: string[];
         mark: userInfo[];
         briefIntro: string;
         coverImgUrl: string;

@@ -9,7 +9,6 @@ import {
     VideoDocument,
 } from '../../schema/production.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Random } from 'mockjs';
 import { CreateVideoDto } from './dot/create-video.dto';
 
 @Injectable()
