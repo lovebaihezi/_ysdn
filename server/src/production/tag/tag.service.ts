@@ -10,29 +10,29 @@ export class TagService {
     constructor(
         @InjectModel(Tag.name) private readonly tagModel: Model<TagDocument>,
     ) {
-        const x = [
-            'front-end',
-            'client-side',
-            'server-side',
-            'QA',
-            'media',
-            'algorithm',
-            'data',
-            'common',
-            'product',
-            'security',
-            'project',
-        ];
-        (async () => {
-            if ((await this.tagModel.find({})).length === 0)
-                for (const name of x) {
-                    const each = await this.tagModel.create({
-                        name,
-                        createTime: new Date(),
-                    });
-                    await each.save();
-                }
-        })();
+        // const x = [
+        //     'front-end',
+        //     'client-side',
+        //     'server-side',
+        //     'QA',
+        //     'media',
+        //     'algorithm',
+        //     'data',
+        //     'common',
+        //     'product',
+        //     'security',
+        //     'project',
+        // ];
+        // (async () => {
+        //     if ((await this.tagModel.find({})).length === 0)
+        //         for (const name of x) {
+        //             const each = await this.tagModel.create({
+        //                 name,
+        //                 createTime: new Date(),
+        //             });
+        //             await each.save();
+        //         }
+        // })();
     }
     create(createTagDto: CreateTagDto) {
         return 'This action adds a new tag';
