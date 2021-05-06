@@ -16,7 +16,7 @@ describe('VideoController', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot('mongodb://localhost:27017/server', {
+                MongooseModule.forRoot('mongodb://localhost:27017/test', {
                     useNewUrlParser: true,
                     // connectTimeoutMS: 30000,
                 }),

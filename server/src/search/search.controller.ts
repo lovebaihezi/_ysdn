@@ -15,28 +15,8 @@ import { UpdateSearchDto } from './dto/update-search.dto';
 export class SearchController {
     constructor(private readonly searchService: SearchService) {}
 
-    @Post()
-    create(@Body() createSearchDto: CreateSearchDto) {
-        return this.searchService.create(createSearchDto);
-    }
-
     @Get(':name')
     findAll(@Param('name') name: string) {
         return this.searchService.findAll(name);
-    }
-
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.searchService.findOne(+id);
-    }
-
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateSearchDto: UpdateSearchDto) {
-        return this.searchService.update(+id, updateSearchDto);
-    }
-
-    @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.searchService.remove(+id);
     }
 }

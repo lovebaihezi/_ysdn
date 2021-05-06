@@ -12,6 +12,8 @@ import {
     CommentSchema,
     Video,
     VideoSchema,
+    Reply,
+    ReplySchema,
 } from '../../schema/production.schema';
 import { Tag, TagSchema } from '../../schema/tags.schema';
 import { ArticleService } from './article.service';
@@ -32,6 +34,7 @@ describe('ArticleService', () => {
                     { name: Article.name, schema: ArticleSchema },
                     { name: Comment.name, schema: CommentSchema },
                     { name: Tag.name, schema: TagSchema },
+                    { name: Reply.name, schema: ReplySchema },
                 ]),
             ],
             providers: [ArticleService, UserService],
@@ -53,9 +56,7 @@ describe('ArticleService', () => {
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
-    it('should get all comment', async () => {
-
-    });
+    it('should get all comment', async () => {});
     // it('should create article', async () => {
     //     const res = await service.createArticle('6088d56730a96806c057bc14', {
     //         title: 'test',

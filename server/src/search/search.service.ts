@@ -21,9 +21,6 @@ export class SearchService {
         @InjectModel(Video.name)
         private readonly videoModel: Model<VideoDocument>,
     ) {}
-    create(createSearchDto: CreateSearchDto) {
-        return 'This action adds a new search';
-    }
 
     async findAll(name: string) {
         const findInUser = async () => [
@@ -57,17 +54,5 @@ export class SearchService {
                 .filter((v) => v !== null)
                 .map((v) => v.toObject()),
         };
-    }
-
-    findOne(id: number) {
-        return `This action returns a #${id} search`;
-    }
-
-    update(id: number, updateSearchDto: UpdateSearchDto) {
-        return `This action updates a #${id} search`;
-    }
-
-    remove(id: number) {
-        return `This action removes a #${id} search`;
     }
 }

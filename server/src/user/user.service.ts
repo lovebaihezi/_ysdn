@@ -114,14 +114,16 @@ export class UserService {
             .update(file.originalname)
             .digest('hex');
         const dir = await fs
-            .opendir(`${home}/upload/${username}`)
+            .opendir(`${home}/upload/user/${username}`)
             .catch(async () => {
-                await fs.mkdir(`${home}/upload/${username}`);
+                await fs.mkdir(`${home}/upload/user/${username}`);
             })
-            .then(async () => await fs.opendir(`${home}/upload/${username}`));
+            .then(
+                async () => await fs.opendir(`${home}/upload/user/${username}`),
+            );
         await dir.close();
         const fileHandle = await fs.open(
-            `${home}/upload/${username}/${fileName}`,
+            `${home}/upload/user/${username}/${fileName}`,
             'w+',
         );
         await fileHandle.write(file.buffer);
@@ -136,7 +138,7 @@ export class UserService {
     public async findUserAvatar(username: string, avatar: string) {
         const home = homedir();
         const fileName = createHash('md5').update(avatar).digest('hex');
-        return `${home}/upload/${username}/${fileName}`;
+        return `${home}/upload/user/${username}/${fileName}`;
     }
 
     public async completeInformation(id: string, information: UpdateUserDto) {

@@ -12,7 +12,7 @@ import {
     CommentButton,
     ReadButton,
 } from '../../../../component/ActionButton';
-import { useUserDetail } from '../../../../auth';
+import { baseurl, useUserDetail } from '../../../../auth';
 
 
 const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) => {

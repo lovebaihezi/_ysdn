@@ -14,10 +14,11 @@ import {
     CommentSchema,
     Video,
     VideoSchema,
+    Reply,
+    ReplySchema,
 } from '../schema/production.schema';
 import { Tag, TagSchema } from '../schema/tags.schema';
 import { ArticleService } from '../production/article/article.service';
-import { checkServerIdentity } from 'node:tls';
 
 describe('UserService', () => {
     let service: UserService;
@@ -36,11 +37,13 @@ describe('UserService', () => {
                     { name: Article.name, schema: ArticleSchema },
                     { name: Comment.name, schema: CommentSchema },
                     { name: Tag.name, schema: TagSchema },
+                    { name: Reply.name, schema: ReplySchema },
                 ]),
             ],
             providers: [UserService, ArticleService],
         }).compile();
         service = module.get<UserService>(UserService);
+        articleService = module.get<ArticleService>(ArticleService);
         await service.userRegister({
             username: 'testTest',
             password: 'testTest',

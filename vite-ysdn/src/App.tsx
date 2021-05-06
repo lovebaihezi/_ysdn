@@ -14,10 +14,10 @@ import check from './tools/check';
 
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
-    const S = (t: AjaxJson.userDetail) => setDetail(t);
+    const S = (t: AjaxJson.userDetail | null) => setDetail(t);
     const value: [
         AjaxJson.userDetail | null,
-        (P: AjaxJson.userDetail) => void,
+        (P: AjaxJson.userDetail | null) => void,
     ] = [userDetail, S];
     const f = async (token: string) => {
         const res = await fetch(baseurl + '/user/tokenLogin', {

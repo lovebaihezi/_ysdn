@@ -184,7 +184,9 @@ const AddComment: FC<{ id: string }> = ({ id }) => {
                         <Button
                             disabled={user === null && comment !== ' '}
                             onClick={() => {
-                                f().catch(c);
+                                f()
+                                    .then(() => location.reload())
+                                    .catch(c);
                             }}
                             type="primary"
                         >

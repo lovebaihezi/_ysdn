@@ -24,7 +24,13 @@ import {
 import './completeInformation.css';
 
 const UploadButton: FC<{ loading: boolean }> = ({ loading }) => (
-    <div>
+    <div
+        style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}
+    >
         {loading ? <LoadingOutlined /> : <PlusOutlined />}
         <div style={{ marginTop: 8 }}>Upload</div>
     </div>
@@ -34,6 +40,9 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImgUrl] = useState('');
     const [user] = useUserDetail();
+    if (!user) {
+        return null;
+    }
     function onChange(info: UploadChangeParam) {
         if (info.file.status === 'error') {
             setLoading(false);
@@ -62,9 +71,9 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
         if (!isJpgOrPng) {
             message.error('You can only upload image file!');
         }
-        const isLt2M = file.size / 1024 / 1024 < 10;
+        const isLt2M = file.size / 1024 / 1024 < 20;
         if (!isLt2M) {
-            message.error('Image must smaller than 10MB!');
+            message.error('Image must smaller than 20MB!');
         }
         return isJpgOrPng && isLt2M;
     }
@@ -72,10 +81,9 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
         <Upload
             name="avatar"
             listType="picture-card"
-            className="avatar-uploader"
             showUploadList={false}
             method="post"
-            action={baseurl + `/user/update/${user?.username}/avatar`}
+            action={baseurl + `/user/update/${user.username}/avatar`}
             beforeUpload={beforeUpload}
             onChange={onChange}
             style={{
@@ -84,11 +92,19 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
                 justifyItems: 'center',
             }}
         >
-            {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-            ) : (
-                <UploadButton loading={loading} />
-            )}
+            <Row>
+                <Col span={24} className="avatar-uploader">
+                    {imageUrl ? (
+                        <Image
+                            src={imageUrl}
+                            alt="avatar"
+                            style={{ width: '100%' }}
+                        />
+                    ) : (
+                        <UploadButton loading={loading} />
+                    )}
+                </Col>
+            </Row>
         </Upload>
     );
 };
@@ -173,10 +189,7 @@ const CompleteInformation: FC = () => {
             </Form.Item>
             <Divider />
             <Form.Item name="nickname" initialValue={D.nickname}>
-                <Input
-                    type="text"
-                    placeholder="nickname"
-                />
+                <Input type="text" placeholder="nickname" />
             </Form.Item>
             <Divider />
             <Form.Item name="email" initialValue={D.email}>
