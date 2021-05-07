@@ -13,3 +13,5 @@ const EachVideo: FC = () => {
         />
     );
 };
+
+export default EachVideo;

@@ -106,6 +106,7 @@ export default function UpdateArticle() {
                 title,
                 content,
                 coverImgUrl: `${baseurl}/article/${imageList[0]?.name}`,
+                tags: [...tags],
             }),
         },
     });

@@ -22,37 +22,62 @@ export class SearchService {
         private readonly videoModel: Model<VideoDocument>,
     ) {}
 
+    // TODO: more param to get detail info.. split page,
     async findAll(name: string) {
         const findInUser = async () => [
-            await this.userModel
-                .find({
-                    username: new RegExp(`${name}`),
-                })
-                .limit(20),
-            await this.userModel
-                .find({ nickname: new RegExp(`${name}`) })
-                .limit(20),
+            await this.userModel.find({
+                username: new RegExp(`${name}`, 'i'),
+            }),
+            await this.userModel.find({ nickname: new RegExp(`${name}`, 'i') }),
         ];
         const findInArticle = async () => [
-            await this.articleModel
-                .find({ title: new RegExp(`${name}`) })
-                .limit(20),
-            await this.articleModel
-                .find({ content: new RegExp(`${name}`) })
-                .limit(20),
+            await this.articleModel.find({ title: new RegExp(`${name}`, 'i') }),
+            await this.articleModel.find({
+                content: new RegExp(`${name}`, 'i'),
+            }),
         ];
-        // return [, ]
-        //     .flat(1)
-        //     .filter((v) => v !== null);
-        return {
-            user: [...(await findInUser())]
+        const findInVideo = async () => [
+            await this.videoModel.find({ title: new RegExp(`${name}`, 'i') }),
+            await this.videoModel.find({
+                briefIntro: new RegExp(`${name}`, 'i'),
+            }),
+        ];
+        const user = [
+            ...(await findInUser())
                 .flat(1)
                 .filter((v) => v !== null)
                 .map((v) => remove(v.toObject(), 'password')),
-            article: [...(await findInArticle())]
+        ].reduce(
+            (prev, v) =>
+                prev.some((x) => x.username === v.username)
+                    ? prev
+                    : [...prev, v],
+            [],
+        );
+        const article = [
+            ...(await findInArticle())
                 .flat(1)
                 .filter((v) => v !== null)
                 .map((v) => v.toObject()),
+        ].reduce(
+            (prev, v) =>
+                prev.some((x) => x.title === v.title) ? prev : [...prev, v],
+            [],
+        );
+        const video = [
+            ...(await findInVideo())
+                .flat(1)
+                .filter((v) => v !== null)
+                .map((v) => v.toObject()),
+        ].reduce(
+            (prev, v) =>
+                prev.some((x) => x.title === v.title) ? prev : [...prev, v],
+            [],
+        );
+        return {
+            user,
+            article,
+            video,
         };
     }
 }

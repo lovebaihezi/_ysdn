@@ -11,7 +11,7 @@ import Extra from './rightSide';
 const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const tag = useTag();
     const Request: useFetchProps = {
-        url: baseurl + `/article/${OuterTag}/${tag}`,
+        url: baseurl + `/article/choose/${OuterTag}/${tag}`,
     };
     return useMemo(() => <Ajax Request={Request} Component={PagedArticles} />, [
         tag,
@@ -26,7 +26,7 @@ export default function Article() {
                 <TagSwitch
                     tags={[
                         'all',
-                        'recommend',
+                        // 'recommend',
                         'front-end',
                         'client-side',
                         'server-side',

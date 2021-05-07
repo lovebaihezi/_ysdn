@@ -182,7 +182,7 @@ const AddComment: FC<{ id: string }> = ({ id }) => {
                             }}
                         />
                         <Button
-                            disabled={user === null && comment !== ' '}
+                            disabled={user === null && comment !== ''}
                             onClick={() => {
                                 f()
                                     .then(() => location.reload())
@@ -210,23 +210,17 @@ const Comments: Component<AjaxJson.comment[]> = ({ Response }) => {
                             datetime={comment.answerTime}
                             content={comment.content}
                             author={<UserLink user={comment.author} />}
-                            // actions={[
-                            //     <LikeButton
-                            //         type="article"
-                            //         id={`/comment/${comment._id}`}
-                            //         initial={false}
-                            //         amount={
-                            //             comment.approval - comment.disapproval
-                            //         }
-                            //     />,
-                            // ]}
                         />
                     </Card>
                 ))}
             </>
         );
     } else {
-        return <Empty style={{ width: '100%' }} />;
+        return (
+            <Card>
+                <Empty style={{ width: '100%' }} />
+            </Card>
+        );
     }
 };
 

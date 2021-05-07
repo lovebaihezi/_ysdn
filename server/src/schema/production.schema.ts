@@ -77,8 +77,10 @@ export const ProductionSchema = SchemaFactory.createForClass(Production);
 export class UserInfo {
     @Prop()
     username: string;
+
     @Prop()
     nickname: string;
+
     @Prop()
     avatarUrl: string;
 }

@@ -13,6 +13,7 @@ import { VideoService } from './video.service';
 import { CreateVideoDto } from './dot/create-video.dto';
 import { Express, Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { CreateCommentDto } from '../article/article.service';
 
 @Controller('video')
 export class VideoController {
@@ -22,15 +23,20 @@ export class VideoController {
     getAllRank() {
         return this.videoService.hotVideo();
     }
-
+    // 16 videos
     @Get('recommend')
     getAllRecommend() {
         return this.videoService.hotVideo();
     }
 
-    @Get(':tag/:type')
+    @Get(':id')
+    findOneById(@Param('id') id: string) {
+        return this.videoService.getVideoById(id);
+    }
+
+    @Get('choose/:tag/:type')
     findOne(@Param('tag') tag: string, @Param('type') type: string) {
-        return this.videoService.hotVideo();
+        return this.videoService.getAllTagAndType(tag, type);
     }
 
     @Get('cover/:username/:file')
@@ -69,6 +75,11 @@ export class VideoController {
     ) {
         // console.log(file);
         return this.videoService.saveVideoCover(username, file);
+    }
+
+    @Post('update/:id/comment')
+    updateComment(@Param('id') id: string, @Body() comment: CreateCommentDto) {
+        return this.videoService.updateVideoComment(id, comment);
     }
 
     @Post(':userID')

@@ -22,7 +22,7 @@ import PagedVideo from './pagedVideo';
 const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const tab = useTag();
     const Request: useFetchProps = {
-        url: baseurl + `/video/${OuterTag}/${tab}`,
+        url: baseurl + `/video/choose/${OuterTag}/${tab}`,
     };
     return useMemo(() => <Ajax Request={Request} Component={PagedVideo} />, [
         tab,
@@ -36,7 +36,7 @@ export default function Video() {
                 <TagSwitch
                     tags={[
                         'all',
-                        'recommend',
+                        // 'recommend',
                         'front-end',
                         'client-side',
                         'server-side',

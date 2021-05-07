@@ -154,7 +154,8 @@ const CompleteInformation: FC = () => {
                 const res = json as AjaxJson.userDetail;
                 console.log(res);
                 S(res);
-                History.push(`/`);
+                History.go(-3);
+                
             } else {
                 const res = json as AjaxJson.responseMessage;
                 setError(`${res?.type} : ${res.message}`);
@@ -207,13 +208,6 @@ const CompleteInformation: FC = () => {
                 <div className="buttonLine">
                     <Button type="primary" disabled={disable} htmlType="submit">
                         complete
-                    </Button>
-                </div>
-            </Form.Item>
-            <Form.Item>
-                <div className="buttonLine">
-                    <Button onClick={() => History.push('/')} type="link">
-                        skip
                     </Button>
                 </div>
             </Form.Item>

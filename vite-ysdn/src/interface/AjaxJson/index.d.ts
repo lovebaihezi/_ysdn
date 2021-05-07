@@ -62,7 +62,7 @@ declare namespace AjaxJson {
 
     interface production {
         _id: _id;
-        tags: tag[];
+        tags: string[];
         read: number;
         title: string;
         createTime: Date;

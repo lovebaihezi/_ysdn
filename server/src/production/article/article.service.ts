@@ -70,7 +70,7 @@ export class ArticleService {
     // }
 
     async findAllRank() {
-        return this.articleModel.find({}).limit(10);
+        return this.articleModel.find({}).sort({ approval: -1 }).limit(10);
     }
 
     async findAllRecommend() {
@@ -219,6 +219,25 @@ export class ArticleService {
             const comment = await this.commentModel.findById(i).exec();
             result.push(comment.toObject());
         }
-        return result;
+        return result.sort((a, b) => (b.answerTime > a.answerTime ? 1 : -1));
+    }
+
+    private async getTagArticle(tag: string) {
+        const articles = await this.articleModel.find({});
+        if (tag !== 'all') {
+            return articles.filter((v) => v.tags.includes(tag));
+        }
+        return articles;
+    }
+
+    async findByTagAndType(tag: string, type: string) {
+        const result = await this.getTagArticle(tag);
+        if (type === 'Hottest') {
+            return result.sort((a, b) => -a.approval + b.approval);
+        } else {
+            return result.sort((a, b) =>
+                a.createTime > b.createTime ? -1 : 1,
+            );
+        }
     }
 }

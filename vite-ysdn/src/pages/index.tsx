@@ -6,6 +6,7 @@ import NavBar from '../component/NavBar';
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useUserDetail } from '../auth';
+import Search from './search';
 
 const QA = lazy(() => import('./Main/QA'));
 const User = lazy(() => import('./each/user'));
@@ -17,6 +18,7 @@ const Activities = lazy(() => import('./Main/Activity'));
 const ArticlePage = lazy(() => import('./each/article'));
 const UpdatePAge = lazy(() => import('./each/update'));
 const ActivityPage = lazy(() => import('./each/activity'));
+const VideoPage = lazy(() => import('./each/video'));
 
 const LazySpinStyle = {
     display: 'flex',
@@ -75,6 +77,9 @@ export default function Pages() {
                         <Route path="/article/:id">
                             <Render Lazy={ArticlePage} />
                         </Route>
+                        <Route path="/video/:id">
+                            <Render Lazy={VideoPage} />
+                        </Route>
                         <Route path="/QA/:id">
                             <Render Lazy={QAPage} />
                         </Route>
@@ -89,6 +94,9 @@ export default function Pages() {
                         </Route>
                         <Route path="/login">
                             <Login />
+                        </Route>
+                        <Route path="/search/:value">
+                            <Search />
                         </Route>
                         <Route path="/register">
                             <Register />

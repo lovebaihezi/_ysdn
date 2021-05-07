@@ -47,14 +47,9 @@ export default function Searcher() {
         SelectProps<object>['options']
     >([]);
     const H = useHistory();
-    const [[response, l, error], f, c] = useFetchJson<{
-        article: AjaxJson.article[];
-        user: AjaxJson.userInfo[];
-    }>({ url: baseurl + `/search?q=${value}` });
     if (searchHistory === undefined) {
         return null;
     }
-    useEffect(() => {}, [value]);
     useEffect(() => {
         const result = ((sh: string | null) =>
             sh === null ? [] : JSON.parse(sh))(
@@ -62,7 +57,7 @@ export default function Searcher() {
         );
         if (
             result instanceof Array &&
-            result.every((v) => typeof v === 'string') 
+            result.every((v) => typeof v === 'string')
         ) {
             setSearchHistory(result);
         }
@@ -79,12 +74,7 @@ export default function Searcher() {
         };
     }, []);
     return (
-        <AutoComplete
-            options={searchHistory}
-            onSearch={(value) => {
-                H.push(`/search?q=${value}`);
-            }}
-        >
+        <AutoComplete options={searchHistory}>
             <Search
                 placeholder="what you want"
                 allowClear
@@ -92,6 +82,11 @@ export default function Searcher() {
                 size="middle"
                 onChange={(value) => {
                     setValue(value.currentTarget.value);
+                }}
+                onSearch={(e) => {
+                    if (value !== '') {
+                        H.push(`/search/${value}`);
+                    }
                 }}
             ></Search>
         </AutoComplete>

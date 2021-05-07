@@ -78,9 +78,10 @@ const Tags: Component<string[]> = ({ Response }) => {
     const C = new Set<string>();
     return (
         <Row>
-            {Response.map((tag) => (
+            {Response.map((tag, i) => (
                 <Col span={4} style={{ padding: 40 }} key={tag}>
                     <Tag
+                        src={`http://127.0.0.1:8080/picture/t${i + 1}.png`}
                         onClick={() => {
                             if (C.size < 3) {
                                 if (C.has(tag)) {

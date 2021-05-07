@@ -13,6 +13,7 @@ import { CreateVideoDto } from './dot/create-video.dto';
 import * as fs from 'fs/promises';
 import * as os from 'os';
 import { createHash } from 'crypto';
+import { CreateCommentDto } from '../article/article.service';
 
 @Injectable()
 export class VideoService {
@@ -36,7 +37,7 @@ export class VideoService {
     }
 
     async hotVideo() {
-        return this.videoModel.find({}, {}).limit(10);
+        return this.videoModel.find({}).sort({ approval: -1 }).limit(10);
     }
 
     async allVideo(skip = 0) {
@@ -67,6 +68,11 @@ export class VideoService {
         return `${homedir}/upload/video/${username}/${fileName}`;
     }
 
+    async getVideoById(id: string) {
+        const video = await this.videoModel.findById(id).exec();
+        return video.toObject();
+    }
+
     async getVideo(username: string, file: string) {
         const homedir = os.homedir();
         const fileName = createHash('md5').update(file).digest('hex');
@@ -91,29 +97,37 @@ export class VideoService {
         await file.close();
     }
 
-    async AddComment(
-        id: string,
-        c: {
-            content: string;
-            author: User;
-            answerTime: Date;
-            approval: number;
-            reply: Reply[];
-            disapproval: number;
-        },
-    ) {
+    async AddComment(id: string, comment: CreateCommentDto) {
         const video = await this.videoModel.findById(id).exec();
-        const comment = await this.commentModel.create(c);
-        video.comments.push(comment._id);
+        const Comment = await this.commentModel.create(comment);
+        await Comment.save();
+        const user = await this.userModel
+            .findOne({ username: comment.author.username })
+            .exec();
+        user.userProduct.comments.push(Comment._id);
+        video.comments.push(Comment._id);
+        await user.save();
         return await video.save();
     }
 
     async getComment(id: string, skip = 0, limit = 20) {
-        const Ref = new SchemaTypes.ObjectId(id);
-        const comment = await this.commentModel
-            .find({ Ref })
-            .skip(skip)
-            .limit(limit);
-        return comment;
+        const video = await this.videoModel.findById(id).exec();
+        return video.comments;
+    }
+
+    private async GetAllTag(tag: string) {
+        const videos = await this.videoModel.find({});
+        if (tag !== 'all') {
+            return videos.filter((v) => v.tags.includes(tag));
+        }
+        return videos;
+    }
+
+    async getAllTagAndType(tag: string, type: string) {
+        const videos = await this.GetAllTag(tag);
+        if (type === 'Hottest') {
+            return videos.sort((a, b) => b.approval - a.approval);
+        }
+        return videos.sort((a, b) => (b.createTime > a.createTime ? 1 : -1));
     }
 }

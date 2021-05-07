@@ -85,10 +85,10 @@ export class ArticleController {
         return this.articleService.findOneComment(id);
     }
 
-    @Get(':tag/:type')
+    @Get('choose/:tag/:type')
     //TODO : finish this!
     findTagType(@Param('tag') tag: string, @Param('type') type: string) {
-        return this.articleService.findAllRecommend();
+        return this.articleService.findByTagAndType(tag, type);
     }
 
     @Patch('/approval/:articleId')

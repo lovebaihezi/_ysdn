@@ -30,13 +30,19 @@ const videoDetailRequest: useFetchProps = {
 
 export default function IndexVideo() {
     return (
+        // <Row>
+        //     <Divider />
+        //     <Col span={18}>
+        //         <Ajax Request={videoDetailRequest} Component={VD} />
+        //     </Col>
+        //     <Col span={6}>
+        //         <Ajax Request={videoRankRequest} Component={VR} />
+        //     </Col>
+        // </Row>
         <Row>
             <Divider />
-            <Col span={18}>
+            <Col span={24}>
                 <Ajax Request={videoDetailRequest} Component={VD} />
-            </Col>
-            <Col span={6}>
-                <Ajax Request={videoRankRequest} Component={VR} />
             </Col>
         </Row>
     );

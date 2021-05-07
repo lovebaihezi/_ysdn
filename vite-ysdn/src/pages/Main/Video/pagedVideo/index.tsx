@@ -1,4 +1,4 @@
-import { Row, Col, Card, Button, Tag } from 'antd';
+import { Row, Col, Card, Button, Tag, Empty } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import Avatar from 'antd/lib/avatar/avatar';
@@ -13,10 +13,18 @@ import {
     ReadButton,
 } from '../../../../component/ActionButton';
 import { baseurl, useUserDetail } from '../../../../auth';
-
+import Tags from '../../../../component/ActionTags';
+import UserLink from '../../../../component/UserLink';
 
 const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) => {
     const [user] = useUserDetail();
+    if (Response.length === 0) {
+        return (
+            <Card>
+                <Empty />
+            </Card>
+        );
+    }
     return useMemo(
         () => (
             <>
@@ -58,28 +66,21 @@ const PagedVideos: Component<AjaxJson.video[]> = ({ Response }) => {
                                         link={`/video/${video._id}`}
                                     />,
                                 ]}
-                                cover={
-                                    <img
-                                        height="200px"
-                                        src={video.coverImgUrl}
-                                    />
-                                }
+                                cover={<img src={video.coverImgUrl} />}
                                 headStyle={{ border: 0 }}
                                 bodyStyle={{ border: 0 }}
                                 style={{ cursor: 'pointer', marginBottom: 24 }}
                             >
                                 <Card.Meta
                                     title={video.title}
-                                    avatar={
-                                        <>
-                                            <Avatar
-                                                src={video?.author?.avatarUrl}
-                                            />
-                                            {video?.author?.nickname}
-                                        </>
-                                    }
+                                    avatar={<UserLink user={video.author} />}
                                     description={video.briefIntro}
                                 />
+                                <Row>
+                                    <Col span={24}>
+                                        <Tags tags={video.tags} />,
+                                    </Col>
+                                </Row>
                             </Card>
                         </Col>
                     ))}

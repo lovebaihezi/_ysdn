@@ -112,7 +112,7 @@ export class User extends Types.Subdocument {
     @Prop({ default: 'anonymous' })
     nickname: string;
 
-    @Prop({ default: 'https://dummyimage.com/50x50' })
+    @Prop({ default: '' })
     avatarUrl: string;
 
     @Prop({ required: false, default: '' })

@@ -1,4 +1,14 @@
-import { Button, Card, Col, message, Row, Statistic, Tabs } from 'antd';
+import {
+    Button,
+    Card,
+    Col,
+    Empty,
+    message,
+    Row,
+    Statistic,
+    Tabs,
+    Comment,
+} from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
 import React, { FC, ReactNode, useEffect } from 'react';
@@ -9,6 +19,8 @@ import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
 import PagedArticles from '../../../Main/Article/pagedArticles';
 import PagedVideos from '../../../Main/Video/pagedVideo';
+import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
+import UserLink from '../../../../component/UserLink';
 
 const Article: Component<AjaxJson.article[]> = PagedArticles;
 
@@ -16,8 +28,25 @@ const Video: Component<AjaxJson.video[]> = ({ Response }) => {
     return <PagedVideos Response={Response} />;
 };
 
-const Comment: Component<AjaxJson.comment[]> = ({ Response }) => {
-    return <></>;
+const Comments: Component<AjaxJson.comment[]> = ({ Response }) => {
+    const [user] = useUserDetail();
+    if (Response.length !== 0) {
+        return (
+            <>
+                {Response.map((comment) => (
+                    <Card key={comment.author.username}>
+                        <Comment
+                            datetime={comment.answerTime}
+                            content={comment.content}
+                            author={<UserLink user={comment.author} />}
+                        />
+                    </Card>
+                ))}
+            </>
+        );
+    } else {
+        return <Empty style={{ width: '100%' }} />;
+    }
 };
 
 const config: name[] = [
@@ -90,16 +119,17 @@ type name =
 const Components = new Map<name, Component<any>>();
 Components.set('articles', Article);
 Components.set('videos', Video);
-Components.set('comments', Comment);
+Components.set('comments', Comments);
 
 const Each: FC<{
     name: name;
     username: string;
 }> = ({ name, username }) => {
+    useEffect(() => {}, [name, username]);
     if (Components.has(name)) {
         const X = Components.get(name);
         if (!X) {
-            return null;
+            return <Empty />;
         }
         return (
             <Ajax
@@ -122,7 +152,38 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
         }
     }, []);
     const { path } = useRouteMatch();
-    const [user] = useUserDetail();
+    const [user, refresh] = useUserDetail();
+
+    const follow = async () => {
+        if (user) {
+            const res = await fetch(
+                baseurl + `/user/update/${user.username}/${Response.username}`,
+                { method: 'PUT' },
+            );
+            const json = await res.json();
+            if (json.username) {
+                refresh({ ...user, ...json });
+            }
+        } else {
+            message.error('you have not login yet!');
+        }
+    };
+
+    const cancelFollow = async () => {
+        if (user) {
+            const json = await (
+                await fetch(
+                    baseurl +
+                        `/user/delete/${user.username}/${Response.username}`,
+                    { method: 'DELETE' },
+                )
+            ).json();
+            if (json.username) {
+                refresh({ ...user, ...json });
+            }
+        }
+    };
+
     return (
         <>
             <Row>
@@ -151,7 +212,38 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                                   completeInformation
                                               </Button>,
                                           ]
-                                        : undefined
+                                        : [
+                                              user?.follow?.some(
+                                                  (v) =>
+                                                      v.username ===
+                                                      Response?.username,
+                                              ) ? (
+                                                  <Button type="primary">
+                                                      <CheckOutlined />
+                                                      unFollow
+                                                  </Button>
+                                              ) : (
+                                                  <Button
+                                                      onClick={(e) => {
+                                                          follow()
+                                                              .then(() => {
+                                                                  message.success(
+                                                                      'followed!',
+                                                                  );
+                                                              })
+                                                              .catch((e) => {
+                                                                  message.error(
+                                                                      'error!',
+                                                                  );
+                                                              });
+                                                      }}
+                                                      type="primary"
+                                                  >
+                                                      <PlusOutlined />
+                                                      follow
+                                                  </Button>
+                                              ),
+                                          ]
                                 }
                             >
                                 <Meta

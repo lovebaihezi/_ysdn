@@ -12,7 +12,7 @@ import {
     ReadButton,
 } from '../../../../../../component/ActionButton';
 import Tags from '../../../../../../component/ActionTags';
-import { useUserDetail } from '../../../../../../auth';
+import { baseurl, useUserDetail } from '../../../../../../auth';
 
 const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
     article,
@@ -22,20 +22,29 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
         <Col span={24} style={{ margin: '2px 0' }} className="Detail">
             <Link to={`/article/${article._id}`}>
                 <Row>
-                    <Col span={8}>
+                    <Col
+                        span={
+                            article.coverImgUrl ===
+                            baseurl + '/article/undefined'
+                                ? 0
+                                : 8
+                        }
+                    >
                         <img
                             width="100%"
                             src={article.coverImgUrl}
                             alt={article.title}
                         />
                     </Col>
-                    <Col span={15} offset={1}>
+                    <Col
+                        span={article.coverImgUrl === baseurl + '/article/undefined' ? 22 : 15}
+                        offset={1}
+                    >
                         <Card
                             bordered={false}
                             bodyStyle={{ padding: 0 }}
                             headStyle={{ padding: 0 }}
                             actions={[
-                                <Tags tags={article.tags.map((v) => v.name)} />,
                                 <LikeButton
                                     type={'article'}
                                     amount={
@@ -74,6 +83,11 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                             <Row>
                                 <Col span={8}>
                                     <UserLink user={article.author} />
+                                </Col>
+                            </Row>
+                            <Row style={{ padding: 5 }}>
+                                <Col span={24}>
+                                    <Tags tags={article.tags} />
                                 </Col>
                             </Row>
                         </Card>

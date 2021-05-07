@@ -25,17 +25,6 @@ function Editor(
                 <Row> */}
             <Col span={12}>
                 <Card>
-                    {/* <div
-                        contentEditable
-                        className="editor"
-                        onInput={(e) => {
-                            onInput(e.currentTarget.innerText);
-                            setValue(e.currentTarget.innerText);
-                        }}
-                        onPaste={(e) => {
-                            onInput(e.currentTarget.innerText);
-                        }}
-                    ></div> */}
                     <CodeMirror
                         value={value}
                         options={{
