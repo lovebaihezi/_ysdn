@@ -121,7 +121,7 @@ export class UserService {
             .then(
                 async () => await fs.opendir(`${home}/upload/user/${username}`),
             );
-        await dir.close();
+        await dir.close();..
         const fileHandle = await fs.open(
             `${home}/upload/user/${username}/${fileName}`,
             'w+',
