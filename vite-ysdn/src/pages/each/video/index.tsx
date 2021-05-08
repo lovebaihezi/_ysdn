@@ -4,7 +4,7 @@ import { baseurl } from '../../../auth';
 import Ajax from '../../../component/AjaxResponse';
 import VideoRender from './Render';
 
-const EachVideo: FC = () => {
+const EachVideo = () => {
     const { id } = useParams<{ id: string }>();
     return (
         <Ajax
