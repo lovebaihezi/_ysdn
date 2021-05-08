@@ -123,6 +123,8 @@ export class VideoService {
         return videos;
     }
 
+    public async updateVideoComment() {}
+
     async getAllTagAndType(tag: string, type: string) {
         const videos = await this.GetAllTag(tag);
         if (type === 'Hottest') {
