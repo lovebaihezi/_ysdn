@@ -123,7 +123,7 @@ export class VideoService {
         return videos;
     }
 
-    public async updateVideoComment() {}
+    public async updateVideoComment(id: string, comment: CreateCommentDto) {}
 
     async getAllTagAndType(tag: string, type: string) {
         const videos = await this.GetAllTag(tag);
