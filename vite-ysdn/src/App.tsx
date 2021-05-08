@@ -12,6 +12,14 @@ import check from './tools/check';
 
 // TODO : all like, mark data must fetch when in a new page(or just let all this button fetch...)
 
+//TODO : 测试用例数据的格式模板
+//TODO : 标签的增加, 个人的标签的修改和新增(max : 6 || 8)
+//TODO : index 推荐
+//TODO : 浏览量, 
+//TODO : 
+//TODO : websocket, 通知
+//TODO : 问答
+
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
     const S = (t: AjaxJson.userDetail | null) => setDetail(t);
