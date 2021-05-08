@@ -62,7 +62,7 @@ declare namespace AjaxJson {
 
     interface production {
         _id: _id;
-        tags: tag[];
+        tags: string[];
         read: number;
         title: string;
         createTime: Date;
@@ -100,6 +100,7 @@ declare namespace AjaxJson {
     type userPageInfo = Omit<userDetail, 'Account' | 'id'>;
 
     interface comment {
+        _id: string;
         content: string;
         author: userInfo;
         answerTime: Date;
@@ -154,7 +155,7 @@ declare namespace AjaxJson {
 
     interface video extends production {
         author: userInfo;
-        videoSrc: string;
+        videoSrc: string[];
         mark: userInfo[];
         briefIntro: string;
         coverImgUrl: string;

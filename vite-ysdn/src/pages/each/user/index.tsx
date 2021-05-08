@@ -9,7 +9,6 @@ export default function User() {
     const { username } = useParams<{ username: string }>();
     const RequestInfo: useFetchProps = {
         url: baseurl + `/user/${username}`,
-        option: {},
     };
     return <Ajax Request={RequestInfo} Component={Info} />;
 }

@@ -75,7 +75,7 @@ export const LikeButton: FC<{
     initial: boolean;
     amount: number;
     id: string;
-    type: 'article' | 'activity' | 'QA' | 'video';
+    type: 'article' | 'activity' | 'QA' | 'video' | 'comment';
 }> = ({ initial, amount, id, type }) => {
     const [state, setState] = useState(initial);
     const [number, setNumber] = useState(amount);

@@ -2,6 +2,24 @@
     height: max-content;
     min-height: 720px;
     padding: 10px;
+    max-width: 100%;
+}
+
+.show-markdown {
+    max-width: 100%;
+}
+
+.show-markdown img {
+    max-width: 100%;
+    display: flex;
+}
+
+.show-markdown p {
+    word-wrap: break-word;
+}
+
+.editor * {
+    max-width: 100%;
 }
 
 .editor:focus {

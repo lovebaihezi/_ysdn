@@ -1,6 +1,6 @@
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Popover, Row } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useUserDetail } from '../../auth';
 import EventSourceMessage from '../EventSourceMessage';
 import { MenuLink } from '../MenuLink';
@@ -12,7 +12,8 @@ import './NavBar.css';
 const route = ['index', 'articles', 'videos', 'QAs', 'activities'];
 
 export default function NavBar() {
-    const [info] = useUserDetail();
+    const [info, clear] = useUserDetail();
+    const H = useHistory();
     return (
         <Row className="NavBar outSide">
             <Col span={4}>
@@ -48,10 +49,34 @@ export default function NavBar() {
                 }}
             >
                 {info ? (
-                    <>
-                        {/* <EventSourceMessage /> */}
-                        <UserLink user={info} />
-                    </>
+                    <Popover
+                        placement="bottom"
+                        content={
+                            <Popover
+                                trigger="click"
+                                placement="bottom"
+                                content={
+                                    <Button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            localStorage.removeItem('id');
+                                            H.replace('/');
+                                            clear(null);
+                                        }}
+                                    >
+                                        sure
+                                    </Button>
+                                }
+                            >
+                                <Button type="primary">log out</Button>
+                            </Popover>
+                        }
+                    >
+                        <div>
+                            <UserLink user={info} />
+                        </div>
+                    </Popover>
                 ) : (
                     <Link to="/login">
                         <Button>Login</Button>

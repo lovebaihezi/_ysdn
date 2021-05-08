@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDto } from './user.dto';
 import { User, UserDocument } from '../schema/user.schema';
 import { Remove, remove } from '../tools';
 import { UpdateUserDto } from './user.controller';
@@ -100,11 +99,13 @@ export class UserService {
 
     public async userTagChoose(username: string, tags: string[]) {
         const user = await this.userModel.findOne({ username }).exec();
-        user.like.tags = null;
+        while (user.like.tags.length !== 0) user.like.tags.pop();
         for (const i of tags) {
-            user.like.tags.push(await this.tagModel.find({ name: i }));
+            user.like.tags.push(
+                await (await this.tagModel.findOne({ name: i }).exec())._id,
+            );
         }
-        return await user.save();
+        return remove((await user.save()).toObject(), 'password');
     }
 
     public async updateAvatar(username: string, file: Express.Multer.File) {
@@ -113,14 +114,16 @@ export class UserService {
             .update(file.originalname)
             .digest('hex');
         const dir = await fs
-            .opendir(`${home}/upload/${username}`)
+            .opendir(`${home}/upload/user/${username}`)
             .catch(async () => {
-                await fs.mkdir(`${home}/upload/${username}`);
+                await fs.mkdir(`${home}/upload/user/${username}`);
             })
-            .then(async () => await fs.opendir(`${home}/upload/${username}`));
+            .then(
+                async () => await fs.opendir(`${home}/upload/user/${username}`),
+            );
         await dir.close();
         const fileHandle = await fs.open(
-            `${home}/upload/${username}/${fileName}`,
+            `${home}/upload/user/${username}/${fileName}`,
             'w+',
         );
         await fileHandle.write(file.buffer);
@@ -135,14 +138,23 @@ export class UserService {
     public async findUserAvatar(username: string, avatar: string) {
         const home = homedir();
         const fileName = createHash('md5').update(avatar).digest('hex');
-        return `${home}/upload/${username}/${fileName}`;
+        return `${home}/upload/user/${username}/${fileName}`;
     }
 
     public async completeInformation(id: string, information: UpdateUserDto) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         information = remove(information, 'password', 'username', '_id', 'id');
-        // return this.userModel.findById(id).updateOne({ information });
+        const checkResult = await this.userModel
+            .find({ email: information.email })
+            .count();
+        if (checkResult !== 0) {
+            return {
+                message: 'you should use a different email!',
+                type: 'error',
+                from: 'server',
+            };
+        }
         const user = await this.userModel.findById(id);
         user.avatarUrl = information.avatarUrl;
         user.backgroundImage = information.backgroundImage ?? '';

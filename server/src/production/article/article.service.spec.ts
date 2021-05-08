@@ -1,32 +1,62 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Article, ArticleSchema } from '../../schema/production.schema';
-import { User, UserSchema } from '../../schema/user.schema';
+import {
+    User,
+    UserSchema,
+    UserProduct,
+    UserProductSchema,
+} from '../../schema/user.schema';
+import {
+    Comment,
+    CommentSchema,
+    Video,
+    VideoSchema,
+    Reply,
+    ReplySchema,
+} from '../../schema/production.schema';
+import { Tag, TagSchema } from '../../schema/tags.schema';
 import { ArticleService } from './article.service';
+import { UserService } from '../../user/user.service';
 
 describe('ArticleService', () => {
     let service: ArticleService;
-    //TODO :  need add user service to check user data!!!
-    const articleId = '6088d59030a96806c057bc1d';
-    const userId = '6088d56730a96806c057bc14';
-    beforeEach(async () => {
+    let userService: UserService;
+    let id: string;
+    beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot('mongodb://localhost:27017/server'),
+                MongooseModule.forRoot('mongodb://localhost:27017/test'),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
+                    { name: UserProduct.name, schema: UserProductSchema },
+                    { name: Video.name, schema: VideoSchema },
                     { name: Article.name, schema: ArticleSchema },
+                    { name: Comment.name, schema: CommentSchema },
+                    { name: Tag.name, schema: TagSchema },
+                    { name: Reply.name, schema: ReplySchema },
                 ]),
             ],
-            providers: [ArticleService],
+            providers: [ArticleService, UserService],
         }).compile();
 
         service = module.get<ArticleService>(ArticleService);
+        userService = module.get<UserService>(UserService);
+        const result = (await userService.userRegister({
+            username: 'lqxclqxc',
+            password: 'lqxclqxc',
+        })) as any;
+        id = result.id;
+    });
+
+    afterAll(async () => {
+        await userService.deleteUserByUsername({ username: 'lqxclqxc' });
     });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
+    it('should get all comment', async () => {});
     // it('should create article', async () => {
     //     const res = await service.createArticle('6088d56730a96806c057bc14', {
     //         title: 'test',

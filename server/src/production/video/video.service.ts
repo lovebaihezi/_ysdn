@@ -9,8 +9,11 @@ import {
     VideoDocument,
 } from '../../schema/production.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Random } from 'mockjs';
 import { CreateVideoDto } from './dot/create-video.dto';
+import * as fs from 'fs/promises';
+import * as os from 'os';
+import { createHash } from 'crypto';
+import { CreateCommentDto } from '../article/article.service';
 
 @Injectable()
 export class VideoService {
@@ -34,36 +37,99 @@ export class VideoService {
     }
 
     async hotVideo() {
-        return this.videoModel.find({}, {}).limit(10);
+        return this.videoModel.find({}).sort({ approval: -1 }).limit(10);
     }
 
     async allVideo(skip = 0) {
         return this.videoModel.find({}).skip(skip).limit(10);
     }
 
-    async AddComment(
-        id: string,
-        c: {
-            content: string;
-            author: User;
-            answerTime: Date;
-            approval: number;
-            reply: Reply[];
-            disapproval: number;
-        },
-    ) {
+    async saveVideo(username: string, File: Express.Multer.File) {
+        const homedir = os.homedir();
+        const dir = await fs
+            .opendir(`${homedir}/upload/video/${username}`)
+            .catch(() => fs.mkdir(`${homedir}/upload/video/${username}`))
+            .then(() => fs.opendir(`${homedir}/upload/video/${username}`));
+        await dir.close();
+        const fileName = createHash('md5')
+            .update(File.originalname)
+            .digest('hex');
+        const file = await fs.open(
+            `${homedir}/upload/video/${username}/${fileName}`,
+            'w+',
+        );
+        await file.write(File.buffer);
+        await file.close();
+    }
+
+    async getCoverImage(username: string, filename: string) {
+        const homedir = os.homedir();
+        const fileName = createHash('md5').update(filename).digest('hex');
+        return `${homedir}/upload/video/${username}/${fileName}`;
+    }
+
+    async getVideoById(id: string) {
         const video = await this.videoModel.findById(id).exec();
-        const comment = await this.commentModel.create(c);
-        video.comments.push(comment._id);
+        return video.toObject();
+    }
+
+    async getVideo(username: string, file: string) {
+        const homedir = os.homedir();
+        const fileName = createHash('md5').update(file).digest('hex');
+        return `${homedir}/upload/video/${username}/${fileName}`;
+    }
+
+    async saveVideoCover(username: string, File: Express.Multer.File) {
+        const homedir = os.homedir();
+        const dir = await fs
+            .opendir(`${homedir}/upload/video/${username}`)
+            .catch(() => fs.mkdir(`${homedir}/upload/video/${username}`))
+            .then(() => fs.opendir(`${homedir}/upload/video/${username}`));
+        await dir.close();
+        const fileName = createHash('md5')
+            .update(File.originalname)
+            .digest('hex');
+        const file = await fs.open(
+            `${homedir}/upload/video/${username}/${fileName}`,
+            'w+',
+        );
+        await file.write(File.buffer).catch((e) => console.error(e));
+        await file.close();
+    }
+
+    async AddComment(id: string, comment: CreateCommentDto) {
+        const video = await this.videoModel.findById(id).exec();
+        const Comment = await this.commentModel.create(comment);
+        await Comment.save();
+        const user = await this.userModel
+            .findOne({ username: comment.author.username })
+            .exec();
+        user.userProduct.comments.push(Comment._id);
+        video.comments.push(Comment._id);
+        await user.save();
         return await video.save();
     }
 
     async getComment(id: string, skip = 0, limit = 20) {
-        const Ref = new SchemaTypes.ObjectId(id);
-        const comment = await this.commentModel
-            .find({ Ref })
-            .skip(skip)
-            .limit(limit);
-        return comment;
+        const video = await this.videoModel.findById(id).exec();
+        return video.comments;
+    }
+
+    private async GetAllTag(tag: string) {
+        const videos = await this.videoModel.find({});
+        if (tag !== 'all') {
+            return videos.filter((v) => v.tags.includes(tag));
+        }
+        return videos;
+    }
+
+    public async updateVideoComment(id: string, comment: CreateCommentDto) {}
+
+    async getAllTagAndType(tag: string, type: string) {
+        const videos = await this.GetAllTag(tag);
+        if (type === 'Hottest') {
+            return videos.sort((a, b) => b.approval - a.approval);
+        }
+        return videos.sort((a, b) => (b.createTime > a.createTime ? 1 : -1));
     }
 }

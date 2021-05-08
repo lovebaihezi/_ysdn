@@ -2,25 +2,27 @@ import React from 'react';
 import { Carousel as Carousels, Col, Image, Row } from 'antd';
 import './Carousel.css';
 
+const width = 960;
+const height = 480;
+
 const imgUrls = [
-    'https://dummyimage.com/960x480',
-    'https://dummyimage.com/960x480',
-    'https://dummyimage.com/960x480',
+    `http://127.0.0.1:8080/picture/c1.png`,
+    `http://127.0.0.1:8080/picture/c2.png`,
+    `http://127.0.0.1:8080/picture/c3.png`,
 ];
 
 export default function Carousel() {
     return (
         <Row>
-            <Col span={12} offset={6}>
+            <Col style={{ width, margin: '0 auto' }}>
                 <Carousels autoplay>
                     {imgUrls.map((url) => (
                         <img
-                            onClick={(e) => e.preventDefault()}
                             key={url.concat(new Date().toISOString())}
                             src={url}
-                            alt="960*480 picture"
-                            width={960}
-                            height={480}
+                            alt="picture"
+                            width={width}
+                            height={height}
                         />
                     ))}
                 </Carousels>

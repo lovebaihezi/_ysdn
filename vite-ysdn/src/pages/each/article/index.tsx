@@ -9,8 +9,7 @@ import Render from './Render';
 export default function ArticlePage() {
     const { id } = useParams<{ id: string }>();
     const RequestInfo: useFetchProps = {
-        url: baseurl + `/article/${id}`,
-        option: {},
+        url: baseurl + `/article/article/${id}`,
     };
     return (
         <>

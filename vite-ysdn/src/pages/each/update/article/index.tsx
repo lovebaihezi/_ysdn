@@ -1,6 +1,12 @@
 import { message, Row, Col, Button, Input, Card, Upload, Tag } from 'antd';
 import { UploadChangeParam, RcFile } from 'antd/lib/upload';
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, {
+    createContext,
+    FC,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { useUserDetail, baseurl } from '../../../../auth';
@@ -8,6 +14,9 @@ import { LeftOutlined } from '@ant-design/icons';
 import { useFetchJson } from '../../../../tools/hook/useFetch';
 import Editor from '../../../../component/Editor';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
+
+import './index.css';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 const BackButton: FC = () => {
     const History = useHistory();
@@ -31,26 +40,47 @@ const BackButton: FC = () => {
 
 const tags = new Set<string>();
 
-const Each: FC<{name: string}> = ({name}) => {
+const Each: FC<{ name: string }> = ({ name }) => {
     const [choose, setChoose] = useState(false);
     useEffect(() => {
-        if(choose) {
+        if (choose) {
             tags.add(name);
         } else {
             tags.delete(name);
         }
-    },[choose]);
-    return <Tag title={name} onClick={() => setChoose(!choose)} />
-}
+    }, [choose]);
+    return (
+        <Tag.CheckableTag
+            className="tag-chose"
+            checked={tags.has(name)}
+            onChange={() => {
+                setChoose(!choose);
+                if (tags.has(name)) {
+                    tags.delete(name);
+                } else {
+                    tags.add(name);
+                }
+            }}
+        >
+            {name}
+        </Tag.CheckableTag>
+    );
+};
 
 const AllTag: Component<string[]> = ({ Response }) => {
-    return <>{Response.map((name) => <Each key={name} name={name} />)}</>
-}
+    return (
+        <Row>
+            {Response.map((name) => (
+                <Col key={name} span={24 / Response.length}>
+                    <Each name={name} />
+                </Col>
+            ))}
+        </Row>
+    );
+};
 
 const TagChoose: FC = () => {
-    return (
-            <Ajax Request={{ url: baseurl + `/tag` }} Component={AllTag} />
-    );
+    return <Ajax Request={{ url: baseurl + `/tag` }} Component={AllTag} />;
 };
 
 //TODO : create an article in database when mount,
@@ -60,7 +90,10 @@ export default function UpdateArticle() {
     const [title, setTitle] = useState('no title');
     const [content, setBody] = useState('');
     const [user] = useUserDetail();
-    const [imageList, setImageList] = useState<any[]>([]);
+    const [imageList, setImageList] = useState<UploadFile[]>([]);
+    useEffect(() => {
+        console.log(imageList);
+    }, [imageList]);
     if (!user) {
         return <Redirect to="/login" />;
     }
@@ -69,25 +102,29 @@ export default function UpdateArticle() {
         option: {
             method: 'POST',
             headers: new Headers({ 'Content-type': 'application/json' }),
-            body: JSON.stringify({ title, content }),
+            body: JSON.stringify({
+                title,
+                content,
+                coverImgUrl: `${baseurl}/article/${imageList[0]?.name}`,
+                tags: [...tags],
+            }),
         },
     });
     function onChange(info: UploadChangeParam) {
         if (info.event?.percent === 100) {
             message.success('operation success!');
         }
-        setImageList([...info.fileList]);
+        setImageList(info.fileList);
     }
     async function action(file: RcFile): Promise<string> {
-        console.log(file);
-        return baseurl + `/article/update/picture`;
+        return baseurl + `/article/upload/picture`;
     }
     useEffect(() => {
         if (loading) {
             message.loading('uploading');
-        } else if (error || response?.message) {
+        } else if (error || response?.type === 'error') {
             message.error(error?.message ?? response?.message ?? 'error!');
-        } else {
+        } else if (response) {
             message.success('upload success!');
         }
     }, [response, loading, error]);
@@ -185,9 +222,11 @@ export default function UpdateArticle() {
                                     onInput={(v) => {
                                         setBody(v);
                                     }}
-                                    transformImageUri={(url) =>
-                                        baseurl + `/article/${url}`
-                                    }
+                                    transformImageUri={(url) => {
+                                        if (/^https?:\/\//g.test(url))
+                                            return url;
+                                        return baseurl + `/article/${url}`;
+                                    }}
                                 />
                             </Col>
                         </Row>

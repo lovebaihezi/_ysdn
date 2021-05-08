@@ -25,14 +25,14 @@ export default function IndexPage() {
             </Col>
             <Col span={22} offset={1}>
                 <Suspense fallback={<Skeleton />}>
-                    <IndexQA />
-                </Suspense>
-            </Col>
-            <Col span={22} offset={1}>
-                <Suspense fallback={<Skeleton />}>
                     <IndexVideo />
                 </Suspense>
             </Col>
+            {/* <Col span={22} offset={1}>
+                <Suspense fallback={<Skeleton />}>
+                    <IndexQA />
+                </Suspense>
+            </Col> */}
             <Col span={22} offset={1}></Col>
         </Row>
     );
