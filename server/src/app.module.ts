@@ -1,3 +1,4 @@
+import { NotificationModule } from './notification/notification.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,6 +15,7 @@ import { MonographicModule } from './monographic/monographic.module';
         ProductionModule,
         SearchModule,
         MonographicModule,
+        NotificationModule,
     ],
     controllers: [AppController],
     providers: [AppService],
