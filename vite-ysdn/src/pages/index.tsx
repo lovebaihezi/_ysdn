@@ -50,9 +50,6 @@ const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
 
 export default function Pages() {
     const [userDetail] = useUserDetail();
-    useEffect(() => {
-        console.log(userDetail);
-    });
     return (
         <>
             <NavBar />

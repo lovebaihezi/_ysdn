@@ -5,7 +5,10 @@ import { setupServer } from 'msw/node';
 import { FC, useEffect } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-// *use node as server (maybe this is the most possible way) or rewrite fetch and XMLHTTPRequest
+import '@babel/polyfill';
+import 'whatwg-fetch';
+
+// *use node as server (maybe this is the most possible way) or rewrite fetch and XMLHttpRequest
 const server = setupServer(
     rest.post('/user/denied', (req, res, ctx) => {
         return res(ctx.json({ msg: 'access denied' }));
@@ -21,31 +24,33 @@ const server = setupServer(
             return res(ctx.json({ msg: 'access granted' }));
         }
         return res(ctx.status(400, 'method not allowed'));
-    })
+    }),
 );
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-const Test: FC = () => {
+function Test() {
     const url = '/';
     const option = {};
+
     const [[r], f] = useFetchJson<{ msg: string }>({ url, option });
     useEffect(() => {
         f();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <code>{r ? r.msg : 'loading'}</code>;
-};
+}
 
 describe('fetch could be called,and it should run', () => {
     test('call fetch to get /', async () => {
         const url = '/';
         const option = {};
-        const { result } = renderHook<useFetchProps, FetchJson<{ msg: string }>>(() =>
-            useFetchJson<{ msg: string }>({ url, option })
-        );
+        const { result } = renderHook<
+            useFetchProps,
+            FetchJson<{ msg: string }>
+        >(() => useFetchJson<{ msg: string }>({ url, option }));
         const [, f] = result.current;
         await act(async () => await f());
         const [[R]] = result.current;

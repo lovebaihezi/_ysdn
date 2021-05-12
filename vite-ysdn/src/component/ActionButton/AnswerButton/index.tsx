@@ -1,8 +1,9 @@
 import { Button, Col, Row } from 'antd';
 import React, { FC } from 'react';
 import { EditOutlined } from '@ant-design/icons';
+import { AjaxJson } from '../../../interface';
 
-export const AnswerButton: FC<{ amount: number }> = ({ amount }) => (
+const AnswerButton: FC<{ amount: number }> = ({ amount }) => (
     <Row
         onClick={(e) => {
             e.stopPropagation();
@@ -17,3 +18,15 @@ export const AnswerButton: FC<{ amount: number }> = ({ amount }) => (
         </Col>
     </Row>
 );
+
+const GetAnswerInformation: FC<{ user: AjaxJson.userInfo | null }> = ({
+    user,
+}) => {
+    if (user) {
+        return <></>;
+    } else {
+        return <></>;
+    }
+};
+
+export default GetAnswerInformation;

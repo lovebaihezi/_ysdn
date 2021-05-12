@@ -15,7 +15,7 @@ import AvatarLink from '../../../../../../component/AvatarLink';
 import { Link } from 'react-router-dom';
 import UserLink from '../../../../../../component/UserLink';
 import {
-    AnswerButton,
+    // AnswerButton,
     FollowButton,
     LikeButton,
     ReadButton,
@@ -49,7 +49,7 @@ const QACard: FC<{ QA: AjaxJson.IndexDetailQA }> = ({ QA }) => {
                                             : false
                                     }
                                 />,
-                                <AnswerButton amount={0} />,
+                                // <AnswerButton amount={0} />,
                                 <LikeButton
                                     type={'article'}
                                     amount={

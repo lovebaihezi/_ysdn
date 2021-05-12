@@ -1,7 +1,7 @@
 import useTimeout, { PromiseTimeout } from './index';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { waitFor } from '@testing-library/react';
-
+import '@babel/polyfill';
 test('should push 1 after 2', async () => {
     const testing: number[] = [];
     const f = PromiseTimeout(500);

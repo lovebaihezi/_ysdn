@@ -6,12 +6,11 @@ import { baseurl, useUserDetail } from '../../../auth';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useFetchJson } from '../../../tools/hook/useFetch';
 import { Link } from 'react-router-dom';
-
-import './form.css';
 import { AjaxJson } from '../../../interface';
 import check from '../../../tools/check';
 import useError from '../../../tools/hook/useError';
 
+import './form.css';
 export default function LoginForm() {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();
