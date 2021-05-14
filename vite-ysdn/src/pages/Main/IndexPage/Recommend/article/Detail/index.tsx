@@ -19,26 +19,41 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
 }) => {
     const [user] = useUserDetail();
     return (
-        <Col span={24} style={{ margin: '2px 0' }} className="Detail">
+        <Col
+            span={24}
+            style={{ margin: '2px 0', height: 180 }}
+            className="Detail"
+        >
             <Link to={`/article/${article._id}`}>
                 <Row>
                     <Col
                         span={
-                            article.coverImgUrl ===
-                            baseurl + '/article/undefined'
+                            /undefined$/g.test(article.coverImgUrl)
                                 ? 0
-                                : 8
+                                : undefined
                         }
+                        style={{ width: 'max-content' }}
                     >
                         <img
-                            width="100%"
+                            width="max-content"
+                            height={180}
                             src={article.coverImgUrl}
                             alt={article.title}
                         />
                     </Col>
                     <Col
-                        span={article.coverImgUrl === baseurl + '/article/undefined' ? 22 : 15}
-                        offset={1}
+                        span={
+                            article.coverImgUrl ===
+                            baseurl + '/article/undefined'
+                                ? 22
+                                : 15
+                        }
+                        offset={
+                            /undefined$/g.test(article.coverImgUrl)
+                                ? undefined
+                                : 1
+                        }
+                        flex="auto"
                     >
                         <Card
                             bordered={false}
@@ -103,7 +118,7 @@ const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
 }) => {
     return (
         <Row>
-            <Col span={22} offset={1}>
+            <Col span={24}>
                 <Card
                     bordered={false}
                     bodyStyle={{ padding: '2px 16px' }}

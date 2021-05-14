@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 type registerEvent = {
-    onclose?: (event: Event) => void;
+    onclose?: (event: CloseEvent) => void;
     onopen?: (event: Event) => void;
     onmessage?: <T>(event: MessageEvent) => T;
     onerror?: <T>(event: Event) => T;
@@ -21,59 +21,18 @@ export default function useWebSocket(
     const [newestMessage, setNewestMessage] = useState<MessageEvent>();
     const [messageList, setMessageList] = useState<MessageEvent[]>([]);
     const [error, setError] = useState<Event>();
-    const webSocket = useRef<WebSocket>();
+    const webSocket = useRef<WebSocket>(new WebSocket(url, protocols));
     const needSendMessage = useRef<
         (string | ArrayBufferLike | Blob | ArrayBufferView)[]
     >([]);
-    const IntervalTimeout = useRef<NodeJS.Timeout>();
-    const sendMessage = (ws: WebSocket) => {
-        for (const message of needSendMessage.current) {
-            ws.send(message);
-        }
-    };
-    const send = (data: string | ArrayBufferLike | Blob | ArrayBufferView) => {
-        const ws = webSocket.current;
-        if (ws) {
-            if (ws.readyState === 1) {
-                needSendMessage.current.push(data);
-                sendMessage(ws);
-                needSendMessage.current = [];
-            } else {
-                needSendMessage.current.push(data);
-                IntervalTimeout.current = setInterval(() => {
-                    if (ws.readyState === 1) {
-                        clearInterval(
-                            IntervalTimeout.current?.[Symbol.toPrimitive](),
-                        );
-                        sendMessage(ws);
-                    }
-                }, 100);
-            }
-        } else {
-            throw new Error('WebSocket not init!');
-        }
-    };
+    const send = (
+        data: string | ArrayBufferLike | Blob | ArrayBufferView,
+    ) => {};
     useEffect(() => {
-        webSocket.current = new WebSocket(url, protocols);
-        const ws = webSocket.current;
-        ws.onopen = (_: Event) => {
-            console.log(_);
+        webSocket.current.onclose = (event: CloseEvent) => {};
+        webSocket.current.onopen = (event: Event) => {
+            registerEvent;
         };
-        ws.addEventListener('message', (message) => {
-            setNewestMessage(message);
-            setMessageList([...messageList, message]);
-        });
-        ws.addEventListener('error', (event: Event) => {
-            setError(event);
-            webSocket.current = new WebSocket(url, protocols);
-        });
-    }, []);
-    useEffect(() => {
-        return () => {
-            if (webSocket.current) {
-                webSocket.current?.close();
-            }
-        };
-    });
+    }, [messageList.length, newestMessage?.data]);
     return [{ newestMessage, error, messageList }, send];
 }

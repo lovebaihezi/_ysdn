@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useUserDetail } from '../../auth';
 import EventSourceMessage from '../EventSourceMessage';
 import { MenuLink } from '../MenuLink';
+import MessageBox from '../MessageBox';
 import Searcher from '../Search';
 import UserLink from '../UserLink';
 
@@ -74,6 +75,7 @@ export default function NavBar() {
                         }
                     >
                         <div>
+                            <MessageBox />
                             <UserLink user={info} />
                         </div>
                     </Popover>

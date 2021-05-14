@@ -7,15 +7,17 @@ import AjaxError from '../Result';
 export type AjaxProp<T> = {
     Request: useFetchProps;
     Component: Component<T>;
-    Waiting?:
-        | (({ loading }: { loading?: boolean }) => JSX.Element)
-        | FC<{ loading?: boolean }>;
-    Result?:
-        | (({ error }: { error?: Error }) => JSX.Element)
-        | FC<{ error?: Error }>;
+    Waiting?: WaitingType;
+    Result?: ResultType;
 };
 
 export type Component<T> = FC<{ Response: T }>;
+export type WaitingType =
+    | (({ loading }: { loading?: boolean }) => JSX.Element)
+    | FC<{ loading?: boolean }>;
+export type ResultType =
+    | FC<{ error?: Error }>
+    | (({ error }: { error?: Error }) => JSX.Element);
 
 export default function Ajax<T>({
     Request,

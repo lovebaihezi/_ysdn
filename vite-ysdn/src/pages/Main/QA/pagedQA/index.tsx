@@ -11,7 +11,7 @@ import Avatar from 'antd/lib/avatar/avatar';
 import { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 import {
-    AnswerButton,
+    // AnswerButton,
     FollowButton,
     ReadButton,
     LikeButton,
@@ -65,32 +65,16 @@ const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) => {
                                 actions={[
                                     <LikeButton
                                         type="QA"
-                                        amount={QA.approval - QA.disapproval}
-                                        initial={
-                                            user
-                                                ? user.like.questions.includes(
-                                                      QA._id,
-                                                  )
-                                                : false
-                                        }
                                         id={QA._id}
                                     />,
                                     <MarkButton
-                                        amount={QA.markAmount}
                                         type="QA"
-                                        initial={
-                                            user
-                                                ? user.marks.includes(QA._id)
-                                                : false
-                                        }
                                         id={QA._id}
                                     />,
                                     <CommentButton
-                                        amount={QA.commentsAmount}
                                         link={`/QA/${QA._id}/#comment`}
                                     />,
                                     <ReadButton
-                                        amount={QA.read}
                                         link={`/QA/${QA._id}`}
                                     />,
                                 ]}

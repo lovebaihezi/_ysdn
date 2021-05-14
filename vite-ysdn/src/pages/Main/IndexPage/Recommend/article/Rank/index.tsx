@@ -16,8 +16,8 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     return (
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
-                {Response.slice(0, 5).map((article) => (
-                    <Col key={article._id} span={24}>
+                {Response.map((article) => (
+                    <Col style={{ height: 180 }} key={article._id} span={24}>
                         <Link to={`/article/${article._id}`}>
                             <Row>
                                 <Col span={6}></Col>
@@ -29,7 +29,7 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                         headStyle={{ padding: 0 }}
                                         actions={[
                                             <LikeButton
-                                            type={"article"}
+                                                type={'article'}
                                                 amount={
                                                     article.approval -
                                                     article.disapproval
