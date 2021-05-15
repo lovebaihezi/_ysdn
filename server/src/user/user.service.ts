@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schema/user.schema';
-import { Remove, remove } from '../tools';
+import { get, Remove, remove } from '../tools';
 import { UpdateUserDto } from './user.controller';
 import { createHash } from 'crypto';
 import { homedir } from 'os';
@@ -207,5 +207,22 @@ export class UserService {
         if (filter.includes(info)) {
             return { amount: user[info].length };
         }
+    }
+
+    async followUser(follow: string, follower: string) {
+        const Follow = await this.userModel
+            .findOne({ username: follow })
+            .exec();
+        const Follower = await this.userModel
+            .findOne({ username: follower })
+            .exec();
+        Follow.follower.push(
+            get(Follower.toObject(), 'username', 'nickname', 'avatarUrl'),
+        );
+        Follower.follow.push(
+            get(Follow.toObject(), 'username', 'nickname', 'avatarUrl'),
+        );
+        await Follow.save();
+        await Follower.save();
     }
 }

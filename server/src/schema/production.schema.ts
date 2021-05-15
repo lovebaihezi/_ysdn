@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes, Types } from 'mongoose';
-import { User } from './user.schema';
+import { User, UserInfo, UserInfoSchema } from './user.schema';
 
 export type ReplayDocument = Reply & Document;
 export type CommentDocument = Comment & Document;
@@ -72,21 +72,6 @@ export class Production {
 }
 
 export const ProductionSchema = SchemaFactory.createForClass(Production);
-
-@Schema()
-export class UserInfo {
-    @Prop()
-    username: string;
-
-    @Prop()
-    nickname: string;
-
-    @Prop()
-    avatarUrl: string;
-}
-
-export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
-
 @Schema()
 export class Reply {
     @Prop({
@@ -181,10 +166,10 @@ export class Article extends Production {
     @Prop({
         required: true,
         type: UserInfoSchema,
-        ref: User.name,
+        ref: UserInfo.name,
     })
     //TODO  : this will show all the information of user...remove them(with remove or nestjs way, ) or use middle tool to fix this
-    author: User;
+    author: UserInfo;
 
     @Prop({ default: '' })
     coverImgUrl: string;
@@ -201,7 +186,7 @@ export class Answer {
     content: string;
 
     @Prop({ type: UserInfoSchema, ref: User.name })
-    author: User;
+    author: UserInfo;
 
     @Prop()
     answerTime: Date;
@@ -233,7 +218,7 @@ export class Question extends Production {
     content: string;
 
     @Prop({ type: UserInfoSchema, ref: User.name })
-    author: User;
+    author: UserInfo;
 
     @Prop()
     createTime: Date;

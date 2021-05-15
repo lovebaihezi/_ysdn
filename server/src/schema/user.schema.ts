@@ -10,11 +10,25 @@ import {
     Comment,
 } from './production.schema';
 import { Tag } from './tags.schema';
-// import { UserDto } from 'src/user/user.dto';
 
 export type UserDocument = User & Document;
 export type NotificationDocument = Notification & Document;
 export type UserProductDocument = UserProduct & Document;
+
+@Schema()
+export class UserInfo {
+    @Prop()
+    username: string;
+
+    @Prop()
+    nickname: string;
+
+    @Prop()
+    avatarUrl: string;
+}
+
+export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
+
 @Schema()
 export class UserProduct extends Types.Subdocument {
     @Prop({
@@ -125,16 +139,16 @@ export class User extends Types.Subdocument {
     marks: { name: productionName; id: string }[];
 
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        type: [{ type: SchemaTypes.ObjectId, ref: UserInfo.name }],
         default: [],
     })
-    follow: Types.Array<User>;
+    follow: Types.Array<UserInfo>;
 
     @Prop({
-        type: [{ type: SchemaTypes.ObjectId, ref: User.name }],
+        type: [{ type: SchemaTypes.ObjectId, ref: UserInfo.name }],
         default: [],
     })
-    follower: Types.Array<User>;
+    follower: Types.Array<UserInfo>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Notification' }],
@@ -146,7 +160,6 @@ export class User extends Types.Subdocument {
         required: true,
         min: [4, 'username is less than 4'],
         max: [20, 'username is longer than 20'],
-        match: /^[a-zA-Z0-9]{4,20}$/g,
     })
     username: string; // this will simplify code when find
 
@@ -154,7 +167,6 @@ export class User extends Types.Subdocument {
         required: true,
         min: [8, 'password is less than 8'],
         max: [20, 'password is longer than 20'],
-        match: /^[a-zA-Z0-9]{8,20}$/g,
     })
     password: string;
 
@@ -208,14 +220,5 @@ export class Notification extends Types.Subdocument {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-// UserSchema.loadClass(
-//     class {
-//         like: Like;
-//         get liked() {
-// ! this flat will call MaxS Stack(just do not use it...)
-//             return Object.values(this.like).flat();
-//         }
-//     },
-// );
 UserSchema.set('toObject', { getters: true, virtual: true });
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
