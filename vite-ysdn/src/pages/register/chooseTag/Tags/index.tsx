@@ -8,6 +8,24 @@ import { baseurl, useUserDetail } from '../../../../auth';
 import { Redirect, useHistory, useRouteMatch } from 'react-router';
 import { AjaxJson } from '../../../../interface';
 
+interface T {
+    [x: string]: string;
+}
+
+const TAG: T = {
+    'front-end': '前端',
+    'client-side': '客户端',
+    'server-side': '服务端',
+    QA: '问答',
+    media: '媒体',
+    algorithm: '算法',
+    data: '数据',
+    common: '通识',
+    product: '产品',
+    security: '安全',
+    project: '工程',
+};
+
 const Tag: FC<{ name: string; src?: string; onClick: () => boolean }> = ({
     name,
     src,
@@ -28,12 +46,15 @@ const Tag: FC<{ name: string; src?: string; onClick: () => boolean }> = ({
             }}
             actions={[state ? <HeartFilled /> : <HeartOutlined />]}
         >
-            {name}
+            {TAG[name]}
         </Card>
     );
 };
 
-const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
+const SubmitButton: FC<{ container: Set<string>; disabled: boolean }> = ({
+    container,
+    disabled,
+}) => {
     const [D, R] = useUserDetail();
     const H = useHistory();
     const { url, path } = useRouteMatch();
@@ -61,21 +82,25 @@ const SubmitButton: FC<{ container: Set<string> }> = ({ container }) => {
     }, [l, e]);
     return (
         <Button
+            disabled={disabled}
             onClick={async () => {
-                // console.log(container);
                 await f().catch(c);
             }}
             size="large"
             type="primary"
             icon={<SendOutlined />}
         >
-            ok
+            确定
         </Button>
     );
 };
 
 const Tags: Component<string[]> = ({ Response }) => {
-    const C = new Set<string>();
+    const C = useRef(new Set<string>());
+    const [disabled, setDisabled] = useState(0);
+    useEffect(() => {
+        console.log(C.current, disabled);
+    });
     return (
         <Row>
             {Response.map((tag, i) => (
@@ -83,11 +108,13 @@ const Tags: Component<string[]> = ({ Response }) => {
                     <Tag
                         src={`http://127.0.0.1:8080/picture/t${i + 1}.png`}
                         onClick={() => {
-                            if (C.size < 3) {
-                                if (C.has(tag)) {
-                                    C.delete(tag);
+                            if (C.current.size <= 3) {
+                                if (C.current.has(tag)) {
+                                    C.current.delete(tag);
+                                    setDisabled((v) => v - 1);
                                 } else {
-                                    C.add(tag);
+                                    setDisabled((v) => v + 1);
+                                    C.current.add(tag);
                                 }
                                 return true;
                             } else {
@@ -106,7 +133,7 @@ const Tags: Component<string[]> = ({ Response }) => {
                     justifyContent: 'space-around',
                 }}
             >
-                <SubmitButton container={C} />
+                <SubmitButton disabled={disabled !== 3} container={C.current} />
             </Col>
         </Row>
     );

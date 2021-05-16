@@ -9,10 +9,11 @@ export const useTag = () => useContext(Tag);
 export const InnerTag: FC<{
     Component: React.FC<{ OuterTag: string }>;
     tags: string[];
-}> = ({ Component, tags }) => {
+    title?: string[];
+}> = ({ Component, tags, title }) => {
     const tag = useTag();
     return (
-        <TagSwitch tags={tags}>
+        <TagSwitch tags={tags} title={title}>
             <Component OuterTag={tag} />
         </TagSwitch>
     );
@@ -22,7 +23,8 @@ const TagSwitch: FC<{
     tags: string[];
     tabBarExtraContent?: React.ReactNode;
     RightSideContent?: React.ReactNode;
-}> = ({ tags, tabBarExtraContent, children, RightSideContent }) => {
+    title?: string[];
+}> = ({ tags, tabBarExtraContent, children, RightSideContent, title }) => {
     const [state, setState] = useState<string>(tags[0]);
     // const App = useMemo(() => children, [state]);
     return (
@@ -36,7 +38,10 @@ const TagSwitch: FC<{
                     }}
                 >
                     {tags.map((tag, index) => (
-                        <Tabs.TabPane key={index} tab={tag}>
+                        <Tabs.TabPane
+                            key={index}
+                            tab={title ? title[index] : tag}
+                        >
                             <Row wrap={false}>
                                 <Col flex="auto">
                                     <Tag.Provider value={state}>

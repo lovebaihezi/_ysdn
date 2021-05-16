@@ -9,9 +9,14 @@
     justify-content: start;
 }
 
+/* .MenuLink:nth-child(n - 1)::after {
+    content: '';
+    pos
+} */
+
 .outSide {
-    padding: 0 2.5%;
-    margin-bottom: 10px;
+    /* padding: 0 2.5%; */
+    /* margin-bottom: 10px; */
     box-shadow: 2px 1px 0px rgba(153, 153, 153, 0.575);
 }
 
@@ -19,7 +24,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .NavBar {

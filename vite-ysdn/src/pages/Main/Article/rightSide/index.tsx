@@ -29,15 +29,18 @@ export default function Extra() {
                     >
                         <Link onClick={f} to="/update/article">
                             <EditOutlined />
-                            Write Article
+                            添加文章
                         </Link>
                     </Button>
                 </Card>
             </Col>
-            <Col className="right" span={22} offset={1}>
+            {/* <Col className="right" span={22} offset={1}>
                 <Card
                     cover={
-                        <img src="http://dummyimage.com/400x300" width="100%" />
+                        <img
+                            src="https://tva2.sinaimg.cn/large/0060lm7Tly1ftg6owkw9lj31hc0u0tt9.jpg"
+                            width="100%"
+                        />
                     }
                     bodyStyle={{ padding: 0 }}
                 ></Card>
@@ -45,14 +48,17 @@ export default function Extra() {
             <Col className="right" span={22} offset={1}>
                 <Card
                     cover={
-                        <img src="http://dummyimage.com/400x300" width="100%" />
+                        <img
+                            src="https://tva2.sinaimg.cn/large/0060lm7Tly1ftg6owkw9lj31hc0u0tt9.jpg"
+                            width="100%"
+                        />
                     }
                     bodyStyle={{ padding: 0 }}
                 ></Card>
             </Col>
             <Col span={22} offset={1}>
                 <Periodicals name="article" />
-            </Col>
+            </Col> */}
         </Row>
     );
 }

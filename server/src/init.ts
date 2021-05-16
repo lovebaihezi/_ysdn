@@ -9,6 +9,8 @@ import {
     VideoDocument,
     VideoSchema,
 } from './schema/production.schema';
+import createJson from './createInitJson';
+import { Tag, TagDocument, TagSchema } from './schema/tags.schema';
 
 //build uml for application!
 
@@ -18,22 +20,34 @@ const articleModel = mongoose.model<ArticleDocument>(
     ArticleSchema,
 );
 const videoModel = mongoose.model<VideoDocument>(Video.name, VideoSchema);
+const tagModel = mongoose.model<TagDocument>(Tag.name, TagSchema);
 
 async function initializeDataBase() {
-    const testUser = (await fs.readFile('./init-json/user.json')).toJSON();
-    const testArticle = (
-        await fs.readFile('./init-json/article.json')
-    ).toJSON();
-    const testVideo = (await fs.readFile('./init-json/video.json')).toJSON();
+    const All = await createJson();
+    // for (const i of All.articles) {
+    //     console.log(i);
+    // }
+    // const testVideo = (await fs.readFile('./init-json/video.json')).toJSON();
     const database = await mongoose.connect(
         'mongodb://localhost:27017/server',
         {
             useNewUrlParser: true,
+            useUnifiedTopology: true,
         },
     );
+    for (const i of All.userList) {
+        const user = await userModel.create(i);
+        await user.save();
+    }
+    for (const i of All.articles) {
+        const article = await articleModel.create(i);
+        await article.save();
+    }
+    await database.connection.close();
+    console.log('finished!');
     database.connection.on('error', (...rest) => {
         console.log(...rest);
     });
 }
-
+initializeDataBase();
 export default initializeDataBase;

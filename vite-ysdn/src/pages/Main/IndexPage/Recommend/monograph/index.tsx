@@ -24,11 +24,26 @@ const ArticleCard: FC<{ article: AjaxJson.article | null }> = ({ article }) => {
         <Link to={`/article/${article._id}`}>
             <Card
                 title={article.title}
-                cover={<img src={article.coverImgUrl} />}
+                cover={
+                    <div
+                        style={{
+                            width: '100%',
+                            height: 200,
+                            backgroundImage: `url(${article.coverImgUrl})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                        }}
+                    />
+                }
             >
-                <Card.Meta avatar={<UserLink user={article.author} />}>
-                    {article.content.slice(0, 100)}
-                </Card.Meta>
+                <Row>
+                    <Col span={24}>
+                        <Card.Meta
+                            description={article.content.slice(0, 100)}
+                            avatar={<UserLink user={article.author} />}
+                        />
+                    </Col>
+                </Row>
                 <Row>
                     <Col span={24}>
                         <Tags tags={article.tags}></Tags>
@@ -49,7 +64,14 @@ const VideoCard: FC<{ video: AjaxJson.video | null }> = ({ video }) => {
     }
     return (
         <Link to={`/video/${video._id}`}>
-            <Card title={video.title} cover={<img src={video.coverImgUrl} />}>
+            <Card
+                title={video.title}
+                cover={
+                    <div
+                        style={{ backgroundImage: `url(${video.coverImgUrl})` }}
+                    />
+                }
+            >
                 <Card.Meta
                     avatar={<UserLink user={video.author} />}
                     description={video.briefIntro.slice(0, 100)}
@@ -67,22 +89,21 @@ const VideoCard: FC<{ video: AjaxJson.video | null }> = ({ video }) => {
 };
 
 const MonographCard: Component<{
-    article: AjaxJson.article | null;
-    video: AjaxJson.video | null;
+    article: AjaxJson.article[] | null;
+    video: AjaxJson.video[] | null;
 }> = ({ Response }) => {
     const H = useHistory();
     const { article, video } = Response;
     return (
         <Row>
-            <Col span={20} offset={2} style={{ overflow: 'hidden' }}>
+            <Col span={24} style={{ overflow: 'hidden' }}>
                 <Divider />
                 <Row>
-                    <Col span={10}>
-                        <ArticleCard article={Response.article} />
-                    </Col>
-                    <Col span={10} offset={4}>
-                        <VideoCard video={Response.video} />
-                    </Col>
+                    {Response.article?.map((v) => (
+                        <Col style={{ padding: '0 10px' }} key={v._id} span={8}>
+                            <ArticleCard article={v} />
+                        </Col>
+                    ))}
                 </Row>
             </Col>
         </Row>

@@ -8,6 +8,8 @@ import { Switch, Route } from 'react-router-dom';
 import { useUserDetail } from '../auth';
 import Search from './search';
 
+import './whole.css';
+
 const QA = lazy(() => import('./Main/QA'));
 const User = lazy(() => import('./each/user'));
 const QAPage = lazy(() => import('./each/QA'));

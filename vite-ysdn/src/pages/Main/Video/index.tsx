@@ -24,9 +24,10 @@ const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const Request: useFetchProps = {
         url: baseurl + `/video/choose/${OuterTag}/${tab}`,
     };
-    return useMemo(() => <Ajax Request={Request} Component={PagedVideo} />, [
-        tab,
-    ]);
+    return useMemo(
+        () => <Ajax Request={Request} Component={PagedVideo} />,
+        [tab],
+    );
 };
 
 export default function Video() {
@@ -49,11 +50,26 @@ export default function Video() {
                         'security',
                         'project',
                     ]}
+                    title={[
+                        '全部',
+                        '前端',
+                        '客户端',
+                        '服务端',
+                        '问答',
+                        '媒体',
+                        '算法',
+                        '数据',
+                        '通识',
+                        '产品',
+                        '安全',
+                        '工程',
+                    ]}
                     tabBarExtraContent={<Link to="/update/video">submit</Link>}
                 >
                     <InnerTag
                         Component={MainContain}
                         tags={['Hottest', 'Newest']}
+                        title={['最热','最新']}
                     />
                 </TagSwitch>
             </Col>

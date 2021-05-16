@@ -23,17 +23,17 @@ export class MonographicService {
     }
 
     private async findVideo() {
-        return await this.videoModel.findOne({}).sort({ approval: -1 });
+        return await this.videoModel.find({}).limit(3).sort({ approval: -1 });
     }
 
     private async findArticle() {
-        return await this.articleModel.findOne({}).sort({ approval: -1 });
+        return await this.articleModel.find({}).limit(3).sort({ approval: -1 });
     }
 
     async findAll() {
-        const video = await this.findVideo();
         const article = await this.findArticle();
-        return { video, article };
+        const video = await this.findVideo();
+        return { article, video };
     }
 
     findOne(id: number) {

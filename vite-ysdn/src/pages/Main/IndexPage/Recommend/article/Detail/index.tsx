@@ -32,22 +32,20 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                                 ? 0
                                 : undefined
                         }
-                        style={{ width: 'max-content' }}
+                        style={{ width: '200px' }}
                     >
-                        <img
-                            width="max-content"
-                            height={180}
-                            src={article.coverImgUrl}
-                            alt={article.title}
+                        <div
+                            style={{
+                                width: '100%',
+                                height: 200,
+                                backgroundImage: `url(${article.coverImgUrl})`,
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
+                            }}
                         />
                     </Col>
                     <Col
-                        span={
-                            article.coverImgUrl ===
-                            baseurl + '/article/undefined'
-                                ? 22
-                                : 15
-                        }
+                        span={/undefined$/g.test(article.coverImgUrl) ? 22 : 15}
                         offset={
                             /undefined$/g.test(article.coverImgUrl)
                                 ? undefined

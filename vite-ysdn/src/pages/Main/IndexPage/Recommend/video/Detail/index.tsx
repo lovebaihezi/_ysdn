@@ -14,8 +14,8 @@ const VideoCard: Component<AjaxJson.video[]> = ({ Response }) => {
     const [user] = useUserDetail();
     return (
         <Row>
-            <Col span={22} offset={1} style={{ overflow: 'hidden' }}>
-                <Card title="video">
+            <Col span={24} style={{ overflow: 'hidden' }}>
+                <Card title="video" bordered={false}>
                     <Row>
                         {Response.map((video) => (
                             <Col

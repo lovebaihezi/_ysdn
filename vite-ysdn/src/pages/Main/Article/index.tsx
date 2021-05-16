@@ -26,7 +26,7 @@ export default function Article() {
                 <TagSwitch
                     tags={[
                         'all',
-                        // 'recommend',
+                        // 'recommend', 
                         'front-end',
                         'client-side',
                         'server-side',
@@ -39,10 +39,25 @@ export default function Article() {
                         'security',
                         'project',
                     ]}
+                    title={[
+                        '全部',
+                        '前端',
+                        '客户端',
+                        '服务端',
+                        '问答',
+                        '媒体',
+                        '算法',
+                        '数据',
+                        '通识',
+                        '产品',
+                        '安全',
+                        '工程',
+                    ]}
                     RightSideContent={<Extra />}
                 >
                     <InnerTag
                         tags={['Hottest', 'Newest']}
+                        title={['最热','最新']}
                         Component={MainContain}
                     />
                 </TagSwitch>

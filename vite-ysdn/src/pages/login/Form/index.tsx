@@ -63,14 +63,14 @@ export default function LoginForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'need your username',
+                        message: '不可为空',
                         pattern: /[a-z0-9A-Z]{4,16}/g,
                     },
                 ]}
             >
                 <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username"
+                    placeholder="用户名"
                 />
             </Form.Item>
             <Divider />
@@ -79,7 +79,7 @@ export default function LoginForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'need your password',
+                        message: '不可为空',
                         pattern: /\w{8,20}/g,
                     },
                 ]}
@@ -87,14 +87,14 @@ export default function LoginForm() {
                 <Input
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
-                    placeholder="Password"
+                    placeholder="密码"
                 />
             </Form.Item>
             <Divider />
             <Form.Item>
                 <div className="buttonLine">
                     <Button type="primary" disabled={disable} htmlType="submit">
-                        Sign in!
+                        登录
                     </Button>
                 </div>
             </Form.Item>
@@ -102,7 +102,7 @@ export default function LoginForm() {
             <Form.Item className="buttonLine">
                 <div className="buttonLine">
                     <Link to="/register">
-                        <Button type="link">Sign up!</Button>
+                        <Button type="link">注册</Button>
                     </Link>
                 </div>
             </Form.Item>

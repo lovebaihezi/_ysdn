@@ -11,29 +11,33 @@ export default function IndexPage() {
     return (
         <Row>
             <Col span={24}>
-                <Carousel />
+                <Row>
+                    <Col span={18} offset={3}>
+                        <Carousel />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={18} offset={3}>
+                        <Suspense fallback={<Skeleton />}>
+                            <IndexMo />
+                        </Suspense>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={18} offset={3}>
+                        <Suspense fallback={<Skeleton />}>
+                            <IndexArticle />
+                        </Suspense>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={18} offset={3}>
+                        <Suspense fallback={<Skeleton />}>
+                            <IndexVideo />
+                        </Suspense>
+                    </Col>
+                </Row>
             </Col>
-            <Col span={22} offset={1}>
-                <Suspense fallback={<Skeleton />}>
-                    <IndexMo />
-                </Suspense>
-            </Col>
-            <Col span={22} offset={1}>
-                <Suspense fallback={<Skeleton />}>
-                    <IndexArticle />
-                </Suspense>
-            </Col>
-            <Col span={22} offset={1}>
-                <Suspense fallback={<Skeleton />}>
-                    <IndexVideo />
-                </Suspense>
-            </Col>
-            {/* <Col span={22} offset={1}>
-                <Suspense fallback={<Skeleton />}>
-                    <IndexQA />
-                </Suspense>
-            </Col> */}
-            <Col span={22} offset={1}></Col>
         </Row>
     );
 }

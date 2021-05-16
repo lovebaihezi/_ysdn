@@ -61,14 +61,14 @@ export default function RegisterForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'need your username',
+                        message: '不可为空',
                         pattern: /[a-z0-9A-Z]{4,16}/g,
                     },
                 ]}
             >
                 <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username"
+                    placeholder="用户名"
                 />
             </Form.Item>
             <Divider />
@@ -77,7 +77,7 @@ export default function RegisterForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'password should only contain 0-9 a-z A-Z',
+                        message: '应仅含字母数字',
                         pattern: /[0-9a-zA-Z]{8,20}/g,
                     },
                 ]}
@@ -86,7 +86,7 @@ export default function RegisterForm() {
                     // onChange={console.log}
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
-                    placeholder="Password"
+                    placeholder="密码"
                     onInput={(e) => {
                         setRegexp(`^${e.currentTarget.value}\$`);
                     }}
@@ -98,7 +98,7 @@ export default function RegisterForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'should be as same as password',
+                        message: '与密码应一致',
                         pattern: new RegExp(regexp),
                     },
                 ]}
@@ -106,14 +106,14 @@ export default function RegisterForm() {
                 <Input
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
-                    placeholder="Confirm"
+                    placeholder="确认密码"
                 />
             </Form.Item>
             <Divider />
             <Form.Item>
                 <div className="buttonLine">
                     <Button type="primary" disabled={disable} htmlType="submit">
-                        Sign up!
+                        注册!
                     </Button>
                 </div>
             </Form.Item>

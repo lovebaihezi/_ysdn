@@ -11,7 +11,7 @@ namespace demo {
     void Method(const FunctionCallbackInfo<Value>& args) {
         Isolate* isolate = args.GetIsolate();
         args.GetReturnValue()
-            .Set(String::NewFromUtf8(isolate, "world").toLocalChecked());
+            .Set(String::NewFromUtf8(isolate, "world").ToLocalChecked());
     }
 
     void Initialize(Local<Object> exports) {
@@ -19,5 +19,4 @@ namespace demo {
     }
 
     NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize);
-
 }

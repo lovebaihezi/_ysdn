@@ -76,9 +76,9 @@ export default function Searcher() {
     return (
         <AutoComplete options={searchHistory}>
             <Search
-                placeholder="what you want"
+                placeholder="用户, 文章, 视频.."
                 allowClear
-                enterButton="Search"
+                enterButton="搜索"
                 size="middle"
                 onChange={(value) => {
                     setValue(value.currentTarget.value);

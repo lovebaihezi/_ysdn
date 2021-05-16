@@ -10,6 +10,7 @@ import {
     ReadButton,
 } from '../../../../../../component/ActionButton';
 import { useUserDetail } from '../../../../../../auth';
+import UserLink from '../../../../../../component/UserLink';
 
 const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
     const [user] = useUserDetail();
@@ -20,35 +21,52 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                     <Col style={{ height: 180 }} key={article._id} span={24}>
                         <Link to={`/article/${article._id}`}>
                             <Row>
-                                <Col span={6}></Col>
-                                <Col span={18} style={{ cursor: 'pointer' }}>
+                                <Col span={24} style={{ cursor: 'pointer' }}>
                                     <Card
                                         bordered={false}
                                         bodyStyle={{ padding: 0 }}
                                         title={article.title}
                                         headStyle={{ padding: 0 }}
-                                        actions={[
-                                            <LikeButton
-                                                type={'article'}
-                                                amount={
-                                                    article.approval -
-                                                    article.disapproval
-                                                }
-                                                initial={
-                                                    user
-                                                        ? user.like.articles.includes(
-                                                              article._id,
-                                                          )
-                                                        : false
-                                                }
-                                                id={article._id}
-                                            />,
-                                            <ReadButton
-                                                amount={article.read}
-                                                link={`/article/${article._id}`}
-                                            />,
-                                        ]}
-                                    />
+                                    >
+                                        <Row style={{ height: 40 }}>
+                                            <Col>
+                                                <Card.Meta
+                                                    avatar={
+                                                        <UserLink
+                                                            user={
+                                                                article.author
+                                                            }
+                                                        />
+                                                    }
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                <LikeButton
+                                                    type={'article'}
+                                                    amount={
+                                                        article.approval -
+                                                        article.disapproval
+                                                    }
+                                                    initial={
+                                                        user
+                                                            ? user.like.articles.includes(
+                                                                  article._id,
+                                                              )
+                                                            : false
+                                                    }
+                                                    id={article._id}
+                                                />
+                                            </Col>
+                                            <Col>
+                                                <ReadButton
+                                                    amount={article.read}
+                                                    link={`/article/${article._id}`}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Card>
                                 </Col>
                             </Row>
                         </Link>

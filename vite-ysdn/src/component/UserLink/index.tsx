@@ -6,7 +6,11 @@ const UserLink: FC<{
     user: { username: string; avatarUrl?: string; nickname: string };
 }> = ({ user }) => (
     <AvatarLink
-        src={baseurl + `/user/avatar/${user.username}/${user.avatarUrl}`}
+        src={
+            /^https?:/.test(user.avatarUrl ?? '')
+                ? user.avatarUrl
+                : baseurl + `/user/avatar/${user.username}/${user.avatarUrl}`
+        }
         name={user.username}
         nickname={user.nickname}
     />

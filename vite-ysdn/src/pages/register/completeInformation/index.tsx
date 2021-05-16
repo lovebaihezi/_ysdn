@@ -134,8 +134,6 @@ const CompleteInformation: FC = () => {
     const [url, setUrl] = useState(D.avatarUrl);
     const CompleteInformation = async (v: any) => {
         if (!disable) {
-            console.log(v);
-            // return;
             const res = await fetch(
                 baseurl + `/user/completeInformation/${D._id}`,
                 {
@@ -155,7 +153,6 @@ const CompleteInformation: FC = () => {
                 console.log(res);
                 S(res);
                 History.go(-3);
-                
             } else {
                 const res = json as AjaxJson.responseMessage;
                 setError(`${res?.type} : ${res.message}`);
@@ -189,17 +186,33 @@ const CompleteInformation: FC = () => {
                 <UploadAvatar success={(url: string) => setUrl(url)} />
             </Form.Item>
             <Divider />
-            <Form.Item name="nickname" initialValue={D.nickname}>
-                <Input type="text" placeholder="nickname" />
-            </Form.Item>
-            <Divider />
-            <Form.Item name="email" initialValue={D.email}>
+            <Form.Item
+                name="nickname"
+                required={true}
+                initialValue={D.nickname}
+            >
                 <Input
                     type="text"
-                    onInput={(e) => {
-                        e.currentTarget.value;
-                    }}
-                    value={''}
+                    // onInput={(e) => {
+                    //     setNickname(e.currentTarget.value);
+                    // }}
+                    // value={nickname}
+                    placeholder="nickname"
+                />
+            </Form.Item>
+            <Divider />
+            <Form.Item
+                name="email"
+                required={true}
+                rules={[{ pattern: /^.+@\w+\.com$/g }]}
+                initialValue={D.email}
+            >
+                <Input
+                    type="email"
+                    // onInput={(e) => {
+                    //     setEmail(e.currentTarget.value);
+                    // }}
+                    // value={email}
                     placeholder="email"
                 />
             </Form.Item>

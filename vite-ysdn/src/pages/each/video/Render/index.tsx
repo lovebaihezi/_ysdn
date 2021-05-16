@@ -124,6 +124,21 @@ const VideoRender: Component<AjaxJson.video> = ({ Response }) => {
                     </video>
                 </Col>
             </Row>
+            <AddComment id={Response._id} />
+            <GetComment id={Response._id} />
+            <div
+                style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    position: 'fixed',
+                    bottom: 10,
+                    right: 10,
+                }}
+            >
+                <Button type="primary">
+                    <a href="#">top</a>
+                </Button>
+            </div>
         </>
     );
 };

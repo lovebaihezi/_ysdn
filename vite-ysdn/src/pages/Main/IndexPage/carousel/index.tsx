@@ -14,18 +14,22 @@ const imgUrls = [
 export default function Carousel() {
     return (
         <Row>
-            <Col style={{ width, margin: '0 auto' }}>
-                <Carousels autoplay>
-                    {imgUrls.map((url) => (
-                        <img
-                            key={url.concat(new Date().toISOString())}
-                            src={url}
-                            alt="picture"
-                            width={width}
-                            height={height}
-                        />
-                    ))}
-                </Carousels>
+            <Col style={{ margin: '0 auto' }}>
+                <Row>
+                    <Col style={{ width }} flex="auto">
+                        <Carousels autoplay>
+                            {imgUrls.map((url) => (
+                                <img
+                                    key={url.concat(new Date().toISOString())}
+                                    src={url}
+                                    alt="picture"
+                                    width={width}
+                                    height={height}
+                                />
+                            ))}
+                        </Carousels>
+                    </Col>
+                </Row>
             </Col>
         </Row>
     );
