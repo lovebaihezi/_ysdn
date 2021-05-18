@@ -9,7 +9,7 @@ const AD = lazy(() => import('./Detail'));
 
 const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => (
     <Suspense fallback={<Skeleton />}>
-        <AR Response={Response.slice(0, 10)} />
+        <AR Response={Response.slice(0, 6)} />
     </Suspense>
 );
 
@@ -17,7 +17,7 @@ const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
     Response,
 }) => (
     <Suspense fallback={<Skeleton />}>
-        <AD Response={Response.slice(0, 10)} />
+        <AD Response={Response.slice(0, 4)} />
     </Suspense>
 );
 

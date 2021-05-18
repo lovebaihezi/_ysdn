@@ -79,7 +79,7 @@
     "v8_trace_maps": 0,
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 0,
-    "nodedir": "/home/lqxc/.cache/node-gyp/16.0.0",
+    "nodedir": "/home/lqxc/.cache/node-gyp/16.1.0",
     "standalone_static_library": 1
   }
 }

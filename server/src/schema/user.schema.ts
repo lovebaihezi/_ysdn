@@ -202,6 +202,9 @@ export class User extends Types.Subdocument {
         },
     })
     like: Like;
+
+    @Prop({ type: [{ type: Types.ObjectId }] })
+    readHistory: Types.Array<ObjectId>;
 }
 
 @Schema()

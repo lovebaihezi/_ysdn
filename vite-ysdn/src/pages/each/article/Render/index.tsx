@@ -167,7 +167,7 @@ const AddComment: FC<{ id: string }> = ({ id }) => {
                 <Row>
                     <Col span={16} offset={8}>
                         <Divider orientation="left">
-                            "write down your ideas!"
+                            <strong>发 表 你 的 评 论 吧</strong>
                         </Divider>
                     </Col>
                 </Row>
@@ -181,6 +181,10 @@ const AddComment: FC<{ id: string }> = ({ id }) => {
                                 setComment(e.currentTarget.value);
                             }}
                         />
+                    </Col>
+                </Row>
+                <Row justify="end">
+                    <Col>
                         <Button
                             disabled={user === null && comment !== ''}
                             onClick={() => {
@@ -190,7 +194,7 @@ const AddComment: FC<{ id: string }> = ({ id }) => {
                             }}
                             type="primary"
                         >
-                            comment
+                            评论
                         </Button>
                     </Col>
                 </Row>
@@ -218,7 +222,10 @@ const Comments: Component<AjaxJson.comment[]> = ({ Response }) => {
     } else {
         return (
             <Card>
-                <Empty style={{ width: '100%' }} />
+                <Empty
+                    style={{ width: '100%' }}
+                    description="还没有评论哦, 快来抢沙发吧"
+                />
             </Card>
         );
     }
@@ -244,9 +251,20 @@ const GetComment: FC<{ id: string }> = ({ id }) => {
 };
 
 const Render: Component<AjaxJson.article> = ({ Response }) => {
+    const [user] = useUserDetail();
+    const [[], f] = useFetchJson({
+        url: baseurl + `/article/read/${Response._id}`,
+        option: {
+            method: 'PATCH',
+            body: `{"username" : "${user?.username}"}`,
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+        },
+    });
     useEffect(() => {
-        console.log(Response);
-    }, [Response]);
+        if (user) {
+            f().catch((e) => console.error(e));
+        }
+    }, []);
     return (
         <>
             <Row style={{ position: 'sticky', top: '0' }}>

@@ -1,52 +1,29 @@
-import { Col, Row } from 'antd';
+import { Col, Empty, Row } from 'antd';
 import React, { useMemo } from 'react';
 import { FC } from 'react';
-import { baseurl } from '../../../auth';
-import Ajax from '../../../component/AjaxResponse';
+import { baseurl, useUserDetail } from '../../../auth';
+import Ajax, { Component } from '../../../component/AjaxResponse';
 import TagSwitch, { InnerTag, useTag } from '../../../component/TagSwitch';
+import { AjaxJson } from '../../../interface';
 import { useFetchProps } from '../../../tools/hook/useFetch';
 
-import PagedActivities from './pagedActivities';
+const ActivityComponent: Component<{ userList: AjaxJson.userInfo[] }> = ({
+    Response,
+}) => {
+    return <></>;
+};
 
-const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
-    const tag = useTag();
-    const Request: useFetchProps = {
-        url: baseurl + `/activity/${OuterTag}/${tag}`,
-    };
-    return useMemo(
-        () => <Ajax Request={Request} Component={PagedActivities} />,
-        [tag, OuterTag],
+const Activity: FC = () => {
+    const [user] = useUserDetail();
+    if (user === null) {
+        return <Empty description={'你还未登录哦'} />;
+    }
+    return (
+        <Ajax
+            Request={{ url: baseurl + `/user/find/${user.username}/follow` }}
+            Component={ActivityComponent}
+        />
     );
 };
 
-//todo :
-export default function Activities() {
-    return (
-        <Row>
-            <Col span={22} offset={1}>
-                <TagSwitch
-                    tags={[
-                        'all',
-                        'recommend',
-                        'front-end',
-                        'client-side',
-                        'server-side',
-                        'QA',
-                        'media',
-                        'algorithm',
-                        'data',
-                        'common',
-                        'product',
-                        'security',
-                        'project',
-                    ]}
-                >
-                    <InnerTag
-                        tags={['Hottest', 'Newest']}
-                        Component={MainContain}
-                    />
-                </TagSwitch>
-            </Col>
-        </Row>
-    );
-}
+export default Activity;

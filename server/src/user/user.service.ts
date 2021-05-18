@@ -225,4 +225,9 @@ export class UserService {
         await Follow.save();
         await Follower.save();
     }
+
+    async UserFollow(username: string) {
+        const user = await this.userModel.findOne({ username }).exec();
+        return user.follow;
+    }
 }

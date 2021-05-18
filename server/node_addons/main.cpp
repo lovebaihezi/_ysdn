@@ -1,6 +1,15 @@
-#include <node.h>
-
-namespace demo {
+#include <array>
+#include <functional>
+#include <node/node.h>
+#include <stack>
+#include <stdio.h>
+#include <stdlib.h>
+#include <thread>
+#include <unistd.h>
+#include <uv.h>
+#include <vector>
+namespace demo
+{
     using v8::FunctionCallbackInfo;
     using v8::Isolate;
     using v8::Local;
@@ -8,14 +17,16 @@ namespace demo {
     using v8::String;
     using v8::Value;
 
-    void Method(const FunctionCallbackInfo<Value>& args) {
-        Isolate* isolate = args.GetIsolate();
+    void Method(const FunctionCallbackInfo<Value> &args)
+    {
+        Isolate *isolate = args.GetIsolate();
         args.GetReturnValue()
-            .Set(String::NewFromUtf8(isolate, "world").ToLocalChecked());
+            .Set(String::NewFromUtf8(isolate, "hello world").ToLocalChecked());
     }
 
-    void Initialize(Local<Object> exports) {
-        NODE_SET_METHOD(exports, "hello ", Method);
+    void Initialize(Local<Object> exports)
+    {
+        NODE_SET_METHOD(exports, "default", Method);
     }
 
     NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize);

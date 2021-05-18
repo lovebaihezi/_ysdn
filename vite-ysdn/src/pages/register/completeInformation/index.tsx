@@ -24,15 +24,18 @@ import {
 import './completeInformation.css';
 
 const UploadButton: FC<{ loading: boolean }> = ({ loading }) => (
-    <div
-        style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}
-    >
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
+    <div>
+        <div
+            style={{
+                marginTop: 8,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            {/* {loading ? <LoadingOutlined /> : <PlusOutlined />} */}
+            <strong>上传头像</strong>
+        </div>
     </div>
 );
 
@@ -86,11 +89,6 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
             action={baseurl + `/user/update/${user.username}/avatar`}
             beforeUpload={beforeUpload}
             onChange={onChange}
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                justifyItems: 'center',
-            }}
         >
             <Row>
                 <Col span={24} className="avatar-uploader">
@@ -133,6 +131,11 @@ const CompleteInformation: FC = () => {
     const [disable, setDisable] = useState<boolean>(false);
     const [url, setUrl] = useState(D.avatarUrl);
     const CompleteInformation = async (v: any) => {
+        if (D.email) {
+            console.log(v);
+            const { email, ...rest } = v;
+            v = rest;
+        }
         if (!disable) {
             const res = await fetch(
                 baseurl + `/user/completeInformation/${D._id}`,
@@ -152,7 +155,11 @@ const CompleteInformation: FC = () => {
                 const res = json as AjaxJson.userDetail;
                 console.log(res);
                 S(res);
-                History.go(-3);
+                if (D.email) {
+                    History.push(`/user/${D.username}`);
+                } else {
+                    History.go(-3);
+                }
             } else {
                 const res = json as AjaxJson.responseMessage;
                 setError(`${res?.type} : ${res.message}`);
@@ -189,6 +196,7 @@ const CompleteInformation: FC = () => {
             <Form.Item
                 name="nickname"
                 required={true}
+                label="昵称"
                 initialValue={D.nickname}
             >
                 <Input
@@ -203,16 +211,14 @@ const CompleteInformation: FC = () => {
             <Divider />
             <Form.Item
                 name="email"
+                label="邮箱"
                 required={true}
                 rules={[{ pattern: /^.+@\w+\.com$/g }]}
                 initialValue={D.email}
             >
                 <Input
                     type="email"
-                    // onInput={(e) => {
-                    //     setEmail(e.currentTarget.value);
-                    // }}
-                    // value={email}
+                    disabled={D.email ? true : false}
                     placeholder="email"
                 />
             </Form.Item>
@@ -220,7 +226,7 @@ const CompleteInformation: FC = () => {
             <Form.Item>
                 <div className="buttonLine">
                     <Button type="primary" disabled={disable} htmlType="submit">
-                        complete
+                        完成
                     </Button>
                 </div>
             </Form.Item>

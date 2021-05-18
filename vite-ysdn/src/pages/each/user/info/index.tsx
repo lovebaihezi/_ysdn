@@ -22,10 +22,20 @@ import PagedVideos from '../../../Main/Video/pagedVideo';
 import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import UserLink from '../../../../component/UserLink';
 
-const Article: Component<AjaxJson.article[]> = PagedArticles;
+const Article: Component<AjaxJson.article[]> = ({ Response }) => {
+    return Response.length === 0 ? (
+        <Empty description={`你还未发表过文章`} />
+    ) : (
+        <PagedArticles Response={Response} />
+    );
+};
 
 const Video: Component<AjaxJson.video[]> = ({ Response }) => {
-    return <PagedVideos Response={Response} />;
+    return Response.length === 0 ? (
+        <Empty description={`你还未发表过视频`} />
+    ) : (
+        <PagedVideos Response={Response} />
+    );
 };
 
 const Comments: Component<AjaxJson.comment[]> = ({ Response }) => {
@@ -45,8 +55,23 @@ const Comments: Component<AjaxJson.comment[]> = ({ Response }) => {
             </>
         );
     } else {
-        return <Empty style={{ width: '100%' }} />;
+        return (
+            <Empty style={{ width: '100%' }} description={`你还未发表过评论`} />
+        );
     }
+};
+
+interface TAG {
+    [x: string]: string;
+}
+
+const TAG: TAG = {
+    articles: '文章',
+    videos: '视频',
+    comments: '评论',
+    questions: '问题',
+    answers: '回答',
+    activities: '活动',
 };
 
 const config: name[] = [
@@ -59,11 +84,11 @@ const config: name[] = [
 ];
 
 const Follow: Component<{ amount: number }> = ({ Response }) => {
-    return <Statistic title="follow" value={Response.amount} />;
+    return <Statistic title="关注" value={Response.amount} />;
 };
 
 const Follower: Component<{ amount: number }> = ({ Response }) => {
-    return <Statistic title="follower" value={Response.amount} />;
+    return <Statistic title="粉丝" value={Response.amount} />;
 };
 
 const LeftRight: FC<{ Component: [ReactNode, ReactNode] }> = ({
@@ -140,7 +165,7 @@ const Each: FC<{
             />
         );
     }
-    return null;
+    return <Empty description={`你还未发表过${TAG[name]}`} />;
 };
 //
 const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
@@ -165,7 +190,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                 refresh({ ...user, ...json });
             }
         } else {
-            message.error('you have not login yet!');
+            message.error('你还没有登录!');
         }
     };
 
@@ -209,7 +234,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                                   }}
                                                   type="link"
                                               >
-                                                  completeInformation
+                                                  信息完善
                                               </Button>,
                                           ]
                                         : [
@@ -220,7 +245,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                               ) ? (
                                                   <Button type="primary">
                                                       <CheckOutlined />
-                                                      unFollow
+                                                      不再关注
                                                   </Button>
                                               ) : (
                                                   <Button
@@ -240,7 +265,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                                       type="primary"
                                                   >
                                                       <PlusOutlined />
-                                                      follow
+                                                      关注
                                                   </Button>
                                               ),
                                           ]
@@ -266,7 +291,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                 <Col span={20} offset={2}>
                     <Tabs defaultActiveKey="1">
                         {config.map((name, key) => (
-                            <Tabs.TabPane key={name} tab={name}>
+                            <Tabs.TabPane key={name} tab={TAG[name]}>
                                 <Each
                                     name={name}
                                     username={Response.username}

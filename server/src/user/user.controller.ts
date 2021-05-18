@@ -6,9 +6,9 @@ import {
     Param,
     Post,
     Res,
-    Sse,
     UploadedFiles,
     UseInterceptors,
+    Query,
 } from '@nestjs/common';
 import { UserCreateDto } from './user.dto';
 import { UserService } from './user.service';
@@ -27,7 +27,6 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Post('login')
-    //: Promise<AjaxJson.userDetail | AjaxJson.responseMessage>
     async login(
         @Body() { username, password }: { username: string; password: string },
     ) {
@@ -51,8 +50,13 @@ export class UserController {
         await this.userService.updateAvatar(username, file);
     }
 
+    @Post('userFollow')
+    async findUserFollow(@Query('username') username: string) {
+        return this.userService.UserFollow(username);
+    }
+
     @Get('userInfo/:username/:tag')
-    async userProduct(
+    async userFollowNumber(
         @Param('username') username: string,
         @Param('tag') tag: string,
     ) {

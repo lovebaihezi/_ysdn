@@ -32,15 +32,16 @@ const ArticleCard: FC<{ article: AjaxJson.IndexDetailArticle }> = ({
                                 ? 0
                                 : undefined
                         }
-                        style={{ width: '200px' }}
+                        style={{ width: 200 }}
                     >
                         <div
                             style={{
                                 width: '100%',
-                                height: 200,
+                                height: 170,
                                 backgroundImage: `url(${article.coverImgUrl})`,
                                 backgroundPosition: 'center',
                                 backgroundSize: 'cover',
+                                border: '5px solid #fff',
                             }}
                         />
                     </Col>
@@ -120,7 +121,7 @@ const DetailArticle: Component<AjaxJson.IndexDetailArticle[]> = ({
                 <Card
                     bordered={false}
                     bodyStyle={{ padding: '2px 16px' }}
-                    title="Article"
+                    title="文章"
                     extra={
                         <Link to="/article">
                             <strong

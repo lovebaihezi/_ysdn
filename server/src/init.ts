@@ -24,10 +24,6 @@ const tagModel = mongoose.model<TagDocument>(Tag.name, TagSchema);
 
 async function initializeDataBase() {
     const All = await createJson();
-    // for (const i of All.articles) {
-    //     console.log(i);
-    // }
-    // const testVideo = (await fs.readFile('./init-json/video.json')).toJSON();
     const database = await mongoose.connect(
         'mongodb://localhost:27017/server',
         {

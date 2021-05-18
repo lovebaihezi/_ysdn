@@ -18,7 +18,7 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
         <Card title="Rank" bodyStyle={{ padding: '1px 16px' }}>
             <Row>
                 {Response.map((article) => (
-                    <Col style={{ height: 180 }} key={article._id} span={24}>
+                    <Col key={article._id} span={24}>
                         <Link to={`/article/${article._id}`}>
                             <Row>
                                 <Col span={24} style={{ cursor: 'pointer' }}>
@@ -28,7 +28,7 @@ const ArticleRank: Component<AjaxJson.IndexRankArticle[]> = ({ Response }) => {
                                         title={article.title}
                                         headStyle={{ padding: 0 }}
                                     >
-                                        <Row style={{ height: 40 }}>
+                                        <Row>
                                             <Col>
                                                 <Card.Meta
                                                     avatar={

@@ -96,6 +96,14 @@ export class ArticleController {
         return this.articleService.updateApproval(articleId, id);
     }
 
+    @Patch('/read/:articleId')
+    updateRead(
+        @Param('articleId') id: string,
+        @Body() { username }: { username: string },
+    ) {
+        this.articleService.readArticle(id, username);
+    }
+
     @Patch('/mark/:articleId')
     updateMark(@Param('articleId') articleId, @Body() body: I) {
         return this.articleService.updateMark(articleId, body.id);

@@ -18,15 +18,24 @@ export default function Carousel() {
                 <Row>
                     <Col style={{ width }} flex="auto">
                         <Carousels autoplay>
-                            {imgUrls.map((url) => (
-                                <img
-                                    key={url.concat(new Date().toISOString())}
-                                    src={url}
-                                    alt="picture"
-                                    width={width}
-                                    height={height}
-                                />
-                            ))}
+                            <img
+                                src={imgUrls[0]}
+                                alt="picture"
+                                width={width}
+                                height={height}
+                            />
+                            <img
+                                src={imgUrls[1]}
+                                alt="picture"
+                                width={width}
+                                height={height}
+                            />
+                            <img
+                                src={imgUrls[2]}
+                                alt="picture"
+                                width={width}
+                                height={height}
+                            />
                         </Carousels>
                     </Col>
                 </Row>

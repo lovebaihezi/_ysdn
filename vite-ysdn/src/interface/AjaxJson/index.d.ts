@@ -58,6 +58,7 @@ declare namespace AjaxJson {
         follower: userInfo[];
         backgroundImage?: string;
         notifications: notification[];
+        readHistory: _id[];
     }
 
     interface production {

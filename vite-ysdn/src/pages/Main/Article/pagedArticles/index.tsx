@@ -34,10 +34,15 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
                         <Link to={`/article/${article._id}`}>
                             <Card
                                 bordered={false}
-                                title={article.title}
+                                title={<strong>{article.title}</strong>}
+                                bodyStyle={{ padding: 0 }}
                                 extra={
                                     <span>
-                                        {article.createTime.toLocaleString()}
+                                        {article.createTime
+                                            .toString()
+                                            .replace('T', ' ')
+                                            .replace('Z', '')
+                                            .replace('.000', '')}
                                     </span>
                                 }
                                 actions={[
@@ -80,9 +85,9 @@ const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
                                 headStyle={{ padding: 0, border: 0 }}
                             >
                                 <Card.Meta
-                                    title={article.title}
                                     avatar={<UserLink user={article.author} />}
                                     description={article.content.slice(0, 100)}
+                                    style={{ marginBottom: 10 }}
                                 />
                                 <Row style={{ padding: 5 }}>
                                     <Col span={24}>

@@ -41,13 +41,13 @@ CFLAGS_CC_Debug := \
 	-std=gnu++1y
 
 INCS_Debug := \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/include/node \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/src \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/openssl/config \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/openssl/openssl/include \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/uv/include \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/zlib \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/v8/include
+	-I/home/lqxc/.cache/node-gyp/16.1.0/include/node \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/src \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/openssl/config \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/openssl/openssl/include \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/uv/include \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/zlib \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/v8/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=addon' \
@@ -85,13 +85,13 @@ CFLAGS_CC_Release := \
 	-std=gnu++1y
 
 INCS_Release := \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/include/node \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/src \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/openssl/config \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/openssl/openssl/include \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/uv/include \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/zlib \
-	-I/home/lqxc/.cache/node-gyp/16.0.0/deps/v8/include
+	-I/home/lqxc/.cache/node-gyp/16.1.0/include/node \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/src \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/openssl/config \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/openssl/openssl/include \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/uv/include \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/zlib \
+	-I/home/lqxc/.cache/node-gyp/16.1.0/deps/v8/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/main.o

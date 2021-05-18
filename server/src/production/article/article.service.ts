@@ -240,4 +240,13 @@ export class ArticleService {
             );
         }
     }
+
+    async readArticle(articleId: string, username: string) {
+        const user = await this.userModel.findOne({ username }).exec();
+        const article = await this.articleModel.findById(articleId).exec();
+        await article.update({ $inc: { read: 1 } });
+        await article.save();
+        user.readHistory.push(article._id);
+        await user.save();
+    }
 }

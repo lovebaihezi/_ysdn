@@ -23,7 +23,7 @@ const ArticleCard: FC<{ article: AjaxJson.article | null }> = ({ article }) => {
     return (
         <Link to={`/article/${article._id}`}>
             <Card
-                title={article.title}
+                title={<strong>{article.title}</strong>}
                 cover={
                     <div
                         style={{
@@ -36,14 +36,17 @@ const ArticleCard: FC<{ article: AjaxJson.article | null }> = ({ article }) => {
                     />
                 }
             >
-                <Row>
+                <Row style={{ marginBottom: 10 }}>
                     <Col span={24}>
                         <Card.Meta
-                            description={article.content.slice(0, 100)}
                             avatar={<UserLink user={article.author} />}
                         />
                     </Col>
                 </Row>
+                <Row>
+                    <Col span={24}>{article.content.slice(0, 100)}</Col>
+                </Row>
+                <Divider />
                 <Row>
                     <Col span={24}>
                         <Tags tags={article.tags}></Tags>

@@ -109,11 +109,11 @@ export async function* createArticles(): AsyncGenerator<Article> {
     while (true) {
         i += 1;
         yield new Article(
-            Random.title(10, 20),
+            '图像阈值与平滑实验2：全局阈值',
             [
-                tags[Random.integer(0, 11)],
-                tags[Random.integer(0, 11)],
-                tags[Random.integer(0, 11)],
+                tags[Random.integer(0, 3)],
+                tags[Random.integer(4, 7)],
+                tags[Random.integer(8, 10)],
             ],
             file,
             [
