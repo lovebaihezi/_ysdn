@@ -19,6 +19,8 @@ import check from './tools/check';
 //TODO : 
 //TODO : websocket, 通知
 //TODO : 问答
+//TODO : 昵称限制,改成最低2位
+//TODO : 生成20个账号
 
 const Context: FC = ({ children }) => {
     const [userDetail, setDetail] = useState<AjaxJson.userDetail | null>(null);
