@@ -9,6 +9,7 @@ import {
     UploadedFiles,
     UseInterceptors,
     Query,
+    Put,
 } from '@nestjs/common';
 import { UserCreateDto } from './user.dto';
 import { UserService } from './user.service';
@@ -52,6 +53,11 @@ export class UserController {
 
     @Post('userFollow')
     async findUserFollow(@Query('username') username: string) {
+        return this.userService.UserFollow(username);
+    }
+
+    @Get('find/:username/follow')
+    async getActivity(@Param('username') username: string) {
         return this.userService.UserFollow(username);
     }
 
@@ -103,5 +109,13 @@ export class UserController {
         @Param('name') name: string,
     ) {
         return this.userService.getUserProduct(username, name);
+    }
+
+    @Put('update/:username/:follow')
+    async userFollow(
+        @Param('username') username: string,
+        @Param('follow') follow: string,
+    ) {
+        return this.userService.followUser(follow, username);
     }
 }

@@ -28,7 +28,7 @@ export default function Ajax<T>({
     const [[response, loading, error], Fetch, Catch] = useFetchJson<T>(Request);
     useEffect(() => {
         Fetch().catch(Catch);
-    }, []);
+    }, [Request.url, Request.option]);
     if (response) {
         return <Component Response={response} />;
     } else if (error) {

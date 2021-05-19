@@ -37,6 +37,11 @@ async function initializeDataBase() {
     }
     for (const i of All.articles) {
         const article = await articleModel.create(i);
+        const user = await userModel
+            .findOne({ username: article.author.username })
+            .exec();
+        user.userProduct.articles.push(article._id);
+        await user.save();
         await article.save();
     }
     await database.connection.close();

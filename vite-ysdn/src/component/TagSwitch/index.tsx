@@ -23,7 +23,7 @@ const TagSwitch: FC<{
     tags: string[];
     tabBarExtraContent?: React.ReactNode;
     RightSideContent?: React.ReactNode;
-    title?: string[];
+    title?: React.ReactNode[];
 }> = ({ tags, tabBarExtraContent, children, RightSideContent, title }) => {
     const [state, setState] = useState<string>(tags[0]);
     // const App = useMemo(() => children, [state]);

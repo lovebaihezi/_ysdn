@@ -142,13 +142,13 @@ export class User extends Types.Subdocument {
         type: [{ type: SchemaTypes.ObjectId, ref: UserInfo.name }],
         default: [],
     })
-    follow: Types.Array<UserInfo>;
+    follow: Types.Array<ObjectId>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: UserInfo.name }],
         default: [],
     })
-    follower: Types.Array<UserInfo>;
+    follower: Types.Array<ObjectId>;
 
     @Prop({
         type: [{ type: SchemaTypes.ObjectId, ref: 'Notification' }],

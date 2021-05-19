@@ -37,6 +37,7 @@ export default function NavBar() {
                                     </Col>
                                     {index === route.length - 1 ? null : (
                                         <Divider
+                                            key={`${v}${index}`}
                                             style={{
                                                 height: '25%',
                                                 borderRight: '1px solid black',

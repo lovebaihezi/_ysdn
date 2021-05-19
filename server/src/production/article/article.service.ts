@@ -92,7 +92,7 @@ export class ArticleService {
                 from: 'server',
             };
         }
-        await article.update({ $inc: { markAmount: 1 } });
+        await article.updateOne({ $inc: { markAmount: 1 } });
         article.marks.push(user._id);
         user.marks.push({
             name: productionName.Article,
@@ -199,7 +199,7 @@ export class ArticleService {
             .findOne({ username: createCommentDto.author.username })
             .exec();
         article.comments.push(comment._id);
-        article.update({ $inc: { commentsAmount: 1 } });
+        article.updateOne({ $inc: { commentsAmount: 1 } });
         // article.commentsAmount += 1;
         user.userProduct.comments.push(comment._id);
         await user.save();
@@ -244,7 +244,7 @@ export class ArticleService {
     async readArticle(articleId: string, username: string) {
         const user = await this.userModel.findOne({ username }).exec();
         const article = await this.articleModel.findById(articleId).exec();
-        await article.update({ $inc: { read: 1 } });
+        await article.updateOne({ $inc: { read: 1 } });
         await article.save();
         user.readHistory.push(article._id);
         await user.save();

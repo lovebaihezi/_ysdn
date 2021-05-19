@@ -21,6 +21,7 @@ import PagedArticles from '../../../Main/Article/pagedArticles';
 import PagedVideos from '../../../Main/Video/pagedVideo';
 import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import UserLink from '../../../../component/UserLink';
+import { useState } from 'react';
 
 const Article: Component<AjaxJson.article[]> = ({ Response }) => {
     return Response.length === 0 ? (
@@ -150,7 +151,6 @@ const Each: FC<{
     name: name;
     username: string;
 }> = ({ name, username }) => {
-    useEffect(() => {}, [name, username]);
     if (Components.has(name)) {
         const X = Components.get(name);
         if (!X) {
@@ -178,7 +178,9 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
     }, []);
     const { path } = useRouteMatch();
     const [user, refresh] = useUserDetail();
-
+    const [isFollow, setFollow] = useState(
+        user === null ? false : user.follow.includes(Response._id),
+    );
     const follow = async () => {
         if (user) {
             const res = await fetch(
@@ -238,12 +240,26 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                               </Button>,
                                           ]
                                         : [
-                                              user?.follow?.some(
-                                                  (v) =>
-                                                      v.username ===
-                                                      Response?.username,
-                                              ) ? (
-                                                  <Button type="primary">
+                                              isFollow ? (
+                                                  <Button
+                                                      onClick={(e) => {
+                                                          cancelFollow()
+                                                              .then(() => {
+                                                                  setFollow(
+                                                                      false,
+                                                                  );
+                                                                  message.success(
+                                                                      '不再关注!',
+                                                                  );
+                                                              })
+                                                              .catch((e) => {
+                                                                  message.error(
+                                                                      e,
+                                                                  );
+                                                              });
+                                                      }}
+                                                      type="primary"
+                                                  >
                                                       <CheckOutlined />
                                                       不再关注
                                                   </Button>
@@ -253,12 +269,18 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                                           follow()
                                                               .then(() => {
                                                                   message.success(
-                                                                      'followed!',
+                                                                      '已关注!',
+                                                                  );
+                                                                  setFollow(
+                                                                      true,
                                                                   );
                                                               })
                                                               .catch((e) => {
+                                                                  console.log(
+                                                                      e,
+                                                                  );
                                                                   message.error(
-                                                                      'error!',
+                                                                      '错误!',
                                                                   );
                                                               });
                                                       }}
@@ -274,7 +296,11 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                                 <Meta
                                     avatar={
                                         <Avatar
-                                            src={`${baseurl}/user/avatar/${Response.username}/${Response.avatarUrl}`}
+                                            src={
+                                                /^http/.test(Response.avatarUrl)
+                                                    ? Response.avatarUrl
+                                                    : `${baseurl}/user/avatar/${Response.username}/${Response.avatarUrl}`
+                                            }
                                         />
                                     }
                                     title={Response.nickname}

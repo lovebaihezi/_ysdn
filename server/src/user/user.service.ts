@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schema/user.schema';
-import { get, Remove, remove } from '../tools';
+import { Get, get, Remove, remove } from '../tools';
 import { UpdateUserDto } from './user.controller';
 import { createHash } from 'crypto';
 import { homedir } from 'os';
@@ -147,7 +147,7 @@ export class UserService {
         information = remove(information, 'password', 'username', '_id', 'id');
         const checkResult = await this.userModel
             .find({ email: information.email })
-            .count();
+            .countDocuments();
         if (checkResult !== 0) {
             return {
                 message: 'you should use a different email!',
@@ -216,18 +216,30 @@ export class UserService {
         const Follower = await this.userModel
             .findOne({ username: follower })
             .exec();
-        Follow.follower.push(
-            get(Follower.toObject(), 'username', 'nickname', 'avatarUrl'),
-        );
-        Follower.follow.push(
-            get(Follow.toObject(), 'username', 'nickname', 'avatarUrl'),
-        );
-        await Follow.save();
-        await Follower.save();
+        if (!Follow.follower.includes(Follower._id)) {
+            Follow.follower.push(Follower._id);
+            Follower.follow.push(Follow._id);
+            await Follow.save();
+            await Follower.save();
+        }
+        return Follower;
     }
 
     async UserFollow(username: string) {
         const user = await this.userModel.findOne({ username }).exec();
-        return user.follow;
+        const result = [];
+        for (const i of user.follow) {
+            const {
+                username,
+                nickname,
+                avatarUrl,
+            } = await this.userModel.findById(i).exec();
+            result.push({
+                username,
+                nickname,
+                avatarUrl,
+            });
+        }
+        return result;
     }
 }

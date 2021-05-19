@@ -25,3 +25,8 @@
 .editor:focus {
     outline: none;
 }
+
+.CodeMirror {
+    min-height: 720px;
+    height: 100%;
+}

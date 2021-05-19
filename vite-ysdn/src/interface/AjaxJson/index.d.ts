@@ -54,8 +54,8 @@ declare namespace AjaxJson {
         email: string;
         userProduct: userProduct;
         avatarUrl: string;
-        follow: userInfo[];
-        follower: userInfo[];
+        follow: _id[];
+        follower: _id[];
         backgroundImage?: string;
         notifications: notification[];
         readHistory: _id[];
