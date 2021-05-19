@@ -25,7 +25,10 @@ import * as fs from 'fs/promises';
                                     .replace('UserInfo', '用户信息')
                                     .replace('User', '用户')
                                     .replace('Comment', '评论')
-                                    .replace('video', '视频'),
+                                    .replace('video', '视频')
+                                    .replace('like', '点赞')
+                                    .replace('mark', '收藏')
+                                    .replace('Product', '作品'),
                             },
                         ];
                     }),

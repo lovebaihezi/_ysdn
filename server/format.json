@@ -1,40 +1,40 @@
 {
-    "表名 : user": {// 用户信息表
-        "键名 : tags": {
-            "类型": "数组[字符串]"
-        },
-        "键名 : read": {
-            "类型": "数值"
-        },
-        "键名 : title": {
+    "表名 : user": {
+        "键名 : nickname": {
             "类型": "字符串"
         },
-        "键名 : createTime": {
-            "类型": "日期"
+        "键名 : avatarUrl": {
+            "类型": "字符串"
         },
-        "键名 : approval": {
-            "类型": "数值"
-        },
-        "键名 : modifyTime": {
-            "类型": "数组[日期]"
-        },
-        "键名 : markAmount": {
-            "类型": "数值"
-        },
-        "键名 : disapproval": {
-            "类型": "数值"
-        },
-        "键名 : comments": {
-            "类型": "数组[评论]"
-        },
-        "键名 : commentsAmount": {
-            "类型": "数值"
-        },
-        "键名 : likes": {
-            "类型": "数组[表索引]"
+        "键名 : backgroundImage": {
+            "类型": "字符串"
         },
         "键名 : marks": {
-            "类型": "数组[表索引]"
+            "类型": "数组[{ name: productionName; id: 字符串 }]"
+        },
+        "键名 : follow": {
+            "类型": "数组[用户信息]"
+        },
+        "键名 : follower": {
+            "类型": "数组[用户信息]"
+        },
+        "键名 : notifications": {
+            "类型": "数组[Notification]"
+        },
+        "键名 : username": {
+            "类型": "字符串"
+        },
+        "键名 : password": {
+            "类型": "字符串"
+        },
+        "键名 : userProduct": {
+            "类型": "用户作品"
+        },
+        "键名 : like": {
+            "类型": "Like"
+        },
+        "键名 : readHistory": {
+            "类型": " 数组[表索引]"
         }
     },
     "表名 : userInfo": {
