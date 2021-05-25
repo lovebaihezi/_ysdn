@@ -74,20 +74,20 @@ interface TAG {
 
 const TAG: TAG = {
     articles: '文章',
-    videos: '视频',
+    // videos: '视频',
     comments: '评论',
-    questions: '问题',
-    answers: '回答',
-    activities: '活动',
+    // questions: '问题',
+    // answers: '回答',
+    // activities: '活动',
 };
 
 const config: name[] = [
     'articles',
-    'videos',
+    // 'videos',
     'comments',
-    'questions',
-    'answers',
-    'activities',
+    // 'questions',
+    // 'answers',
+    // 'activities',
 ];
 
 const Follow: Component<{ amount: number }> = ({ Response }) => {
@@ -135,22 +135,22 @@ const UserAllInfo: FC<{ username: string }> = ({ username }) => {
                     />,
                 ]}
             />
-            <Card style={{ width: '100%' }}></Card>
+            {/* <Card style={{ width: '100%' }}></Card> */}
         </>
     );
 };
 
 type name =
     | 'articles'
-    | 'videos'
-    | 'comments'
-    | 'questions'
-    | 'answers'
-    | 'activities';
+    // | 'videos'
+    | 'comments';
+// | 'questions'
+// | 'answers'
+// | 'activities';
 
 const Components = new Map<name, Component<any>>();
 Components.set('articles', Article);
-Components.set('videos', Video);
+// Components.set('videos', Video);
 Components.set('comments', Comments);
 
 const Each: FC<{

@@ -10,9 +10,9 @@ import UserLink from '../UserLink';
 
 import './NavBar.css';
 
-const route = ['index', 'articles', 'videos', 'activities'];
+const route = ['index', 'articles', 'activities'];
 
-const translate = ['主页', '文章', '视频', '动态'];
+const translate = ['主页', '文章', '动态'];
 
 export default function NavBar() {
     const [info, clear] = useUserDetail();

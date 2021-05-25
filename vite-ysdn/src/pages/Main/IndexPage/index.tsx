@@ -30,13 +30,13 @@ export default function IndexPage() {
                         </Suspense>
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col span={18} offset={3}>
                         <Suspense fallback={<Skeleton />}>
                             <IndexVideo />
                         </Suspense>
                     </Col>
-                </Row>
+                </Row> */}
             </Col>
         </Row>
     );

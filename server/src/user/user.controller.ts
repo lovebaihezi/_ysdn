@@ -103,11 +103,6 @@ export class UserController {
         return this.userService.completeInformation(username, updateUserDto);
     }
 
-    @Put('Upload/:username/tag')
-    async userUploadTag(@Param('username') username: string, @Body() tag: string[]) {
-        // return this.userService.userUploadTag
-    }
-
     @Get('/:username/userProduct/:name')
     async getUserUserProductByName(
         @Param('username') username: string,

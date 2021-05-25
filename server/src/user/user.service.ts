@@ -227,22 +227,29 @@ export class UserService {
 
     async UserFollow(username: string) {
         const user = await this.userModel.findOne({ username }).exec();
-        const result = [];
+        const result: {
+            username: string;
+            avatarUrl: string;
+            nickname: string;
+            createTime: Date;
+        }[] = [];
         for (const i of user.follow) {
             const {
                 username,
-                nickname,
                 avatarUrl,
+                nickname,
+                userProduct: { articles },
             } = await this.userModel.findById(i).exec();
-            result.push({
-                username,
-                nickname,
-                avatarUrl,
-            });
+            const createTime = (
+                await this.articleModel
+                    .findById(articles[articles.length - 1])
+                    .exec()
+            ).createTime;
+            result.push({ username, avatarUrl, nickname, createTime });
         }
+        result.sort((a, b) => {
+            return b.createTime.getTime() - a.createTime.getTime();
+        });
         return result;
     }
-
-    async 
-
 }
