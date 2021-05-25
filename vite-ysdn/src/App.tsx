@@ -43,7 +43,7 @@ const Context: FC = ({ children }) => {
         } else {
             setDetail(json as AjaxJson.userDetail);
         }
-    };
+    };+
     useEffect(() => {
         const token = localStorage.getItem('id');
         if (token !== null) {

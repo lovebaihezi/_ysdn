@@ -43,7 +43,7 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImgUrl] = useState('');
     const [user] = useUserDetail();
-    if (!user) {
+    if (user === null) {
         return null;
     }
     function onChange(info: UploadChangeParam) {
@@ -57,11 +57,7 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
         if (info.file.status === 'done') {
             setLoading(false);
             setImgUrl(
-                baseurl +
-                    '/user/avatar/' +
-                    user?.username +
-                    '/' +
-                    info.file.name,
+                baseurl + `/user/avatar/${user?.username}/${info.file.name}`,
             );
             success(info.file.name);
         }
@@ -119,7 +115,7 @@ const NickNameInput: FC<{ defaultValue: string }> = ({ defaultValue }) => {
         />
     );
 };
-// TODO bug : input default value not in Input
+
 const CompleteInformation: FC = () => {
     const [form] = useForm<{ username: string; password: string }>();
     const [D, S] = useUserDetail();

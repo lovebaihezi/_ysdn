@@ -30,9 +30,9 @@ const LazySpinStyle = {
     alignItems: 'center',
 };
 
-const Render: FC<{ Lazy: React.LazyExoticComponent<() => JSX.Element> }> = ({
-    Lazy,
-}) => (
+const Render: FC<{
+    Lazy: React.LazyExoticComponent<(() => JSX.Element) | FC<any>>;
+}> = ({ Lazy }) => (
     <Row justify="center">
         <Suspense
             fallback={

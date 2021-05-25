@@ -30,14 +30,13 @@ export default function NavBar() {
                         <Row className="Split">
                             {route.map((v, index) => (
                                 <>
-                                    <Col className="MenuLink" key={v}>
+                                    <Col className="MenuLink">
                                         <MenuLink to={`/${v}`}>
                                             {translate[index]}
                                         </MenuLink>
                                     </Col>
                                     {index === route.length - 1 ? null : (
                                         <Divider
-                                            key={`${v}${index}`}
                                             style={{
                                                 height: '25%',
                                                 borderRight: '1px solid black',

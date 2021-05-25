@@ -12,7 +12,13 @@ import {
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
 import React, { FC, ReactNode, useEffect } from 'react';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import {
+    Link,
+    useHistory,
+    useLocation,
+    useParams,
+    useRouteMatch,
+} from 'react-router-dom';
 import { baseurl, ImageFallback, useUserDetail } from '../../../../auth';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
@@ -167,7 +173,9 @@ const Each: FC<{
     }
     return <Empty description={`你还未发表过${TAG[name]}`} />;
 };
-//
+
+// const FollowButton: FC = () => {};
+
 const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
     const History = useHistory();
     useEffect(() => {
@@ -176,7 +184,7 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
             History.goBack();
         }
     }, []);
-    const { path } = useRouteMatch();
+    const { url } = useRouteMatch();
     const [user, refresh] = useUserDetail();
     const [isFollow, setFollow] = useState(
         user === null ? false : user.follow.includes(Response._id),
@@ -219,25 +227,19 @@ const Info: Component<AjaxJson.userDetail> = ({ Response }) => {
                         <Col span={8}>
                             <Card
                                 style={{ height: '100%' }}
-                                // cover={
-                                //     <Image
-                                //         src={`${baseurl}/user/avatar/${Response.username}/${Response.avatarUrl}`}
-                                //         fallback={ImageFallback}
-                                //     />
-                                // }
                                 actions={
                                     Response._id === user?._id
                                         ? [
-                                              <Button
-                                                  onClick={(e) => {
-                                                      History.push(
-                                                          '/register/completeInformation',
-                                                      );
-                                                  }}
-                                                  type="link"
-                                              >
-                                                  信息完善
-                                              </Button>,
+                                              <Link to={`${url}/uploadInfo`}>
+                                                  <Button type="link">
+                                                      信息完善
+                                                  </Button>
+                                              </Link>,
+                                              <Link to={`${url}/uploadTag`}>
+                                                  <Button type="link">
+                                                      个人标签
+                                                  </Button>
+                                              </Link>,
                                           ]
                                         : [
                                               isFollow ? (

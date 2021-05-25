@@ -11,6 +11,10 @@ export class Tag {
     createTime: Date;
     @Prop({ default: 0 })
     clickTimes: number;
+    @Prop({ type: String, default: 'init' })
+    type: 'init' | 'user';
+    @Prop({ type: String, default: 'system' })
+    owner: string;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);

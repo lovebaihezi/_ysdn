@@ -5,6 +5,7 @@ import {
     Body,
     Patch,
     Param,
+    Query,
     Delete,
 } from '@nestjs/common';
 import { TagService } from './tag.service';
@@ -25,9 +26,15 @@ export class TagController {
         return this.tagService.findAll();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.tagService.findOne(+id);
+    @Get('nonExistThenInsert')
+    existOrInsert(@Query('value') value: string, @Query('user') user: string) {
+        console.log(value, user);
+        return this.tagService.existOrInsert(value, user);
+    }
+
+    @Get('userTag/:username')
+    findOne(@Param('username') username: string) {
+        return this.tagService.findOne(username);
     }
 
     @Patch(':id')

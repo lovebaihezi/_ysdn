@@ -39,26 +39,33 @@ export class TagService {
     }
 
     async findAll() {
-        // return [
-        //     'front-end',
-        //     'client-side',
-        //     'server-side',
-        //     'QA',
-        //     'media',
-        //     'algorithm',
-        //     'data',
-        //     'common',
-        //     'product',
-        //     'security',
-        //     'project',
-        // ];
         return (await this.tagModel.find({}).limit(12).exec()).map(
             ({ name }) => name,
         );
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} tag`;
+    async existOrInsert(name: string, owner: string) {
+        const time = new Date();
+        const result = await this.tagModel.findOne({ name });
+        console.log(result);
+        if (result === null) {
+            await (
+                await this.tagModel.create({
+                    name,
+                    createTime: time,
+                    owner,
+                    type: 'user',
+                })
+            ).save();
+            return 'ok';
+        } else {
+            return 'exist!';
+        }
+    }
+
+    async findOne(owner: string) {
+        const result = await this.tagModel.find({ owner });
+        return result.map((v) => ({ name: v.name, createTime: v.createTime }));
     }
 
     update(id: number, updateTagDto: UpdateTagDto) {
