@@ -8,6 +8,8 @@ import {
     Statistic,
     Tabs,
     Comment,
+    Popconfirm,
+    notification,
 } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
@@ -23,11 +25,107 @@ import { baseurl, ImageFallback, useUserDetail } from '../../../../auth';
 import Ajax, { Component } from '../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../interface';
 import { useFetchProps } from '../../../../tools/hook/useFetch';
-import PagedArticles from '../../../Main/Article/pagedArticles';
 import PagedVideos from '../../../Main/Video/pagedVideo';
-import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
+import { PlusOutlined, CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import UserLink from '../../../../component/UserLink';
 import { useState } from 'react';
+import {
+    LikeButton,
+    MarkButton,
+    CommentButton,
+    ReadButton,
+} from '../../../../component/ActionButton';
+import Tags from '../../../../component/ActionTags';
+
+const DeleteButton: FC<{ id: string }> = ({ id }) => {
+    const [user] = useUserDetail();
+    if (user === null) {
+        return null;
+    }
+    return (
+        <div onClick={(e) => e.stopPropagation()}>
+            <Popconfirm
+                placement="rightBottom"
+                title="确定删除该文章?"
+                onConfirm={async () => {
+                    const res = await fetch(`${baseurl}/article/${id}`, {
+                        method: 'DELETE',
+                    }).catch((e) => {
+                        notification.open({
+                            message: '错误',
+                            description: e.toString(),
+                        });
+                        return false;
+                    });
+                    if (res) {
+                        notification.success({
+                            message: '删除成功',
+                        });
+                    }
+                }}
+                okText="确定"
+                cancelText="取消"
+            >
+                <Button type="ghost" style={{ color: 'red' }}>
+                    删除
+                    <DeleteOutlined style={{ color: 'red' }} />
+                </Button>
+            </Popconfirm>
+        </div>
+    );
+};
+
+const PagedArticles: Component<AjaxJson.article[]> = ({ Response }) => {
+    const [user] = useUserDetail();
+    if (Response.length === 0) {
+        return (
+            <Row>
+                <Col span={20} offset={2}>
+                    <Empty />
+                </Col>
+            </Row>
+        );
+    }
+    return (
+        <>
+            <Row>
+                {Response.map((article) => (
+                    <Col span={24} key={article._id}>
+                        <Link to={`/article/${article._id}`}>
+                            <Card
+                                bordered={false}
+                                title={<strong>{article.title}</strong>}
+                                bodyStyle={{ padding: 0 }}
+                                extra={
+                                    <span>
+                                        {article.createTime
+                                            .toString()
+                                            .replace('T', ' ')
+                                            .replace('Z', '')
+                                            .replace('.000', '')}
+                                    </span>
+                                }
+                                actions={[<DeleteButton id={article._id} />]}
+                                headStyle={{ padding: 0, border: 0 }}
+                            >
+                                <Card.Meta
+                                    avatar={<UserLink user={article.author} />}
+                                    description={article.content.slice(0, 100)}
+                                    style={{ marginBottom: 10 }}
+                                />
+                                <Row style={{ padding: 5 }}>
+                                    <Col span={24}>
+                                        <Tags tags={article.tags} />
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </Link>
+                    </Col>
+                ))}
+            </Row>
+        </>
+    );
+};
 
 const Article: Component<AjaxJson.article[]> = ({ Response }) => {
     return Response.length === 0 ? (

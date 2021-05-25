@@ -171,11 +171,11 @@ export class UserService {
         const user = await this.userModel.findOne({ username }).exec();
         const names = [
             'articles',
-            'videos',
+            // 'videos',
             'comments',
-            'questions',
-            'answers',
-            'activities',
+            // 'questions',
+            // 'answers',
+            // 'activities',
         ];
         if (!names.includes(name)) {
             return {

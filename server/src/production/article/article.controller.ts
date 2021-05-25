@@ -70,6 +70,11 @@ export class ArticleController {
         return this.articleService.saveImages(files);
     }
 
+    @Delete(':id')
+    deleteArticle(@Param('id') id: string) {
+        return this.articleService.deleteArticle(id);
+    }
+
     @Delete('delete/picture')
     async deleteImage(@Body() { id }: { id: string }) {
         return this.articleService.deleteImages(id);

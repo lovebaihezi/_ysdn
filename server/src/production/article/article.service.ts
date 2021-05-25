@@ -10,7 +10,7 @@ import {
     Reply,
     ReplyDocument,
 } from '../../schema/production.schema';
-import { Model } from 'mongoose';
+import { Model, SchemaTypes } from 'mongoose';
 import { User, UserDocument } from '../../schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import * as fs from 'fs/promises';
@@ -248,5 +248,20 @@ export class ArticleService {
         await article.save();
         user.readHistory.push(article._id);
         await user.save();
+    }
+
+    async deleteArticle(articlesId: string) {
+        const article = await this.articleModel.findById(articlesId).exec();
+        const user = await this.userModel
+            .findOne({ username: article.author.username })
+            .exec();
+        user.userProduct.articles.pull(articlesId);
+        await user.save();
+        for (const i of article.comments) {
+            await this.commentModel.deleteOne({ _id: i });
+        }
+        await article.delete();
+        // await article.save();
+        return 'ok';
     }
 }

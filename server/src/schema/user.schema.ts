@@ -14,6 +14,7 @@ import { Tag } from './tags.schema';
 export type UserDocument = User & Document;
 export type NotificationDocument = Notification & Document;
 export type UserProductDocument = UserProduct & Document;
+export type AdminDocument = Admin & Document;
 
 @Schema()
 export class UserInfo {
@@ -225,3 +226,13 @@ export class Notification extends Types.Subdocument {
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.set('toObject', { getters: true, virtual: true });
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
+
+@Schema()
+export class Admin {
+    @Prop()
+    username: string;
+    @Prop()
+    password: string;
+}
+
+export const AdminSchema = SchemaFactory.createForClass(Admin);
