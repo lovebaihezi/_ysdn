@@ -61,6 +61,7 @@ const DeleteButton: FC<{ id: string }> = ({ id }) => {
                         notification.success({
                             message: '删除成功',
                         });
+                        location.reload();
                     }
                 }}
                 okText="确定"

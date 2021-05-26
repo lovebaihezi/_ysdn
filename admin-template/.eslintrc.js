@@ -1,8 +1,21 @@
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint')],
-  globals: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
-    page: true,
-    REACT_APP_ENV: true,
-  },
+    parser: 'babel-eslint',
+    env: {
+        es6: true,
+        node: true,
+        browser: true,
+    },
+    parserOptions: {
+        ecmaVersion: 6,
+        sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true,
+        },
+    },
+    plugins: ['react'],
+    extends: [
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:prettier/recommended',
+    ],
 };

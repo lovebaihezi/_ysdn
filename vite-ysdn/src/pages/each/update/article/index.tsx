@@ -52,7 +52,7 @@ const Each: FC<{ name: string }> = ({ name }) => {
     return (
         <Tag.CheckableTag
             className="tag-chose"
-            checked={tags.has(name)}
+            checked={choose}
             onChange={() => {
                 setChoose(!choose);
                 if (tags.has(name)) {
