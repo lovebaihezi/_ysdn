@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductionModule } from './production/production.module';
 import { SearchModule } from './search/search.module';
 import { MonographicModule } from './monographic/monographic.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { MonographicModule } from './monographic/monographic.module';
         SearchModule,
         MonographicModule,
         NotificationModule,
+        AdminModule,
     ],
     controllers: [AppController],
     providers: [AppService],

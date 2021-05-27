@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises';
 import Axios from 'axios';
 import * as mockjs from 'mockjs';
+import RandomDateAroundThisMonth from './tools/randomDate';
 
 const { Random } = mockjs;
 
@@ -32,8 +33,8 @@ class Article {
             avatarUrl: string;
         },
         readonly coverImgUrl: string = imageUrls[0],
-        readonly approval: number = Random.integer(10, 80),
-        readonly createTime: Date = new Date(Random.datetime()),
+        readonly approval: number = Random.integer(10, 3000),
+        readonly createTime: Date = RandomDateAroundThisMonth(),
     ) {}
 }
 
@@ -49,17 +50,17 @@ class Video {
 }
 
 const tagsId = [
-    '608ffccc2a6832f463a1237e',
-    '608ffccc2a6832f463a1237f',
-    '608ffccc2a6832f463a12380',
-    '608ffccc2a6832f463a12381',
-    '608ffccc2a6832f463a12382',
-    '608ffccc2a6832f463a12383',
-    '608ffccc2a6832f463a12384',
-    '608ffccc2a6832f463a12385',
-    '608ffccc2a6832f463a12386',
-    '608ffccc2a6832f463a12387',
-    '608ffccc2a6832f463a12388',
+    '60aa4e705d1e6849869f9607',
+    '60aa4e705d1e6849869f9608',
+    '60aa4e705d1e6849869f9609',
+    '60aa4e705d1e6849869f960a',
+    '60aa4e705d1e6849869f960b',
+    '60aa4e705d1e6849869f960c',
+    '60aa4e705d1e6849869f960d',
+    '60aa4e705d1e6849869f960e',
+    '60aa4e705d1e6849869f960f',
+    '60aa4e705d1e6849869f9610',
+    '60aa4e705d1e6849869f9611',
 ];
 
 const tags = [

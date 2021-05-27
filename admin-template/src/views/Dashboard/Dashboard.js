@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ChartistGraph from 'react-chartist';
 import { makeStyles } from '@material-ui/core/styles';
 import Update from '@material-ui/icons/Update';
@@ -19,6 +19,7 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardIcon from 'components/Card/CardIcon.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
+import { CircularProgress } from '@material-ui/core';
 
 import { bugs, website, server } from 'variables/general.js';
 
@@ -28,20 +29,30 @@ import {
     completedTasksChart,
 } from 'variables/charts.js';
 
+const baseurl = 'http://localhost:5050';
+
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle.js';
 
 const useStyles = makeStyles(styles);
 
 export const UserQuantityAllTime = () => {
     const classes = useStyles();
+    const [res, setRes] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/wholeUser`)
+            .then((res) => res.text())
+            .then((a) => setRes(a));
+    }, []);
     return (
         <Card>
             <CardHeader color="info" stats icon>
                 <CardIcon color="info">
                     <Accessibility />
                 </CardIcon>
-                <p className={classes.cardCategory}>全部用户新增</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <p className={classes.cardCategory}>全部用户</p>
+                <h3 className={classes.cardTitle}>
+                    {res === undefined ? <CircularProgress /> : res}
+                </h3>
             </CardHeader>
             <CardFooter stats>
                 <div className={classes.stats}>
@@ -55,14 +66,22 @@ export const UserQuantityAllTime = () => {
 
 export const ArticleQuantityAllTime = () => {
     const classes = useStyles();
+    const [res, setRes] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/wholeArticle`)
+            .then((res) => res.text())
+            .then((a) => setRes(a));
+    }, []);
     return (
         <Card>
             <CardHeader color="info" stats icon>
                 <CardIcon color="info">
                     <Description />
                 </CardIcon>
-                <p className={classes.cardCategory}>全部文章新增</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <p className={classes.cardCategory}>全部文章</p>
+                <h3 className={classes.cardTitle}>
+                    {res === undefined ? <CircularProgress /> : res}
+                </h3>
             </CardHeader>
             <CardFooter stats>
                 <div className={classes.stats}>
@@ -76,6 +95,12 @@ export const ArticleQuantityAllTime = () => {
 
 export const UserQuantityThisWeek = () => {
     const classes = useStyles();
+    const [res, setRes] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/thisWeekUser`)
+            .then((res) => res.text())
+            .then((a) => setRes(a));
+    }, []);
     return (
         <Card>
             <CardHeader color="info" stats icon>
@@ -83,12 +108,14 @@ export const UserQuantityThisWeek = () => {
                     <Accessibility />
                 </CardIcon>
                 <p className={classes.cardCategory}>本周用户新增</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <h3 className={classes.cardTitle}>
+                    {res === undefined ? <CircularProgress /> : res}
+                </h3>
             </CardHeader>
             <CardFooter stats>
                 <div className={classes.stats}>
                     <Update />
-                    本周
+                    上周
                 </div>
             </CardFooter>
         </Card>
@@ -97,19 +124,27 @@ export const UserQuantityThisWeek = () => {
 
 export const ArticleQuantityThisWeek = () => {
     const classes = useStyles();
+    const [res, setRes] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/thisWeekArticle`)
+            .then((res) => res.text())
+            .then((a) => setRes(a));
+    }, []);
     return (
         <Card>
             <CardHeader color="info" stats icon>
-                <CardIcon color="info">
+                <CardIcon color="success">
                     <Description />
                 </CardIcon>
                 <p className={classes.cardCategory}>本周文章新增</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <h3 className={classes.cardTitle}>
+                    +{res === undefined ? <CircularProgress /> : res}
+                </h3>
             </CardHeader>
             <CardFooter stats>
                 <div className={classes.stats}>
                     <Update />
-                    本周
+                    上周
                 </div>
             </CardFooter>
         </Card>
@@ -125,7 +160,13 @@ export default function Dashboard() {
                     <UserQuantityAllTime />
                 </GridItem>
                 <GridItem xs={12} sm={6} md={3}>
+                    <UserQuantityThisWeek />
+                </GridItem>
+                <GridItem xs={12} sm={6} md={3}>
                     <ArticleQuantityAllTime />
+                </GridItem>
+                <GridItem xs={12} sm={6} md={3}>
+                    <ArticleQuantityThisWeek />
                 </GridItem>
             </GridContainer>
             <GridContainer>
@@ -146,9 +187,9 @@ export default function Dashboard() {
                                 <span className={classes.successText}>
                                     <ArrowUpward
                                         className={classes.upArrowCardCategory}
-                                    />{' '}
+                                    />
                                     55%
-                                </span>{' '}
+                                </span>
                                 increase in today sales.
                             </p>
                         </CardBody>
