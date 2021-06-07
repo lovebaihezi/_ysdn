@@ -1,7 +1,5 @@
 import {
     Button,
-    Card,
-    CardMedia,
     CircularProgress,
     Container,
     Grid,
@@ -13,24 +11,22 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { AccountCircle } from '@material-ui/icons';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import SecurityIcon from '@material-ui/icons/Security';
-import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { baseurl, useAuth } from '../auth';
-import { Redirect, useHistory } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useHistory, Redirect } from 'react-router';
+import { useAuth } from 'index';
 
-const Login: FC = () => {
+const baseurl = 'http://localhost:5050';
+
+const Login = () => {
     const [session, setSession] = useAuth();
     const History = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [res, setRes] = useState<Response | null>(null);
-    const [fetchError, setFetchError] = useState<Error>();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [disable, setDisable] = useState<boolean>(false);
-    const [Message, setMessage] =
-        useState<{
-            message: string;
-            MessageType: 'success' | 'warning' | 'error' | 'info';
-        }>();
+    const [res, setRes] = useState(null);
+    const [fetchError, setFetchError] = useState();
+    const [loading, setLoading] = useState(false);
+    const [disable, setDisable] = useState(false);
+    const [Message, setMessage] = useState();
     const [open, setOpen] = useState(false);
     const login = async () => {
         if (/^\w{4,20}$/g.test(username) && /^\w{4,20}$/g.test(password)) {
@@ -44,6 +40,7 @@ const Login: FC = () => {
                     }),
                     body: JSON.stringify({ username, password }),
                 });
+                console.log(result);
                 setLoading(false);
                 setRes(result);
             } catch (e) {
@@ -57,12 +54,12 @@ const Login: FC = () => {
         }
     };
     if (session) {
-        return <Redirect to="/panel" />;
+        return <Redirect to="/admin" />;
     }
     useEffect(() => {
         if (res !== null && res.status === 200) {
-            setSession(username);
-            History.push('/panel');
+            History.push('/admin');
+            setSession('administrator');
         } else if ((res !== null && res?.status !== 200) || fetchError) {
             setDisable(false);
             setOpen(true);
@@ -90,10 +87,11 @@ const Login: FC = () => {
                 {Message ? (
                     <MuiAlert
                         severity={Message.MessageType}
-                        children={Message.message}
                         elevation={6}
                         variant="filled"
-                    />
+                    >
+                        {Message.message}
+                    </MuiAlert>
                 ) : undefined}
             </Snackbar>
             <form>

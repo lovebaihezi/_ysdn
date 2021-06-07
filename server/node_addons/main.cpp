@@ -1,5 +1,6 @@
 #include <array>
 #include <functional>
+#include <iostream>
 #include <node/node.h>
 #include <stack>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #include <vector>
 namespace demo
 {
+    using v8::Function;
     using v8::FunctionCallbackInfo;
     using v8::Isolate;
     using v8::Local;
@@ -19,14 +21,15 @@ namespace demo
 
     void Method(const FunctionCallbackInfo<Value> &args)
     {
+        std::cout << args.Length() << std::endl;
         Isolate *isolate = args.GetIsolate();
         args.GetReturnValue()
             .Set(String::NewFromUtf8(isolate, "hello world").ToLocalChecked());
     }
 
-    void Initialize(Local<Object> exports)
+    void Initialize(Local<Function> exports)
     {
-        NODE_SET_METHOD(exports, "default", Method);
+        NODE_SET_METHOD(exports, "hello", Method);
     }
 
     NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize);

@@ -20,7 +20,7 @@ import CardIcon from 'components/Card/CardIcon.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import { CircularProgress } from '@material-ui/core';
-
+import { Redirect } from 'react-router-dom';
 import { bugs, website, server } from 'variables/general.js';
 
 import {
@@ -32,6 +32,7 @@ import {
 const baseurl = 'http://localhost:5050';
 
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle.js';
+import { useAuth } from 'index';
 
 const useStyles = makeStyles(styles);
 
@@ -152,6 +153,10 @@ export const ArticleQuantityThisWeek = () => {
 };
 
 export default function Dashboard() {
+    const [session] = useAuth();
+    if (session === null) {
+        return <Redirect to="/" />;
+    }
     const classes = useStyles();
     return (
         <div>
