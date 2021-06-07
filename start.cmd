@@ -1,7 +1,6 @@
 echo "---please make sure you have npm and yarn!---"
 echo "install dep for each dir"
 npm install pm2 -g
-dir
 echo "build main site"
 cd vite-ysdn
 yarn && yarn build
