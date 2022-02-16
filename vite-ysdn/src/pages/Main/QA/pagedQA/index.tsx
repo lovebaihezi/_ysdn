@@ -62,22 +62,24 @@ const PagedQAs: Component<AjaxJson.QA[]> = ({ Response }) => {
                             <Card
                                 bordered={false}
                                 title={QA.title}
-                                actions={[
-                                    // <LikeButton
-                                    //     type="QA"
-                                    //     id={QA._id}
-                                    // />,
-                                    // <MarkButton
-                                    //     type="QA"
-                                    //     id={QA._id}
-                                    // />,
-                                    // <CommentButton
-                                    //     link={`/QA/${QA._id}/#comment`}
-                                    // />,
-                                    // <ReadButton
-                                    //     link={`/QA/${QA._id}`}
-                                    // />,
-                                ]}
+                                actions={
+                                    [
+                                        // <LikeButton
+                                        //     type="QA"
+                                        //     id={QA._id}
+                                        // />,
+                                        // <MarkButton
+                                        //     type="QA"
+                                        //     id={QA._id}
+                                        // />,
+                                        // <CommentButton
+                                        //     link={`/QA/${QA._id}/#comment`}
+                                        // />,
+                                        // <ReadButton
+                                        //     link={`/QA/${QA._id}`}
+                                        // />,
+                                    ]
+                                }
                                 headStyle={{ padding: 0, border: 0 }}
                                 style={{ cursor: 'pointer' }}
                             >

@@ -1,6 +1,4 @@
 import React from 'react';
 import { AjaxJson } from '../../../../../interface';
 
-export default function Answer({} : {Answer : AjaxJson.answer[]}) {
-    
-}
+export default function Answer({}: { Answer: AjaxJson.answer[] }) {}

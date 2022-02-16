@@ -13,7 +13,7 @@ import {
 import { Tag, TagSchema } from '../schema/tags.schema';
 import { User, UserSchema } from '../schema/user.schema';
 import { MonographicService } from './monographic.service';
-
+import { UserModule } from '../user/user.module';
 describe('MonographicService', () => {
     let service: MonographicService;
 
@@ -29,6 +29,7 @@ describe('MonographicService', () => {
                     { name: Question.name, schema: QuestionSchema },
                     { name: Answer.name, schema: AnswerSchema },
                 ]),
+                UserModule,
             ],
             providers: [MonographicService],
         }).compile();

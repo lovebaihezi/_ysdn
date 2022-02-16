@@ -252,4 +252,8 @@ export class UserService {
         });
         return result;
     }
+    async userTag(id: string): Promise<Tag[] | null> {
+        const user = await this.getUser({ id });
+        return user?.userProduct?.tags;
+    }
 }

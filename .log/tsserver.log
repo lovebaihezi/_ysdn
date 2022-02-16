@@ -1,0 +1,342 @@
+Info 0    [21:38:26.081] Starting TS Server
+Info 1    [21:38:26.081] Version: 4.2.4
+Info 2    [21:38:26.081] Arguments: /usr/bin/node /usr/local/share/.config/yarn/global/node_modules/typescript/lib/tsserver.js --logFile /home/lqxc/Projects/_ysdn/.log/tsserver.log --logVerbosity info --cancellationPipeName /tmp/8105ff473c1cc595b5e75ec21a3cdb8c/tscancellation*
+Info 3    [21:38:26.081] Platform: linux NodeVersion: 17 CaseSensitive: true
+Info 4    [21:38:26.081] ServerMode: undefined syntaxOnly: false hasUnknownServerMode: undefined
+Info 5    [21:38:26.093] Format host information updated
+Info 6    [21:38:26.095] Search path: /home/lqxc/Projects/_ysdn/vite-ysdn/src
+Info 7    [21:38:26.096] For info: /home/lqxc/Projects/_ysdn/vite-ysdn/src/App.tsx :: Config file name: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 8    [21:38:26.096] Opened configuration file /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 9    [21:38:26.149] Config: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json : {
+ "rootNames": [
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/App.test.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/App.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/react-app-env.d.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/reportWebVitals.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/setupTests.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/auth/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/AnswerButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/ApprovalButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/BasicButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/CommentButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/FollowButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/MarkButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionButton/ReadButton/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ActionTags/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/AjaxResponse/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/AvatarLink/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/ChooseTags/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/Editor/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/EventSourceMessage/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/MenuLink/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/MessageBox/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/NavBar/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/Result/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/Search/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/Submit/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/Tag/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/TagChoose/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/TagSwitch/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/component/UserLink/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/interface/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/interface/AjaxJson/index.d.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/interface/database/index.d.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Activity/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Activity/pagedActivities/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Activity/pagedActivities/old.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Article/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Article/pagedArticles/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Article/rightSide/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Article/rightSide/periodicals/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/article/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/article/Detail/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/article/Rank/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/monograph/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/qa/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/qa/Detail/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/qa/Rank/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/video/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/video/Detail/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/Recommend/video/Rank/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/IndexPage/carousel/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Monograph/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/QA/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/QA/pagedQA/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/QA/rightSide/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Video/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/Main/Video/pagedVideo/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/QA/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/QA/Render/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/QA/Render/Answer/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/activity/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/article/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/article/Render/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/update/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/update/QA/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/update/article/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/update/video/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/update/video/infoForm/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/user/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/user/InformationUpdate/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/user/UpdateTag/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/user/info/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/video/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/each/video/Render/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/login/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/login/Form/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/register/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/register/Form/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/register/chooseTag/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/register/chooseTag/Tags/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/register/completeInformation/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/pages/search/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/auto-login/index.spec.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/auto-login/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/check/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/combination/index.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useError/index.spec.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useError/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useEventSource/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useFetch/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useFetch/useFetch.spec.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useReducerAjaxJson/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useTimeout/index.spec.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useTimeout/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useWebSocket/index.spec.tsx",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/hook/useWebSocket/index.ts",
+  "/home/lqxc/Projects/_ysdn/vite-ysdn/src/tools/stopClickEvent/index.ts"
+ ],
+ "options": {
+  "target": 99,
+  "lib": [
+   "lib.dom.d.ts",
+   "lib.dom.iterable.d.ts",
+   "lib.esnext.d.ts"
+  ],
+  "types": [
+   "vite/client"
+  ],
+  "allowJs": false,
+  "skipLibCheck": false,
+  "esModuleInterop": false,
+  "allowSyntheticDefaultImports": true,
+  "strict": true,
+  "forceConsistentCasingInFileNames": true,
+  "module": 99,
+  "moduleResolution": 2,
+  "resolveJsonModule": true,
+  "isolatedModules": true,
+  "noEmit": true,
+  "jsx": 2,
+  "configFilePath": "/home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json"
+ }
+}
+Info 10   [21:38:26.168] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 11   [21:38:28.450] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 1 structureChanged: true Elapsed: 2282.760222002864ms
+Info 12   [21:38:28.451] Project '/home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json' (Configured)
+Info 13   [21:38:28.451] 	Files (421)
+
+Info 14   [21:38:28.451] -----------------------------------------------
+Info 15   [21:38:28.477] Starting updateGraphWorker: Project: /dev/null/autoImportProviderProject1*
+Info 16   [21:38:28.912] Finishing updateGraphWorker: Project: /dev/null/autoImportProviderProject1* Version: 1 structureChanged: true Elapsed: 434.93231301009655ms
+Info 17   [21:38:28.912] Project '/dev/null/autoImportProviderProject1*' (AutoImportProvider)
+Info 18   [21:38:28.912] 	Files (328)
+
+Info 19   [21:38:28.912] -----------------------------------------------
+Info 20   [21:39:14.105] Search path: /home/lqxc/Projects/_ysdn/vite-ysdn/src
+Info 21   [21:39:14.105] For info: /home/lqxc/Projects/_ysdn/vite-ysdn/src/App.tsx :: Config file name: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 22   [21:39:18.385] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 23   [21:39:18.451] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 2 structureChanged: false Elapsed: 65.8030159920454ms
+Info 24   [21:39:18.451] Different program with same set of files:: structureIsReused:: 2
+Info 25   [21:39:19.819] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 26   [21:39:19.842] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 3 structureChanged: false Elapsed: 21.910845011472702ms
+Info 27   [21:39:19.842] Different program with same set of files:: structureIsReused:: 2
+Info 28   [21:39:21.369] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 29   [21:39:21.414] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 4 structureChanged: false Elapsed: 44.55374599993229ms
+Info 30   [21:39:21.414] Different program with same set of files:: structureIsReused:: 2
+Info 31   [21:39:21.416] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 32   [21:39:21.434] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 5 structureChanged: false Elapsed: 17.787678003311157ms
+Info 33   [21:39:21.434] Different program with same set of files:: structureIsReused:: 2
+Info 34   [21:39:21.867] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 35   [21:39:21.883] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 6 structureChanged: false Elapsed: 15.730953007936478ms
+Info 36   [21:39:21.883] Different program with same set of files:: structureIsReused:: 2
+Info 37   [21:39:21.930] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 38   [21:39:21.949] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 7 structureChanged: false Elapsed: 19.313725993037224ms
+Info 39   [21:39:21.950] Different program with same set of files:: structureIsReused:: 2
+Info 40   [21:39:22.338] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 41   [21:39:22.384] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 8 structureChanged: false Elapsed: 45.549381002783775ms
+Info 42   [21:39:22.384] Different program with same set of files:: structureIsReused:: 2
+Info 43   [21:39:22.386] getCompletionData: Get current token: 0.01852099597454071
+Info 44   [21:39:22.386] getCompletionData: Is inside comment: 0.08080999553203583
+Info 45   [21:39:22.386] getCompletionData: Get previous token 1: 0.041034996509552
+Info 46   [21:39:22.386] getCompletionData: Get previous token 2: 0.044002994894981384
+Info 47   [21:39:22.387] getCompletionsAtPosition: isCompletionListBlocker: 0.290352001786232
+Info 48   [21:39:22.394] getSymbolsFromOtherSourceFileExports: Recomputing list
+Info 49   [21:39:22.447] forEachExternalModuleToImportFrom: filtered out 66 modules by package.json contents
+Info 50   [21:39:22.485] forEachExternalModuleToImportFrom: filtered out 12 modules by package.json contents
+Info 51   [21:39:22.485] forEachExternalModuleToImportFrom autoImportProvider: 38.103054001927376
+Info 52   [21:39:22.486] getSymbolsFromOtherSourceFileExports: 91.66449199616909
+Info 53   [21:39:22.491] getCompletionData: Semantic work: 104.40705101191998
+Info 54   [21:39:22.508] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 16.553387001156807
+Info 55   [21:39:22.515] getCompletionData: Get current token: 0.010113999247550964
+Info 56   [21:39:22.515] getCompletionData: Is inside comment: 0.02957800030708313
+Info 57   [21:39:22.515] getCompletionData: Get previous token 1: 0.021828994154930115
+Info 58   [21:39:22.515] getCompletionData: Get previous token 2: 0.03739699721336365
+Info 59   [21:39:22.516] getCompletionsAtPosition: isCompletionListBlocker: 0.009146004915237427
+Info 60   [21:39:22.520] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 61   [21:39:22.527] getCompletionData: Semantic work: 11.164492011070251
+Info 62   [21:39:22.536] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 9.04041899740696
+Info 63   [21:39:22.540] getCompletionData: Get current token: 0.010364994406700134
+Info 64   [21:39:22.540] getCompletionData: Is inside comment: 0.026761993765830994
+Info 65   [21:39:22.540] getCompletionData: Get previous token 1: 0.02117200195789337
+Info 66   [21:39:22.540] getCompletionData: Get previous token 2: 0.024416998028755188
+Info 67   [21:39:22.540] getCompletionsAtPosition: isCompletionListBlocker: 0.009838998317718506
+Info 68   [21:39:22.543] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 69   [21:39:22.547] getCompletionData: Semantic work: 7.647471010684967
+Info 70   [21:39:22.556] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 8.11523599922657
+Info 71   [21:39:22.559] getCompletionData: Get current token: 0.009958997368812561
+Info 72   [21:39:22.559] getCompletionData: Is inside comment: 0.04583200812339783
+Info 73   [21:39:22.559] getCompletionData: Get previous token 1: 0.021635010838508606
+Info 74   [21:39:22.559] getCompletionData: Get previous token 2: 0.023430004715919495
+Info 75   [21:39:22.559] getCompletionsAtPosition: isCompletionListBlocker: 0.008607998490333557
+Info 76   [21:39:22.562] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 77   [21:39:22.564] getCompletionData: Semantic work: 4.977036997675896
+Info 78   [21:39:22.570] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 5.524117007851601
+Info 79   [21:39:22.576] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 80   [21:39:22.587] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 9 structureChanged: false Elapsed: 10.98309999704361ms
+Info 81   [21:39:22.587] Different program with same set of files:: structureIsReused:: 2
+Info 82   [21:39:22.700] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 83   [21:39:22.736] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 10 structureChanged: false Elapsed: 36.64323399960995ms
+Info 84   [21:39:22.737] Different program with same set of files:: structureIsReused:: 2
+Info 85   [21:39:22.738] getCompletionData: Get current token: 0.04374399781227112
+Info 86   [21:39:22.738] getCompletionData: Is inside comment: 0.14953400194644928
+Info 87   [21:39:22.738] getCompletionData: Get previous token 1: 0.059147998690605164
+Info 88   [21:39:22.738] getCompletionData: Get previous token 2: 0.06779100000858307
+Info 89   [21:39:22.738] getCompletionsAtPosition: isCompletionListBlocker: 0.022447004914283752
+Info 90   [21:39:22.745] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 91   [21:39:22.751] getCompletionData: Semantic work: 12.282563000917435
+Info 92   [21:39:22.761] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 10.456918999552727
+Info 93   [21:39:22.764] getCompletionData: Get current token: 0.009733006358146667
+Info 94   [21:39:22.764] getCompletionData: Is inside comment: 0.032634004950523376
+Info 95   [21:39:22.765] getCompletionData: Get previous token 1: 0.022909000515937805
+Info 96   [21:39:22.765] getCompletionData: Get previous token 2: 0.024759992957115173
+Info 97   [21:39:22.765] getCompletionsAtPosition: isCompletionListBlocker: 0.009064987301826477
+Info 98   [21:39:22.767] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 99   [21:39:22.769] getCompletionData: Semantic work: 4.335072994232178
+Info 100  [21:39:22.776] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 7.175085008144379
+Info 101  [21:39:22.779] getCompletionData: Get current token: 0.009259998798370361
+Info 102  [21:39:22.779] getCompletionData: Is inside comment: 0.02651199698448181
+Info 103  [21:39:22.779] getCompletionData: Get previous token 1: 0.021897003054618835
+Info 104  [21:39:22.779] getCompletionData: Get previous token 2: 0.02880200743675232
+Info 105  [21:39:22.779] getCompletionsAtPosition: isCompletionListBlocker: 0.009154006838798523
+Info 106  [21:39:22.782] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 107  [21:39:22.784] getCompletionData: Semantic work: 4.605508998036385
+Info 108  [21:39:22.790] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 5.250476002693176
+Info 109  [21:39:22.793] getCompletionData: Get current token: 0.009867995977401733
+Info 110  [21:39:22.793] getCompletionData: Is inside comment: 0.02507801353931427
+Info 111  [21:39:22.793] getCompletionData: Get previous token 1: 0.02072100341320038
+Info 112  [21:39:22.793] getCompletionData: Get previous token 2: 0.022916004061698914
+Info 113  [21:39:22.793] getCompletionsAtPosition: isCompletionListBlocker: 0.008996009826660156
+Info 114  [21:39:22.797] getSymbolsFromOtherSourceFileExports: Using cached list
+Info 115  [21:39:22.798] getCompletionData: Semantic work: 4.9773599952459335
+Info 116  [21:39:22.801] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 2.890266001224518
+Info 117  [21:39:22.803] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 118  [21:39:22.813] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 11 structureChanged: false Elapsed: 9.45915000140667ms
+Info 119  [21:39:22.813] Different program with same set of files:: structureIsReused:: 2
+Info 120  [21:39:22.939] getCompletionData: Get current token: 0.050718992948532104
+Info 121  [21:39:22.940] getCompletionData: Is inside comment: 0.14226798713207245
+Info 122  [21:39:22.940] getCompletionData: Get previous token 1: 0.11503300070762634
+Info 123  [21:39:22.940] getCompletionsAtPosition: isCompletionListBlocker: 0.020614996552467346
+Info 124  [21:39:22.951] getCompletionData: Semantic work: 10.270191997289658
+Info 125  [21:39:22.963] getCompletionsAtPosition: getCompletionEntriesFromSymbols: 11.177782997488976
+Info 126  [21:39:25.461] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 127  [21:39:25.474] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 12 structureChanged: false Elapsed: 13.03983199596405ms
+Info 128  [21:39:25.474] Different program with same set of files:: structureIsReused:: 2
+Info 129  [21:39:25.475] getCompletionData: Get current token: 0.0577239990234375
+Info 130  [21:39:25.475] getCompletionData: Is inside comment: 0.009783998131752014
+Info 131  [21:39:25.475] getCompletionData: Get previous token 1: 0.035037994384765625
+Info 132  [21:39:25.475] getCompletionsAtPosition: isCompletionListBlocker: 0.003398001194000244
+Info 133  [21:39:25.478] getSymbolsFromOtherSourceFileExports: Recomputing list for details entry
+Info 134  [21:39:25.516] forEachExternalModuleToImportFrom: filtered out 0 modules by package.json contents
+Info 135  [21:39:25.535] forEachExternalModuleToImportFrom: filtered out 0 modules by package.json contents
+Info 136  [21:39:25.535] forEachExternalModuleToImportFrom autoImportProvider: 18.401867002248764
+Info 137  [21:39:25.535] getSymbolsFromOtherSourceFileExports: 57.412586003541946
+Info 138  [21:39:25.545] getCompletionData: Semantic work: 69.41211700439453
+Info 139  [21:39:25.548] getCompletionData: Get current token: 0.023583993315696716
+Info 140  [21:39:25.548] getCompletionData: Is inside comment: 0.0047380030155181885
+Info 141  [21:39:25.548] getCompletionData: Get previous token 1: 0.02796401083469391
+Info 142  [21:39:25.549] getCompletionsAtPosition: isCompletionListBlocker: 0.0026450008153915405
+Info 143  [21:39:25.550] getSymbolsFromOtherSourceFileExports: Recomputing list for details entry
+Info 144  [21:39:25.564] forEachExternalModuleToImportFrom: filtered out 0 modules by package.json contents
+Info 145  [21:39:25.574] forEachExternalModuleToImportFrom: filtered out 0 modules by package.json contents
+Info 146  [21:39:25.574] forEachExternalModuleToImportFrom autoImportProvider: 10.223285004496574
+Info 147  [21:39:25.575] getSymbolsFromOtherSourceFileExports: 24.510578989982605
+Info 148  [21:39:25.580] getCompletionData: Semantic work: 31.784942999482155
+Info 149  [21:39:26.666] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 150  [21:39:26.703] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 13 structureChanged: false Elapsed: 37.3753300011158ms
+Info 151  [21:39:26.703] Different program with same set of files:: structureIsReused:: 2
+Info 152  [21:39:27.895] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 153  [21:39:27.940] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 14 structureChanged: false Elapsed: 45.0181950032711ms
+Info 154  [21:39:27.940] Different program with same set of files:: structureIsReused:: 2
+Info 155  [21:39:27.940] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 156  [21:39:27.955] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 15 structureChanged: false Elapsed: 14.914193004369736ms
+Info 157  [21:39:27.955] Different program with same set of files:: structureIsReused:: 2
+Info 158  [21:39:28.495] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 159  [21:39:28.533] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 16 structureChanged: false Elapsed: 38.007250010967255ms
+Info 160  [21:39:28.533] Different program with same set of files:: structureIsReused:: 2
+Info 161  [21:39:28.588] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 162  [21:39:28.598] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 17 structureChanged: false Elapsed: 9.603479012846947ms
+Info 163  [21:39:28.598] Different program with same set of files:: structureIsReused:: 2
+Info 164  [21:39:29.173] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 165  [21:39:29.184] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 18 structureChanged: false Elapsed: 10.824120998382568ms
+Info 166  [21:39:29.184] Different program with same set of files:: structureIsReused:: 2
+Info 167  [21:39:29.453] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 168  [21:39:29.461] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 19 structureChanged: false Elapsed: 7.887778997421265ms
+Info 169  [21:39:29.461] Different program with same set of files:: structureIsReused:: 2
+Info 170  [21:39:34.238] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 171  [21:39:34.277] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 20 structureChanged: false Elapsed: 38.67773199081421ms
+Info 172  [21:39:34.277] Different program with same set of files:: structureIsReused:: 2
+Info 173  [21:39:34.721] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 174  [21:39:34.762] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 21 structureChanged: false Elapsed: 40.71407599747181ms
+Info 175  [21:39:34.762] Different program with same set of files:: structureIsReused:: 2
+Info 176  [21:39:48.320] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 177  [21:39:48.366] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 22 structureChanged: false Elapsed: 46.07101699709892ms
+Info 178  [21:39:48.366] Different program with same set of files:: structureIsReused:: 2
+Info 179  [21:39:49.207] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 180  [21:39:49.228] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 23 structureChanged: false Elapsed: 21.50375498831272ms
+Info 181  [21:39:49.228] Different program with same set of files:: structureIsReused:: 2
+Info 182  [21:39:49.607] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 183  [21:39:49.618] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 24 structureChanged: false Elapsed: 10.93511800467968ms
+Info 184  [21:39:49.618] Different program with same set of files:: structureIsReused:: 2
+Info 185  [21:39:59.828] forEachExternalModuleToImportFrom: filtered out 66 modules by package.json contents
+Info 186  [21:39:59.843] forEachExternalModuleToImportFrom: filtered out 12 modules by package.json contents
+Info 187  [21:39:59.843] forEachExternalModuleToImportFrom autoImportProvider: 15.207405000925064
+Info 188  [22:39:48.683] forEachExternalModuleToImportFrom: filtered out 66 modules by package.json contents
+Info 189  [22:39:48.702] forEachExternalModuleToImportFrom: filtered out 12 modules by package.json contents
+Info 190  [22:39:48.702] forEachExternalModuleToImportFrom autoImportProvider: 18.48012399673462
+Info 191  [22:40:29.681] forEachExternalModuleToImportFrom: filtered out 66 modules by package.json contents
+Info 192  [22:40:29.699] forEachExternalModuleToImportFrom: filtered out 12 modules by package.json contents
+Info 193  [22:40:29.699] forEachExternalModuleToImportFrom autoImportProvider: 18.109180003404617
+Info 194  [22:40:31.941] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 195  [22:40:31.980] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 25 structureChanged: false Elapsed: 39.78635799884796ms
+Info 196  [22:40:31.980] Different program with same set of files:: structureIsReused:: 2
+Info 197  [22:41:21.970] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 198  [22:41:21.998] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 26 structureChanged: false Elapsed: 28.137523993849754ms
+Info 199  [22:41:21.998] Different program with same set of files:: structureIsReused:: 2
+Info 200  [22:41:32.963] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 201  [22:41:33.000] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 27 structureChanged: false Elapsed: 36.37778499722481ms
+Info 202  [22:41:33.000] Different program with same set of files:: structureIsReused:: 2
+Info 203  [22:41:35.257] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 204  [22:41:35.299] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 28 structureChanged: false Elapsed: 41.778407007455826ms
+Info 205  [22:41:35.299] Different program with same set of files:: structureIsReused:: 2
+Info 206  [22:41:39.636] forEachExternalModuleToImportFrom: filtered out 66 modules by package.json contents
+Info 207  [22:41:39.650] forEachExternalModuleToImportFrom: filtered out 12 modules by package.json contents
+Info 208  [22:41:39.650] forEachExternalModuleToImportFrom autoImportProvider: 13.216449990868568
+Info 209  [22:41:40.770] Starting updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json
+Info 210  [22:41:40.792] Finishing updateGraphWorker: Project: /home/lqxc/Projects/_ysdn/vite-ysdn/tsconfig.json Version: 29 structureChanged: false Elapsed: 22.01766800880432ms
+Info 211  [22:41:40.792] Different program with same set of files:: structureIsReused:: 2

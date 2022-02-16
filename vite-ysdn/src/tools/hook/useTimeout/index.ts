@@ -17,13 +17,13 @@ export const PromiseTimeout = <restProp extends Array<any> = []>(
                 }
             },
             time,
-            ...rest
+            ...rest,
         );
     });
 export default function useTimeout(): [
     boolean,
     Error | undefined,
-    (time: number) => Promise<void>
+    (time: number) => Promise<void>,
 ] {
     const [timeout, SetTimeout] = useState<boolean>(false);
     const [error, setError] = useError();
@@ -31,13 +31,13 @@ export default function useTimeout(): [
         timeout,
         error,
         useCallback(
-            time =>
+            (time) =>
                 PromiseTimeout(time)
                     .then(() => {
                         SetTimeout(true);
                     })
-                    .catch(_ => setError(_.toString())),
-            [setError]
+                    .catch((_) => setError(_.toString())),
+            [setError],
         ),
     ];
 }

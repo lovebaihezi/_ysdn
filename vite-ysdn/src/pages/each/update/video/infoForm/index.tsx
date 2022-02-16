@@ -208,7 +208,7 @@ export default function InfoForm() {
                     avatarUrl: userInfo.avatarUrl,
                 },
                 videoSrc,
-                tags: [...tags],
+                tags: Array.from(tags.values()),
                 coverImgUrl,
             }),
         },

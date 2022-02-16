@@ -8,11 +8,7 @@ import { baseurl, useUserDetail } from '../../../../auth';
 import { Redirect, useHistory, useRouteMatch } from 'react-router';
 import { AjaxJson } from '../../../../interface';
 
-interface T {
-    [x: string]: string;
-}
-
-const TAG: T = {
+const TAG = {
     'front-end': '前端',
     'client-side': '客户端',
     'server-side': '服务端',
@@ -36,9 +32,11 @@ const Tag: FC<{ name: string; src?: string; onClick: () => boolean }> = ({
         <Card
             hoverable={true}
             cover={
-                <div style={{ justifyContent: 'center', display: 'flex' }}>
-                    <img height="100px" src={src} />
-                </div>
+                src && (
+                    <div style={{ justifyContent: 'center', display: 'flex' }}>
+                        <img height="100px" src={src} />
+                    </div>
+                )
             }
             onClick={() => {
                 const result = onClick();
@@ -46,7 +44,7 @@ const Tag: FC<{ name: string; src?: string; onClick: () => boolean }> = ({
             }}
             actions={[state ? <HeartFilled /> : <HeartOutlined />]}
         >
-            {TAG[name]}
+            {name}
         </Card>
     );
 };
@@ -58,15 +56,17 @@ const SubmitButton: FC<{ container: Set<string>; disabled: boolean }> = ({
     const [D, R] = useUserDetail();
     const H = useHistory();
     const { url, path } = useRouteMatch();
-    if (!D) {
-        return <Redirect to="/register" />;
-    }
+    useEffect(() => {
+        if (!D) {
+            H.replace('/register');
+        }
+    }, []);
     const [[r, l, e], f, c] = useFetchJson<AjaxJson.userDetail>({
-        url: baseurl + `/user/update/${D.username}/tags`,
+        url: baseurl + `/user/update/${D?.username}/tags`,
         option: {
-            method: 'post',
+            method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify([...container.values()]),
+            body: JSON.stringify(Array.from(container.values())),
         },
     });
     useEffect(() => {
@@ -83,9 +83,7 @@ const SubmitButton: FC<{ container: Set<string>; disabled: boolean }> = ({
     return (
         <Button
             disabled={disabled}
-            onClick={async () => {
-                await f().catch(c);
-            }}
+            onClick={() => f().catch(c)}
             size="large"
             type="primary"
             icon={<SendOutlined />}
@@ -103,10 +101,9 @@ const Tags: Component<string[]> = ({ Response }) => {
     });
     return (
         <Row>
-            {Response.map((tag, i) => (
+            {Response.map((tag) => (
                 <Col span={4} style={{ padding: 40 }} key={tag}>
                     <Tag
-                        src={`http://127.0.0.1:8080/picture/t${i + 1}.png`}
                         onClick={() => {
                             if (C.current.size <= 3) {
                                 if (C.current.has(tag)) {

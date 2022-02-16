@@ -69,7 +69,7 @@ export default function Video() {
                     <InnerTag
                         Component={MainContain}
                         tags={['Hottest', 'Newest']}
-                        title={['最热','最新']}
+                        title={['最热', '最新']}
                     />
                 </TagSwitch>
             </Col>

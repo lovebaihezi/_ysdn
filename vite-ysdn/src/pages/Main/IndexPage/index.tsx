@@ -11,11 +11,11 @@ export default function IndexPage() {
     return (
         <Row>
             <Col span={24}>
-                <Row>
+                {/* <Row>
                     <Col span={18} offset={3}>
                         <Carousel />
                     </Col>
-                </Row>
+                </Row> */}
                 <Row>
                     <Col span={18} offset={3}>
                         <Suspense fallback={<Skeleton />}>

@@ -17,8 +17,6 @@ import { ArticleService, CreateCommentDto } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { Express, Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { interval, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 class I {
     id: string;
@@ -110,7 +108,7 @@ export class ArticleController {
     }
 
     @Patch('/mark/:articleId')
-    updateMark(@Param('articleId') articleId, @Body() body: I) {
+    updateMark(@Param('articleId') articleId: string, @Body() body: I) {
         return this.articleService.updateMark(articleId, body.id);
     }
 

@@ -6,13 +6,13 @@ import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import AccessTime from '@material-ui/icons/AccessTime';
 import Accessibility from '@material-ui/icons/Accessibility';
 import Description from '@material-ui/icons/Description';
-import BugReport from '@material-ui/icons/BugReport';
-import Code from '@material-ui/icons/Code';
+// import BugReport from '@material-ui/icons/BugReport';
+// import Code from '@material-ui/icons/Code';
 import Cloud from '@material-ui/icons/Cloud';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import Table from 'components/Table/Table.js';
-import Tasks from 'components/Tasks/Tasks.js';
+// import Tasks from 'components/Tasks/Tasks.js';
 import CustomTabs from 'components/CustomTabs/CustomTabs.js';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
@@ -20,8 +20,7 @@ import CardIcon from 'components/Card/CardIcon.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import { CircularProgress } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
-import { bugs, website, server } from 'variables/general.js';
+// import { Redirect } from 'react-router-dom';
 
 import {
     dailySalesChart,
@@ -32,7 +31,8 @@ import {
 const baseurl = 'http://localhost:5050';
 
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle.js';
-import { useAuth } from 'index';
+// import { useAuth } from 'index';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles(styles);
 
@@ -123,6 +123,41 @@ export const UserQuantityThisWeek = () => {
     );
 };
 
+const KMeans = () => {
+    const [result, setResult] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/kmeans`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({ k: 5 }),
+        })
+            .then((res) => res.json())
+            .then(setResult);
+    }, []);
+    return result ? (
+        <CustomTabs
+            title="KMeans"
+            headerColor="primary"
+            tabs={result.map((tags, index) => ({
+                tabName: `${index}`,
+                tabIcon: Cloud,
+                tabContent: (
+                    <Table
+                        tableHeaderColor="primary"
+                        tableHead={['nickname', 'tags']}
+                        tableData={tags.map(([nickname, ...tags]) => [
+                            nickname,
+                            tags.join(' '),
+                        ])}
+                    />
+                ),
+            }))}
+        />
+    ) : (
+        <Skeleton />
+    );
+};
+
 export const ArticleQuantityThisWeek = () => {
     const classes = useStyles();
     const [res, setRes] = useState(undefined);
@@ -152,11 +187,71 @@ export const ArticleQuantityThisWeek = () => {
     );
 };
 
+const FpGrowth = () => {
+    const classes = useStyles();
+    const [result, setResult] = useState(undefined);
+    useEffect(() => {
+        fetch(`${baseurl}/admin/FpGrowth`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({ sup: 0.01 }),
+        })
+            .then((res) => res.json())
+            .then(setResult);
+    }, []);
+    return (
+        <Card>
+            {result ? (
+                <>
+                    <CardHeader color="warning">
+                        <h4 className={classes.cardTitleWhite}>
+                            FpGrowth算法结果
+                        </h4>
+                        <p className={classes.cardCategoryWhite}>
+                            Min Sup: 0.01
+                        </p>
+                    </CardHeader>
+                    <CardBody>
+                        <Table
+                            tableHeaderColor="primary"
+                            tableHead={['tags', 'sup']}
+                            // [
+                            //     ['1', 'Dakota Rice', '$36,738', 'Niger'],
+                            //     ['2', 'Minerva Hooper', '$23,789', 'Curaçao'],
+                            //     [
+                            //         '3',
+                            //         'Sage Rodriguez',
+                            //         '$56,142',
+                            //         'Netherlands',
+                            //     ],
+                            //     [
+                            //         '4',
+                            //         'Philip Chaney',
+                            //         '$38,735',
+                            //         'Korea, South',
+                            //     ],
+                            // ]
+                            tableData={result
+                                .filter(({ items }) => items.length > 1)
+                                .map(({ items, support }) => [
+                                    items.join(' '),
+                                    support,
+                                ])}
+                        />
+                    </CardBody>
+                </>
+            ) : (
+                <Skeleton />
+            )}
+        </Card>
+    );
+};
+
 export default function Dashboard() {
-    const [session] = useAuth();
-    if (session === null) {
-        return <Redirect to="/" />;
-    }
+    // const [session] = useAuth();
+    // if (session === null) {
+    //     return <Redirect to="/" />;
+    // }
     const classes = useStyles();
     return (
         <div>
@@ -261,84 +356,10 @@ export default function Dashboard() {
             </GridContainer>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                    <CustomTabs
-                        title="Tasks:"
-                        headerColor="primary"
-                        tabs={[
-                            {
-                                tabName: 'Bugs',
-                                tabIcon: BugReport,
-                                tabContent: (
-                                    <Tasks
-                                        checkedIndexes={[0, 3]}
-                                        tasksIndexes={[0, 1, 2, 3]}
-                                        tasks={bugs}
-                                    />
-                                ),
-                            },
-                            {
-                                tabName: 'Website',
-                                tabIcon: Code,
-                                tabContent: (
-                                    <Tasks
-                                        checkedIndexes={[0]}
-                                        tasksIndexes={[0, 1]}
-                                        tasks={website}
-                                    />
-                                ),
-                            },
-                            {
-                                tabName: 'Server',
-                                tabIcon: Cloud,
-                                tabContent: (
-                                    <Tasks
-                                        checkedIndexes={[1]}
-                                        tasksIndexes={[0, 1, 2]}
-                                        tasks={server}
-                                    />
-                                ),
-                            },
-                        ]}
-                    />
+                    <KMeans />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                    <Card>
-                        <CardHeader color="warning">
-                            <h4 className={classes.cardTitleWhite}>
-                                Employees Stats
-                            </h4>
-                            <p className={classes.cardCategoryWhite}>
-                                New employees on 15th September, 2016
-                            </p>
-                        </CardHeader>
-                        <CardBody>
-                            <Table
-                                tableHeaderColor="warning"
-                                tableHead={['ID', 'Name', 'Salary', 'Country']}
-                                tableData={[
-                                    ['1', 'Dakota Rice', '$36,738', 'Niger'],
-                                    [
-                                        '2',
-                                        'Minerva Hooper',
-                                        '$23,789',
-                                        'Curaçao',
-                                    ],
-                                    [
-                                        '3',
-                                        'Sage Rodriguez',
-                                        '$56,142',
-                                        'Netherlands',
-                                    ],
-                                    [
-                                        '4',
-                                        'Philip Chaney',
-                                        '$38,735',
-                                        'Korea, South',
-                                    ],
-                                ]}
-                            />
-                        </CardBody>
-                    </Card>
+                    <FpGrowth />
                 </GridItem>
             </GridContainer>
         </div>

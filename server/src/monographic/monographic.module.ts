@@ -14,6 +14,7 @@ import {
     Question,
     QuestionSchema,
 } from '../schema/production.schema';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import {
             { name: Question.name, schema: QuestionSchema },
             { name: Answer.name, schema: AnswerSchema },
         ]),
+        UserModule,
     ],
     controllers: [MonographicController],
     providers: [MonographicService],

@@ -16,9 +16,10 @@ const MainContain: FC = () => {
             method: 'POST',
         },
     };
-    return useMemo(() => <Ajax Request={Request} Component={PagedArticles} />, [
-        tag,
-    ]);
+    return useMemo(
+        () => <Ajax Request={Request} Component={PagedArticles} />,
+        [tag],
+    );
 };
 
 export default function QA() {

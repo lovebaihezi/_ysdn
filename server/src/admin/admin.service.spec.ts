@@ -1,5 +1,6 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { FPGrowth } from 'node-fpgrowth';
 import {
     Video,
     VideoSchema,
@@ -20,7 +21,7 @@ describe('AdminService', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot('mongodb://localhost:27017/test'),
+                MongooseModule.forRoot('mongodb://localhost:27017/server'),
                 MongooseModule.forFeature([
                     { name: User.name, schema: UserSchema },
                     { name: Video.name, schema: VideoSchema },
@@ -38,5 +39,14 @@ describe('AdminService', () => {
 
     it('should be defined', () => {
         expect(service).toBeDefined();
+    });
+    it('fp growth result', async () => {
+        const result = await service.fpGrowth(0.01);
+        console.table(result);
+    });
+    it('kmeans result', async () => {
+        for (const each of await service.kmeans(20)) {
+            console.table(each);
+        }
     });
 });

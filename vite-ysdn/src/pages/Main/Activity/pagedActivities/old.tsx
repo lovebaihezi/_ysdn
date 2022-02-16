@@ -54,7 +54,7 @@ const PagedActivities: Component<AjaxJson.activities[]> = ({ Response }) => {
                                     initial={
                                         user
                                             ? user.like.activities.includes(
-                                                activity._id,
+                                                  activity._id,
                                               )
                                             : false
                                     }

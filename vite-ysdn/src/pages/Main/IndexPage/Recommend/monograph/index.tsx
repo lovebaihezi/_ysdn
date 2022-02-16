@@ -3,7 +3,7 @@ import React from 'react';
 import { FC } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { baseurl } from '../../../../../auth';
+import { baseurl, useUserDetail } from '../../../../../auth';
 import Tags from '../../../../../component/ActionTags';
 import Ajax, { Component } from '../../../../../component/AjaxResponse';
 import UserLink from '../../../../../component/UserLink';
@@ -95,8 +95,6 @@ const MonographCard: Component<{
     article: AjaxJson.article[] | null;
     video: AjaxJson.video[] | null;
 }> = ({ Response }) => {
-    const H = useHistory();
-    const { article, video } = Response;
     return (
         <Row>
             <Col span={24} style={{ overflow: 'hidden' }}>
@@ -113,10 +111,14 @@ const MonographCard: Component<{
     );
 };
 
-const Request: useFetchProps = {
-    url: baseurl + '/monographic',
-};
-
 export default function IndexMonograph() {
-    return <Ajax Request={Request} Component={MonographCard} />;
+    const [user] = useUserDetail();
+    return (
+        <Ajax
+            Request={{
+                url: baseurl + '/monographic',
+            }}
+            Component={MonographCard}
+        />
+    );
 }

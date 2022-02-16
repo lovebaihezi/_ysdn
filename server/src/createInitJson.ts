@@ -1,7 +1,8 @@
 import * as fs from 'fs/promises';
 import Axios from 'axios';
-import * as mockjs from 'mockjs';
+import mockjs from 'mockjs';
 import RandomDateAroundThisMonth from './tools/randomDate';
+import { UserProduct } from './schema/user.schema';
 
 const { Random } = mockjs;
 
@@ -18,6 +19,7 @@ class User {
             tags: string[];
         },
         readonly email: string,
+        readonly userProduct: UserProduct
     ) {}
 }
 // approval createTime sort
@@ -99,6 +101,7 @@ export async function* createUser(): AsyncGenerator<[string, User]> {
                     ],
                 },
                 Random.email('gmail.com'),
+                new UserProduct(),
             ),
         ];
     }

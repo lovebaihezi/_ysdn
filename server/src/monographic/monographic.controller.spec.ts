@@ -1,5 +1,6 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserModule } from '../user/user.module';
 import {
     Article,
     ArticleSchema,
@@ -30,6 +31,7 @@ describe('MonographicController', () => {
                     { name: Question.name, schema: QuestionSchema },
                     { name: Answer.name, schema: AnswerSchema },
                 ]),
+                UserModule,
             ],
             controllers: [MonographicController],
             providers: [MonographicService],

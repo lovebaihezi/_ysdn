@@ -7,8 +7,7 @@ import {
     Video,
     VideoDocument,
 } from '../schema/production.schema';
-import { CreateMonographicDto } from './dto/create-monographic.dto';
-import { UpdateMonographicDto } from './dto/update-monographic.dto';
+import { Tag, TagDocument } from '../schema/tags.schema';
 
 @Injectable()
 export class MonographicService {
@@ -18,9 +17,6 @@ export class MonographicService {
         @InjectModel(Video.name)
         private readonly videoModel: Model<VideoDocument>,
     ) {}
-    create(createMonographicDto: CreateMonographicDto) {
-        return 'This action adds a new monographic';
-    }
 
     private async findVideo() {
         return await this.videoModel.find({}).limit(3).sort({ approval: -1 });
@@ -34,17 +30,5 @@ export class MonographicService {
         const article = await this.findArticle();
         const video = await this.findVideo();
         return { article, video };
-    }
-
-    findOne(id: number) {
-        return `This action returns a #${id} monographic`;
-    }
-
-    update(id: number, updateMonographicDto: UpdateMonographicDto) {
-        return `This action updates a #${id} monographic`;
-    }
-
-    remove(id: number) {
-        return `This action removes a #${id} monographic`;
     }
 }

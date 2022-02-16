@@ -13,10 +13,10 @@ const MainContain: FC<{ OuterTag: string }> = ({ OuterTag }) => {
     const Request: useFetchProps = {
         url: baseurl + `/article/choose/${OuterTag}/${tag}`,
     };
-    return useMemo(() => <Ajax Request={Request} Component={PagedArticles} />, [
-        tag,
-        OuterTag,
-    ]);
+    return useMemo(
+        () => <Ajax Request={Request} Component={PagedArticles} />,
+        [tag, OuterTag],
+    );
 };
 
 export default function Article() {
@@ -26,7 +26,7 @@ export default function Article() {
                 <TagSwitch
                     tags={[
                         'all',
-                        // 'recommend', 
+                        // 'recommend',
                         'front-end',
                         'client-side',
                         'server-side',
@@ -57,7 +57,7 @@ export default function Article() {
                 >
                     <InnerTag
                         tags={['Hottest', 'Newest']}
-                        title={['最热','最新']}
+                        title={['最热', '最新']}
                         Component={MainContain}
                     />
                 </TagSwitch>

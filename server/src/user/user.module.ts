@@ -30,5 +30,6 @@ import { Tag, TagSchema } from '../schema/tags.schema';
     ],
     controllers: [UserController],
     providers: [UserService],
+    exports: [UserService],
 })
 export class UserModule {}

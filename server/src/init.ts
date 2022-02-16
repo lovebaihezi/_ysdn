@@ -1,4 +1,3 @@
-import * as fs from 'fs/promises';
 import * as mongoose from 'mongoose';
 import { User, UserDocument, UserSchema } from './schema/user.schema';
 import {
@@ -11,6 +10,7 @@ import {
 } from './schema/production.schema';
 import createJson from './createInitJson';
 import { Tag, TagDocument, TagSchema } from './schema/tags.schema';
+import config from '../server-config.json';
 
 //build uml for application!
 
@@ -24,13 +24,10 @@ const tagModel = mongoose.model<TagDocument>(Tag.name, TagSchema);
 
 async function initializeDataBase() {
     const All = await createJson();
-    const database = await mongoose.connect(
-        'mongodb://localhost:27017/server',
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    );
+    const database = await mongoose.connect(config['mongo-url'], {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
     for (const i of All.userList) {
         const user = await userModel.create(i);
         await user.save();

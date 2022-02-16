@@ -61,10 +61,10 @@ const UploadAvatar: FC<{ success: (url: string) => void }> = ({ success }) => {
             success(info.file.name);
         }
     }
-    function beforeUpload(
+    async function beforeUpload(
         file: RcFile,
         FileList: RcFile[],
-    ): boolean | {} | Promise<void | File | Blob> {
+    ): Promise<boolean | void | File | Blob> {
         const isJpgOrPng = /^image\/\w+$/g.test(file.type);
         if (!isJpgOrPng) {
             message.error('You can only upload image file!');

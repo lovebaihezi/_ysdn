@@ -7,8 +7,6 @@ import Info from './info';
 import { Switch, Route } from 'react-router';
 import InformationUpdate from './InformationUpdate';
 import UpdateTag from './UpdateTag';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 
 export default function User() {
     const { username } = useParams<{ username: string }>();

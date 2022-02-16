@@ -10,10 +10,10 @@ export function remove<
 export function get<
     T extends Record<string | number | symbol, unknown>,
     U extends keyof T | '' = ''
->(target: T, ...rest: (keyof T)[]): Omit<T, U> {
+>(target: T, ...rest: (keyof T)[]): Pick<T, U> {
     return Object.fromEntries(
         Object.entries(target).filter(([n]) => rest.includes(n)),
-    ) as Omit<T, U>;
+    ) as Pick<T, U>;
 }
 
 export const Remove = <T extends Record<string | number | symbol, unknown>>(

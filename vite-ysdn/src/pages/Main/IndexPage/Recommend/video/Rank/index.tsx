@@ -13,17 +13,13 @@ const VideoRank: Component<AjaxJson.video[]> = ({ Response }) => {
                     <Col key={video._id} span={24}>
                         <Row>
                             <Col span={6}></Col>
-                            <Col
-                                span={18}
-                                style={{ cursor: 'pointer' }}
-                            >
+                            <Col span={18} style={{ cursor: 'pointer' }}>
                                 <Card
                                     bordered={false}
                                     bodyStyle={{ padding: 0 }}
                                     title={video.title}
                                     headStyle={{ padding: 0 }}
-                                    actions={[
-                                    ]}
+                                    actions={[]}
                                 />
                             </Col>
                         </Row>

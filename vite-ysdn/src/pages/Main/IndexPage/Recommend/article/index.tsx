@@ -1,6 +1,6 @@
 import { Col, Divider, Row, Skeleton } from 'antd';
-import React, { lazy, Suspense, useMemo } from 'react';
-import { baseurl } from '../../../../../auth';
+import React, { lazy, Suspense } from 'react';
+import { baseurl, useUserDetail } from '../../../../../auth';
 import Ajax, { Component } from '../../../../../component/AjaxResponse';
 import { AjaxJson } from '../../../../../interface';
 import { useFetchProps } from '../../../../../tools/hook/useFetch';

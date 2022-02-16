@@ -3,7 +3,7 @@ import { ActivityService } from './activity.service';
 import { ActivityController } from './activity.controller';
 
 @Module({
-  controllers: [ActivityController],
-  providers: [ActivityService]
+    controllers: [ActivityController],
+    providers: [ActivityService],
 })
 export class ActivityModule {}

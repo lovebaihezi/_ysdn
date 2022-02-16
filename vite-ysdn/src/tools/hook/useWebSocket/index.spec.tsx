@@ -1,4 +1,3 @@
-import {} from 'react';
 import ws from 'ws';
 import '@babel/polyfill';
 import 'whatwg-fetch';
@@ -9,10 +8,10 @@ import { act, renderHook } from '@testing-library/react-hooks';
 const WebSocketPromise = (url: string) =>
     new Promise<WebSocket>((resolve, reject) => {
         const ws = new WebSocket(url);
-        ws.on('open', () => {
+        ws.once('open', () => {
             resolve(ws);
         });
-        ws.on('error', (e) => {
+        ws.once('error', (e) => {
             reject(e);
         });
     });
@@ -31,7 +30,6 @@ describe('useWebsocket test', () => {
             });
         });
         ws.onmessage = (message: ws.MessageEvent) => {
-            console.log(message);
             MessageList.push(message);
             ws.send(message.data);
         };
@@ -50,30 +48,31 @@ describe('useWebsocket test', () => {
         const url = 'ws://localhost:8001';
         const ws = await WebSocketPromise(url);
         ws.send(message);
-        // const result = await new Promise<string>((resolve, reject) => {
-        //     ws.on('message', (message) => {
-        //         resolve(message as string);
-        //     });
-        // });
-        // expect(message).toBe(message);
+        const result = await new Promise<string>((resolve, reject) => {
+            ws.on('message', (message) => {
+                console.log(message)
+                resolve(message as string);
+            });
+        });
+        expect(message).toBe(message);
         ws.close();
     });
-    // test('call use WebSocket, send message and check if it get', async () => {
-    //     const message = '["message from jest"]';
-    //     const url = 'ws://localhost:8000';
-    //     const { result } = renderHook(() => useWebSocket(url));
-    //     {
-    //         const [{ newestMessage, error, messageList }, send] =
-    //             result.current;
-    //         expect(newestMessage).toBeUndefined();
-    //         expect(error).toBeUndefined();
-    //         act(() => send(message));
-    //     }
-    //     {
-    //         const [{ newestMessage, messageList, error }] = result.current;
-    //         expect(error).toBeUndefined();
-    //         expect(newestMessage).toBe(message);
-    //         expect(messageList).toStrictEqual([message]);
-    //     }
-    // });
+    test('call use WebSocket, send message and check if it get', async () => {
+        const message = '["message from jest"]';
+        const url = 'ws://localhost:8000';
+        const { result } = renderHook(() => useWebSocket(url));
+        {
+            const [{ newestMessage, error, messageList }, send] =
+                result.current;
+            expect(newestMessage).toBeUndefined();
+            expect(error).toBeUndefined();
+            act(() => send(message));
+        }
+        {
+            const [{ newestMessage, messageList, error }] = result.current;
+            expect(error).toBeUndefined();
+            expect(newestMessage).toBe(message);
+            expect(messageList).toStrictEqual([message]);
+        }
+    });
 });
